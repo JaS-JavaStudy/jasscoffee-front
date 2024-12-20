@@ -1,0 +1,49 @@
+/* src/components/ProductList.css */
+:root {
+  --primary-light: #C0C78C;
+  --primary: #A6B37D;
+  --background: #FEFAE0;
+  --text: #B99470;
+}
+
+.card {
+  transition: transform 0.2s;
+  border: none;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-placeholder {
+  height: 200px;
+  background-color: var(--primary);
+  opacity: 0.8;
+}
+
+.form-control:focus, 
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(166, 179, 125, 0.25);
+}
+
+.badge {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.card-title {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-price {
+  color: #666;
+  margin-bottom: 1rem;
+}

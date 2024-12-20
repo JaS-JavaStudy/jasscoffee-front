@@ -1,0 +1,33 @@
+/* src/pages/ProductListPage.css */
+.page-container {
+  min-height: 100vh;
+  background-color: #FEFAE0;
+  padding: 20px;
+}
+
+.header {
+  background-color: #C0C78C;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  color: #B99470;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.cart-button {
+  background-color: #A6B37D;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.cart-button:hover {
+  background-color: #B99470;
+}
