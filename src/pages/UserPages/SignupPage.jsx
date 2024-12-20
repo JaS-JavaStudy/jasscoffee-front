@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import Layout from '../Layout';
 
-const goToSignUp = (username, password, name, mmid, fund) => {
+const goToSignUp = (username, password, name, mmid, fund, navigate) => {
     // 회원가입 요청을 POST 방식으로 보내기
     axios.post('http://localhost:8080/join', {
         account: username,
@@ -16,7 +18,7 @@ const goToSignUp = (username, password, name, mmid, fund) => {
         .then(response => {
             // 서버 응답 처리
             console.log('회원가입 성공:', response);
-
+            navigate('/')
 
         })
         .catch(error => {
@@ -26,21 +28,24 @@ const goToSignUp = (username, password, name, mmid, fund) => {
 }
 
 function SignupPage() {
+    // 회원가입 변수
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [mmid, setMmid] = useState('');
     const [fund, setFund] = useState('');
 
+    const navigate = useNavigate()
+
     // 폼 제출 처리
     const handleSubmit = (event) => {
         event.preventDefault();  // 기본 폼 제출 방지
         // 회원가입 함수 호출
-        goToSignUp(username, password, name, mmid, fund);
+        goToSignUp(username, password, name, mmid, fund, navigate);
     };
 
     return (
-        <div>
+        <Layout>
             <h1>회원가입</h1>
             <form onSubmit={handleSubmit}>
                 <label>아이디 : </label>
@@ -92,7 +97,7 @@ function SignupPage() {
                     회원가입
                 </button>
             </form>
-        </div>
+        </Layout>
     );
 }
 

@@ -5,9 +5,9 @@ const Loading = <div>Loading....</div>
 
 const MainPage = lazy(() => import("../pages/MainPage"))
 
-const SignupIndex = lazy(() => import("../pages/UserPages/SignupPage"))
+const SignupPage = lazy(() => import("../pages/UserPages/SignupPage"))
 
-const LoginIndex = lazy(() => import("../pages/UserPages/LoginPage"))
+const ProductPage = lazy(() => import("../pages/ProductPage"))
 
 const root = createBrowserRouter([
     {
@@ -15,13 +15,14 @@ const root = createBrowserRouter([
         element: <Suspense fallback={Loading}><MainPage/></Suspense> 
     },
     {
-        path: 'login',
-        element: <Suspense fallback={Loading}><LoginIndex/></Suspense>
+        path: 'signup',
+        element: <Suspense fallback={Loading}><SignupPage/></Suspense>
     },
     {
-        path: 'signup',
-        element: <Suspense fallback={Loading}><SignupIndex/></Suspense>
-    },
+        path: 'product',
+        element: <Suspense fallback={Loading}><ProductPage/></Suspense>
+    }
+
 
 
 ])
