@@ -1,49 +1,113 @@
 /* src/components/ProductList.css */
-:root {
-  --primary-light: #C0C78C;
-  --primary: #A6B37D;
-  --background: #FEFAE0;
-  --text: #B99470;
+
+/**
+ * 전역 변수 정의
+ * - 일관된 색상 관리를 위한 CSS 변수 설정
+ * - 프로젝트 전반에 걸쳐 재사용 가능한 색상 값들
+ */
+ :root {
+  --primary-light: #C0C78C;  /* 밝은 주색상 - 하이라이트에 사용 */
+  --primary: #A6B37D;        /* 주색상 - 주요 요소에 사용 */
+  --background: #FEFAE0;     /* 배경색상 - 부드러운 베이지 */
+  --text: #B99470;          /* 텍스트 색상 - 따뜻한 브라운 */
+  --shadow: rgba(0, 0, 0, 0.1); /* 그림자 색상 */
+  --transition-speed: 0.3s;  /* 기본 전환 속도 */
+}
+
+/**
+ * 카드 스타일링
+ * - 부드러운 그림자와 호버 효과로 상호작용성 강화
+ */
+.product-card {
+  cursor: pointer;
+  transition: all var(--transition-speed) ease-in-out;
 }
 
 .card {
-  transition: transform 0.2s;
   border: none;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.card:hover {
+.product-card:hover .card {
   transform: translateY(-5px);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
+/**
+ * 카드 이미지 플레이스홀더
+ * - 이미지 로딩 전 표시될 임시 영역
+ */
 .card-img-placeholder {
   height: 200px;
   background-color: var(--primary);
   opacity: 0.8;
+  transition: opacity var(--transition-speed);
 }
 
-.form-control:focus, 
-.form-select:focus {
+.card:hover .card-img-placeholder {
+  opacity: 1;
+}
+
+/**
+ * 폼 요소 스타일링
+ * - 포커스 상태에서 일관된 스타일 적용
+ */
+.search-input:focus, 
+.category-select:focus,
+.sort-select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 0.25rem rgba(166, 179, 125, 0.25);
+  outline: none;
 }
 
-.badge {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
-  padding: 0.5rem 1rem !important;
+/**
+ * 카테고리 뱃지 스타일링
+ * - 부드러운 배경색과 텍스트 색상으로 가독성 향상
+ */
+.category-badge {
+  background-color: var(--background);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
 }
 
+/**
+ * 카드 내부 텍스트 스타일링
+ */
 .card-title {
   color: var(--text);
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
 }
 
 .card-price {
   color: #666;
+  font-size: 1rem;
+  font-weight: 500;
   margin-bottom: 1rem;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+  .card-img-placeholder {
+    height: 150px;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+  }
+  
+  .category-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
 }

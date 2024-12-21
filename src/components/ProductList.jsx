@@ -1,18 +1,34 @@
 // src/components/ProductList.jsx
+
+/**
+ * ProductList 컴포넌트
+ * 
+ * 상품 목록을 표시하고 검색, 필터링, 정렬 기능을 제공하는 컴포넌트입니다.
+ * 
+ * 주요 기능:
+ * 1. 상품 데이터 fetch 및 상태 관리
+ * 2. 검색어를 통한 상품 필터링
+ * 3. 카테고리별 필터링
+ * 4. 이름순/가격순 정렬
+ * 5. 반응형 그리드 레이아웃
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import './ProductList.css'
 
 function ProductList() {
+  // 라우터 네비게이션 훅
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const [sortBy, setSortBy] = useState('name');
+  
+  // 상태 관리
+  const [products, setProducts] = useState([]); // 전체 상품 목록
+  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [error, setError] = useState(null);     // 에러 상태
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어
+  const [selectedCategory, setSelectedCategory] = useState('ALL'); // 선택된 카테고리
+  const [sortBy, setSortBy] = useState('name'); // 정렬 기준
 
+  // 초기 데이터 로딩
   useEffect(() => {
     fetch('http://localhost:8080/products')
       .then(response => {
@@ -31,17 +47,20 @@ function ProductList() {
       });
   }, []);
 
-  // unique 카테고리 추출
+  // 고유한 카테고리 목록 생성
   const categories = ['ALL', ...new Set(products.map(p => p.category))];
 
   // 필터링 및 정렬 로직
   const filteredAndSortedProducts = products
+    // 카테고리 필터링
     .filter(product => 
       selectedCategory === 'ALL' ? true : product.category === selectedCategory
     )
+    // 검색어 필터링
     .filter(product =>
       product.productName.toLowerCase().includes(searchTerm.toLowerCase())
     )
+    // 정렬 적용
     .sort((a, b) => {
       switch (sortBy) {
         case 'priceLow':
@@ -53,12 +72,13 @@ function ProductList() {
       }
     });
 
+  // 로딩/에러 상태 처리
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <div className="container py-4">
-      {/* 검색 및 필터 영역 */}
+      {/* 검색 및 필터 컨트롤 영역 */}
       <div className="row mb-4">
         <div className="col-md-4 mb-3">
           <input
@@ -66,7 +86,7 @@ function ProductList() {
             placeholder="메뉴 검색"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="form-control"
+            className="form-control search-input"
           />
         </div>
         
@@ -74,7 +94,8 @@ function ProductList() {
           <select 
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="form-select"
+            className="form-select category-select"
+            aria-label="카테고리 선택"
           >
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
@@ -86,7 +107,8 @@ function ProductList() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="form-select"
+            className="form-select sort-select"
+            aria-label="정렬 기준 선택"
           >
             <option value="name">이름순</option>
             <option value="priceLow">가격 낮은순</option>
@@ -95,21 +117,20 @@ function ProductList() {
         </div>
       </div>
 
-      {/* 상품 목록 */}
+      {/* 상품 그리드 목록 */}
       <div className="row g-4">
         {filteredAndSortedProducts.map(product => (
           <div key={product.productId} className="col-md-6 col-lg-4">
             <div 
               onClick={() => navigate(`/product/${product.productId}`)}
-              className="card h-100 shadow-sm cursor-pointer"
-              style={{ cursor: 'pointer' }}
+              className="product-card"
             >
-              <div className="card h-100 shadow-sm">
+              <div className="card h-100">
                 <div className="card-img-placeholder"></div>
                 <div className="card-body">
                   <h5 className="card-title">{product.productName}</h5>
                   <p className="card-price">{product.price.toLocaleString()}원</p>
-                  <span className="badge">
+                  <span className="category-badge">
                     {product.category}
                   </span>
                 </div>
@@ -121,4 +142,5 @@ function ProductList() {
     </div>
   );
 }
+
 export default ProductList;
