@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import jwt_decode from "jwt-decode"
 
 const MyPage = () => {
   const [userData, setUserData] = useState({ account: "", name: "", mmid: "", fund: "" });
@@ -14,16 +16,29 @@ const MyPage = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const data = {
-        account: "test", 
-        name: "박주찬",
-        mmid: "test1",
-        fund: "ibk 972-027713-01017",
-      };
-      setUserData(data);
+      try {
+        const token = localStorage.getItem("accessToken"); // 로컬 스토리지에서 JWT 가져오기
+        if (!token) {
+          console.error("Access token not found!");
+          return;
+        }
+
+        const decoded = jwt_decode(token); // JWT 디코딩
+        const account = decoded.account; // JWT에서 account 추출
+
+        const response = await axios.get(`http://localhost:8080/users/${account}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // 인증 헤더에 Access Token 추가
+          },
+        });
+
+        setUserData(response.data); // 받아온 데이터로 상태 업데이트
+      } catch (error) {
+        console.error("There was an error fetching the user data!", error); // 에러 처리
+      }
     };
 
-    fetchUserData();
+    fetchUserData(); // 함수 호출
   }, []);
 
   const handleEditClick = () => {
