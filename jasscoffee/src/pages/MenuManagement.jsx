@@ -99,7 +99,7 @@ export default function MenuManagement() {
                   onClick={() => handleEdit(product.productId)}
                 >
                   수정
-                </button>``
+                </button>
                 <button
                   className="btn btn-danger btn-sm"
                   onClick={() => handleDelete(product.productId)}

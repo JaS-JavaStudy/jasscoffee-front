@@ -56,16 +56,16 @@ export default function AdminMain() {
         </thead>
         <tbody>
           {orders.map(order => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
-              <td>{order.userId}</td>
+            <tr key={order.orderID}>
+              <td>{order.orderID}</td>
+              <td>{order.userID}</td>
               <td>{order.totalPrice.toLocaleString()}원</td>
               <td>{order.isCancel ? '취소됨' : '정상'}</td>
               <td>{new Date(order.orderedAt).toLocaleString()}</td>
               <td>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(order.orderId)}
+                  onClick={() => handleDelete(order.orderID)}
                 >
                   삭제
                 </button>
