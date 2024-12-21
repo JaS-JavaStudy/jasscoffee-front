@@ -16,10 +16,32 @@ export default function ProductModal({
   });
 
   useEffect(() => {
-    if (product && mode === 'edit') {
-      setFormData(product);
+    if (show) {
+      if (mode === 'add') {
+        setFormData({
+          productName: '',
+          price: '',
+          category: ''
+          // 다른 필드들도 초기값으로 설정
+        });
+      } else if (mode === 'edit' && product) {
+        setFormData({
+          productName: product.productName,
+          price: product.price,
+          category: product.category
+          // 다른 필드들도 product에서 가져온 값으로 설정
+        });
+      }
     }
-  }, [product, mode]);
+  }, [show, mode, product]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
