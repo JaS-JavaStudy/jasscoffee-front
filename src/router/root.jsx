@@ -8,8 +8,6 @@ const MainPage = lazy(() => import("../pages/UserPages/MainPage"))
 
 const SignupPage = lazy(() => import("../pages/UserPages/SignupPage"))
 
-const ProductPage = lazy(() => import("../pages/ProductPage")) // 이거 삭제 해줘
-
 const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
 const ProductDetailPage = lazy(() => import("../pages/product/ProductDetailPage"));
 
@@ -24,11 +22,7 @@ const root = createBrowserRouter([
         element: <Suspense fallback={Loading}><SignupPage/></Suspense>
     },
 
-    // 테스트 product 페이지 후에 변경 // 이거 삭제 해줘
-    {// 이거 삭제 해줘
-        path: 'product',// 이거 삭제 해줘
-        element: <Suspense fallback={Loading}><ProductPage/></Suspense> // 이거 삭제 해줘
-    },// 이거 삭제 해줘
+
 
     // 상품 ##########################################################################
     // 상품 리스트 페이지

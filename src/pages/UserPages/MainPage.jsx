@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getUser } from '../../apis/userapis/getuser'
-import { refresh } from '../../apis/userapis/refresh'
 import { logout } from '../../apis/userapis/logout'
 import { Login } from '../../apis/userapis/login'
 import Layout from '../Layout'
-
+import "./MainPage.css" // CSS 파일 임포트
 
 function MainPage() {
     const [username, setUsername] = useState(null)
@@ -36,39 +35,33 @@ function MainPage() {
     const loginHandler = (event) => {
         event.preventDefault();  // 기본 폼 제출 방지
         Login(id, password, navigate);  // 로그인 함수 호출
-
     }
 
     return (
         <Layout>
-            <div>
-                <h1>메인 페이지</h1>
+            <div className="page-container">
+                <h1>JASS-COFFEE</h1>
+                <h3>당신의 COFFEE에 로그인하세요 !</h3>
                 {username ? (
-                    <div>
+                    <div className="card">
                         <h3>안녕하세요 {username}님 !</h3>
-                        <button onClick={logoutHandler}>로그아웃</button>
                     </div>
-
                 ) : (
-                    <div>
-                        <h3>로그인 해주세요</h3>
+                    <div className="card">
+                        
                         <form onSubmit={loginHandler}>
-                            <label>아이디 : </label>
-                            <input type='text' placeholder='아이디를 입력하세요' value={id}
+                            <input type='text' placeholder='ID' value={id}
                                 onChange={(e) => setId(e.target.value)} required></input>
                             <br />
-                            <label>패스워드 : </label>
-                            <input type='password' placeholder='비밀번호를 입력하세요' value={password}
+                            <input type='password' placeholder='Password' value={password}
                                 onChange={(e) => setPassword(e.target.value)} required></input>
                             <button type='submit'>
-                                submit
+                                Log in
                             </button>
                         </form>
-                        <Link to={"signup"}>회원가입</Link>
+                        <Link to={"signup"}>Sign up now</Link>
                     </div>
-
-                )
-                }
+                )}
             </div>
         </Layout>
     )
