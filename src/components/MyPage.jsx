@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 
 const MyPage = () => {
   const [userData, setUserData] = useState({ account: "", name: "", mmid: "", fund: "" });
@@ -14,78 +14,155 @@ const MyPage = () => {
     confirmPassword: "",
   });
 
+  // 유저 정보 가져오기
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("accessToken"); // 로컬 스토리지에서 JWT 가져오기
+        const token = localStorage.getItem("accessToken");
         if (!token) {
           console.error("Access token not found!");
           return;
         }
 
-        const decoded = jwt_decode(token); // JWT 디코딩
+        const decoded = jwt_decode(token);
         const account = decoded.account; // JWT에서 account 추출
 
         const response = await axios.get(`http://localhost:8080/users/${account}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // 인증 헤더에 Access Token 추가
+            access: `${token}`,
           },
         });
 
-        setUserData(response.data); // 받아온 데이터로 상태 업데이트
+        setUserData(response.data);
       } catch (error) {
-        console.error("There was an error fetching the user data!", error); // 에러 처리
+        console.error("There was an error fetching the user data!", error);
       }
     };
 
-    fetchUserData(); // 함수 호출
+    fetchUserData();
   }, []);
 
+  // 개인정보 수정 모드로 전환
   const handleEditClick = () => {
     setEditData(userData);
     setIsEditing(true);
   };
 
+  // 수정 폼 입력값 실시간 업데이트
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditData({ ...editData, [name]: value });
   };
 
+  // 개인정보 수정 저장
   const handleSave = async () => {
-    alert("개인정보가 저장되었습니다."); // 예시
-    setIsEditing(false);
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
+        return;
+      }
+
+      // PUT 또는 POST/패치 등의 메서드는 서버 구현에 따라 다를 수 있습니다.
+      // 여기서는 PUT 예시
+      await axios.put("http://localhost:8080/update", editData, {
+        headers: {
+          access: `${token}`,
+        },
+      });
+
+      alert("개인정보가 저장되었습니다.");
+      setUserData(editData); // 수정한 데이터로 state 갱신
+      setIsEditing(false);
+    } catch (error) {
+      console.error("개인정보 수정 중 오류가 발생했습니다.", error);
+      alert("개인정보 수정에 실패했습니다.");
+    }
   };
 
+  // 수정 취소
   const handleCancel = () => {
     setIsEditing(false);
   };
 
+  // 비밀번호 변경 모드로 전환
   const handlePasswordChangeClick = () => {
     setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
     setIsChangingPassword(true);
   };
 
+  // 비밀번호 변경 폼 입력값 실시간 업데이트
   const handlePasswordInputChange = (e) => {
     const { name, value } = e.target;
     setPasswordData({ ...passwordData, [name]: value });
   };
 
+  // 비밀번호 변경 저장
   const handlePasswordSave = async () => {
-    alert("비밀번호가 변경되었습니다."); // 예시
-    setIsChangingPassword(false);
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
+        return;
+      }
+
+      // 서버가 요구하는 파라미터(form-data/json 등)는 서버 로직에 맞춰서 수정하세요.
+      await axios.put("http://localhost:8080/password/update", {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+        confirmPassword: passwordData.confirmPassword
+      }, {
+        headers: {
+          access: `${token}`,
+        },
+      });
+
+      alert("비밀번호가 변경되었습니다.");
+      setIsChangingPassword(false);
+    } catch (error) {
+      console.error("비밀번호 변경 중 오류가 발생했습니다.", error);
+      alert("비밀번호 변경에 실패했습니다.");
+    }
   };
 
+  // 비밀번호 변경 취소
   const handlePasswordCancel = () => {
     setIsChangingPassword(false);
   };
 
-  const handleDeleteAccount = () => {
-    alert("회원 탈퇴가 완료되었습니다.");
+  // 회원 탈퇴
+  const handleDeleteAccount = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
+        return;
+      }
+
+      // DELETE 요청 시, axios에서는 data를 전달하려면 아래와 같이 해야 합니다.
+      // (또는 URL 파라미터 등으로 전달)
+      await axios.delete("http://localhost:8080/users/delete", {
+        headers: {
+          access: `${token}`,
+        },
+        data: { account: userData.account },
+      });
+
+      alert("회원 탈퇴가 완료되었습니다.");
+      // 이후 필요하다면 토큰 삭제, 메인 페이지로 이동 등의 로직 추가
+      localStorage.removeItem("accessToken");
+      // window.location.href = "/";
+    } catch (error) {
+      console.error("회원 탈퇴 중 오류가 발생했습니다.", error);
+      alert("회원 탈퇴에 실패했습니다.");
+    }
   };
 
   return (
     <div className="container my-5">
       <h1 className="text-center mb-4">My Page</h1>
+
+      {/* 비밀번호 변경 모드가 아닐 때 */}
       {!isChangingPassword ? (
         <>
           <div className="card mb-4">
@@ -147,8 +224,9 @@ const MyPage = () => {
               )}
             </div>
           </div>
+
           <div>
-            <button onClick={handleDeleteAccount} className="btn btn-danger">
+            <button onClick={handleDeleteAccount} className="btn btn-danger me-2">
               회원 탈퇴
             </button>
             <button onClick={handlePasswordChangeClick} className="btn btn-warning">
@@ -157,6 +235,7 @@ const MyPage = () => {
           </div>
         </>
       ) : (
+        // 비밀번호 변경 모드일 때
         <div className="card">
           <div className="card-body">
             <h2 className="card-title">비밀번호 변경</h2>
