@@ -1,0 +1,62 @@
+/* 전체 배경색 */
+body {
+    background-color: #FEFAE0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* 카드 스타일 */
+  .card {
+    border: 1px solid #B99470;
+    background-color: #FEFAE0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 버튼 스타일 */
+  .btn-custom-primary {
+    background-color: #C0C78C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-custom-primary:hover {
+    background-color: #A6B37D;
+  }
+  
+  .btn-custom-secondary {
+    background-color: #A6B37D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-custom-secondary:hover {
+    background-color: #C0C78C;
+  }
+  
+  .btn-custom-danger {
+    background-color: #B99470;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-custom-danger:hover {
+    background-color: #A6B37D;
+  }
+  
+  /* 입력 필드 스타일 */
+  .form-control {
+    border: 1px solid #B99470;
+    border-radius: 5px;
+  }
+  
