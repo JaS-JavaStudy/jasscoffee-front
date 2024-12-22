@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getUser } from '../../apis/userapis/getuser'
-import { logout } from '../../apis/userapis/logout'
+
 import { Login } from '../../apis/userapis/login'
-import Layout from '../Layout'
 import "./MainPage.css" // CSS 파일 임포트
 
 function MainPage() {
@@ -13,23 +12,13 @@ function MainPage() {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
-    // Router 기능
     const navigate = useNavigate()
 
-    // onMounted 기능
-    // account 불러와서 이름 넣기 (테스트용임 후에 수정 예정)
     useEffect(() => {
         getUser().then(res => {
             setUsername(res)
         })
     }, [])
-
-    // 로그아웃 
-    const logoutHandler = (event) => {
-        event.preventDefault();
-        logout(navigate);
-        setUsername(null)
-    }
 
     // 로그인 
     const loginHandler = (event) => {
@@ -38,14 +27,13 @@ function MainPage() {
     }
 
     return (
-        <Layout>
+        <div>
             <div className="page-container">
                 <h1>JASS-COFFEE</h1>
                 <h3>당신의 COFFEE에 로그인하세요 !</h3>
                 {username ? (
-                    <div className="card">
-                        <h3>안녕하세요 {username}님 !</h3>
-                    </div>
+                    alert("이미 로그인되어 있어요"),
+                    navigate('/product')
                 ) : (
                     <div className="card">
                         
@@ -63,8 +51,9 @@ function MainPage() {
                     </div>
                 )}
             </div>
-        </Layout>
-    )
-}
-
-export default MainPage
+          
+        </div>
+      );
+    }
+    
+    export default MainPage;

@@ -10,6 +10,7 @@ export const isStaff = async () => {
                 access: access
             }
         })
+        // 결과는 true or false 로 나옴
         return result.data;
     }
     catch (error) {
