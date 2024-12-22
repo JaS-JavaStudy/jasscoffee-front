@@ -2,12 +2,15 @@ import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../pages/Layout";
 
+
+const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
+const ProductDetailPage = lazy(() => import("../pages/product/ProductDetailPage"))
+
 const Loading = <div>Loading....</div>;
 
 // Lazy-loaded Pages
 const MainPage = lazy(() => import("../pages/UserPages/MainPage"));
 const SignupPage = lazy(() => import("../pages/UserPages/SignupPage"));
-const ProductPage = lazy(() => import("../pages/ProductPage"));
 const MyPage = lazy(() => import("../pages/UserPages/MyPage"));
 
 const root = createBrowserRouter([
@@ -36,14 +39,17 @@ const root = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
+      // 상품 리스트 페이지
+    {
         path: "product",
-        element: (
-          <Suspense fallback={Loading}>
-            <ProductPage />
-          </Suspense>
-        ),
-      },
+        element: <Suspense fallback={Loading}><ProductListPage /></Suspense>,
+    },
+    // 상품 상세 페이지
+    {
+        path: "product/:productId",
+        element: <Suspense fallback={Loading}><ProductDetailPage /></Suspense>,
+    },
+    // 상품 
       {
         path: "mypage",
         element: (

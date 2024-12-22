@@ -18,7 +18,7 @@ const MyPage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("access");
         if (!token) {
           console.error("Access token not found!");
           return;
@@ -57,7 +57,7 @@ const MyPage = () => {
   // 개인정보 수정 저장
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("access");
       if (!token) {
         alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
         return;
@@ -100,7 +100,7 @@ const MyPage = () => {
   // 비밀번호 변경 저장
   const handlePasswordSave = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("access");
       if (!token) {
         alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
         return;
@@ -133,7 +133,7 @@ const MyPage = () => {
   // 회원 탈퇴
   const handleDeleteAccount = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("access");
       if (!token) {
         alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
         return;
@@ -150,7 +150,7 @@ const MyPage = () => {
 
       alert("회원 탈퇴가 완료되었습니다.");
       // 이후 필요하다면 토큰 삭제, 메인 페이지로 이동 등의 로직 추가
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("access");
       // window.location.href = "/";
     } catch (error) {
       console.error("회원 탈퇴 중 오류가 발생했습니다.", error);
