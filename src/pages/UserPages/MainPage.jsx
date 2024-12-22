@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getUser } from '../apis/getuser'
-import { refresh } from '../apis/refresh'
-import { logout } from '../apis/logout'
-import { Login } from '../apis/login'
-import Layout from './Layout'
+import { getUser } from '../../apis/userapis/getuser'
+import { refresh } from '../../apis/userapis/refresh'
+import { logout } from '../../apis/userapis/logout'
+import { Login } from '../../apis/userapis/login'
+import Layout from '../Layout'
 
 
 function MainPage() {
@@ -18,6 +18,7 @@ function MainPage() {
     const navigate = useNavigate()
 
     // onMounted 기능
+    // account 불러와서 이름 넣기 (테스트용임 후에 수정 예정)
     useEffect(() => {
         getUser().then(res => {
             setUsername(res)
@@ -54,11 +55,11 @@ function MainPage() {
                         <form onSubmit={loginHandler}>
                             <label>아이디 : </label>
                             <input type='text' placeholder='아이디를 입력하세요' value={id}
-                                onChange={(e) => setId(e.target.value)}></input>
+                                onChange={(e) => setId(e.target.value)} required></input>
                             <br />
                             <label>패스워드 : </label>
                             <input type='password' placeholder='비밀번호를 입력하세요' value={password}
-                                onChange={(e) => setPassword(e.target.value)}></input>
+                                onChange={(e) => setPassword(e.target.value)} required></input>
                             <button type='submit'>
                                 submit
                             </button>

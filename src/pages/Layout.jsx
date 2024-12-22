@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { refresh } from '../apis/refresh';
+import { refresh } from '../apis/userapis/refresh';
 
+// 홈 및 토큰 재발급 Layout
 const Layout = ({ children }) => {
 
+    // 토큰 재발급 버튼 클릭시 refresh api 호출
     const refreshHandler = (event) => {
         event.preventDefault();
         refresh();

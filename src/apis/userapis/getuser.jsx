@@ -1,5 +1,6 @@
 import axios from "axios"
 
+// 유저 account 불러오는 api
 export const getUser = async () => {
     const access = localStorage.getItem('access')
     try {

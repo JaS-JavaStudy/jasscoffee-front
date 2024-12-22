@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout';
 
+// 은행 selected 및 유효성 검사 추가 전
 const goToSignUp = (username, password, name, mmid, fund, navigate) => {
     // 회원가입 요청을 POST 방식으로 보내기
     axios.post('http://localhost:8080/join', {

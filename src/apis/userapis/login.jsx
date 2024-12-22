@@ -5,7 +5,10 @@ export const Login = async (username, password, navigate) => {
     await axios.post('http://localhost:8080/login', { account: username, password }, { withCredentials: true })  // API 엔드포인트 URL로 수정
         .then(response => {
             // 서버 응답 처리
+            // 로그인 후 access 토큰 추가
             localStorage.setItem('access', response.headers.access)
+
+            // product로 라우팅 (이곳 용도에 맞게 변경해주세요)
             navigate('/product')
             
         })

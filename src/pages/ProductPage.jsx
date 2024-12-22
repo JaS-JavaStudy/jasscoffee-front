@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 
 import Layout from './Layout'
 import { useNavigate } from 'react-router-dom'
-import { getUser } from '../apis/getuser'
+import { getUser } from '../apis/userapis/getuser'
 
+// 테스트 페이지 (product 넣으시면 삭제 가능)
 function ProductPage() {
   const navigate = useNavigate()
 
