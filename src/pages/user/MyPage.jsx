@@ -201,6 +201,39 @@ const MyPage = () => {
                     />
                   </div>
                   <div className="mb-3">
+                    <label className="form-label">환불은행</label>
+                    <select
+                      name="bank"
+                      className="form-control"
+                      value={editData.bank}
+                      onChange={handleInputChange}
+                      required>
+                      <option value="">은행을 선택하세요</option>
+                      <option value="카카오뱅크">카카오뱅크</option>
+                      <option value="신한은행">신한은행</option>
+                      <option value="KB국민은행">KB국민은행</option>
+                      <option value="우리은행">우리은행</option>
+                      <option value="하나은행">하나은행</option>
+                      <option value="농협은행">농협은행</option>
+                      <option value="기업은행">기업은행</option>
+                      <option value="SC제일은행">SC제일은행</option>
+                      <option value="우체국은행">우체국은행</option>
+                      <option value="토스뱅크">토스뱅크</option>
+                      <option value="케이뱅크">케이뱅크</option>
+                      <option value="씨티은행">씨티은행</option>
+                      <option value="스탠다드차타드">스탠다드차타드</option>
+                      <option value="한국산업은행">한국산업은행</option>
+                      <option value="수출입은행">수출입은행</option>
+                      <option value="미래에셋">미래에셋</option>
+                      <option value="대구은행">대구은행</option>
+                      <option value="부산은행">부산은행</option>
+                      <option value="제주은행">제주은행</option>
+                      <option value="광주은행">광주은행</option>
+                      <option value="우체국은행">우체국은행</option>
+                      {/* 필요에 따라 은행 목록 추가 가능 */}
+                    </select>
+                  </div>
+                  <div className="mb-3">
                     <label className="form-label">환불계좌</label>
                     <input
                       type="text"
@@ -218,6 +251,7 @@ const MyPage = () => {
                   <p><strong>아이디:</strong> {userData.account}</p>
                   <p><strong>이름:</strong> {userData.name}</p>
                   <p><strong>mmId:</strong> {userData.mmid}</p>
+                  <p><strong>환불은행:</strong> {userData.bank}</p>
                   <p><strong>환불계좌:</strong> {userData.fund}</p>
                   <button onClick={handleEditClick} className="btn btn-primary">개인정보 수정</button>
                 </div>
