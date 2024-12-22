@@ -18,9 +18,11 @@
  * 장바구니 컨테이너
  */
 .cart-container {
-  max-width: 800px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 /**
@@ -45,21 +47,28 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  background-color: var(--primary);
+  border-radius: 8px;
 }
 
 .cart-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text);
+  margin: 1rem;
 }
 
 .clear-button {
-  color: var(--danger);
-  background: none;
+  color: var(--text);
+  font-weight: bold;
+  background-color: rgba(0, 0, 0);
   border: none;
+  border-radius: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
   transition: opacity 0.2s;
+  margin: 1rem;
+  
 }
 
 .clear-button:hover {
@@ -69,13 +78,25 @@
 /**
  * 장바구니 아이템 스타일
  */
+
+.cart-items {
+  gap : 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
 .cart-item {
+  flex: 0 1 calc(33.33% - 0.5rem);
+  box-sizing: border-box;
   background-color: white;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  padding: 1.2rem;
+  
   box-shadow: 0 2px 8px var(--shadow);
 }
+
+
+
 
 .item-header {
   display: flex;
@@ -209,7 +230,7 @@
 .cart-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;
+  margin-top: 1rem;
   gap: 1rem;
 }
 
@@ -223,13 +244,14 @@
 }
 
 .continue-shopping-button {
-  color: var(--primary);
-  background: none;
-  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: white;
+  border: none;
 }
 
 .continue-shopping-button:hover {
-  background-color: var(--background);
+  background-color: var(--text);
+  transform: translateY(-2px);
 }
 
 .order-button {
