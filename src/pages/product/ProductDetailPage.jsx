@@ -100,8 +100,6 @@ export default function ProductDetailPage() {
         });
   
         const data = response.data;
-        console.log('API Response Data:', data);
-        
         setProduct(data);
         
         // 옵션 수량 초기화 - 각 옵션의 초기 수량을 0으로 설정
@@ -191,35 +189,35 @@ export default function ProductDetailPage() {
   const calculateTotalPrice = useCallback(() => {
     if (!product) return 0;
     
+    // 옵션이 없거나 선택된 옵션이 없으면 기본 가격만 반환
+    if (!product.options || getSelectedOptions().length === 0) {
+      return product.price;
+    }
+    
     const basePrice = product.price;
-    const optionsPrice = product.options?.reduce((sum, opt) => {
+    const optionsPrice = product.options.reduce((sum, opt) => {
       const quantity = optionQuantities[opt.optionName] || 0;
       return sum + (opt.optionPrice * quantity);
-    }, 0) || 0;
+    }, 0);
     
     return basePrice + optionsPrice;
-  }, [product, optionQuantities]);
+  }, [product, optionQuantities, getSelectedOptions]);
 
   /**
    * 장바구니 추가 함수
    * 
    * 주요 기능:
-   * 1. 선택된 옵션 유효성 검사
-   * 2. 장바구니 데이터 구성
-   * 3. 기존 장바구니와 병합
+   * 1. 장바구니 데이터 구성
+   * 2. 기존 장바구니와 병합
    *    - 동일 상품 확인
    *    - 옵션 수량 업데이트 또는 추가
-   * 4. localStorage에 저장
+   * 3. localStorage에 저장
    * 
    * 최적화: useCallback을 통한 메모이제이션
    */
   const addToCart = useCallback(() => {
     const selectedOptions = getSelectedOptions();
-    if (selectedOptions.length === 0) {
-      alert('최소 1개 이상의 옵션을 선택해주세요.');
-      return;
-    }
-
+    
     // 장바구니 아이템 구성
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const cartItem = {
@@ -227,39 +225,46 @@ export default function ProductDetailPage() {
       productName: product.productName,
       price: product.price,
       imageUrl: product.imageUrl,
-      selectedOptions: selectedOptions.map(opt => ({
+      selectedOptions: selectedOptions.length > 0 ? selectedOptions.map(opt => ({
         ...opt,
         quantity: optionQuantities[opt.optionName]
-      })),
+      })) : [],
       totalPrice: calculateTotalPrice()
     };
 
-    // 동일 상품 확인 및 옵션 병합
-    const existingItemIndex = cart.findIndex(item => 
-      item.productId === product.productId
-    );
+    // 동일한 상품과 동일한 옵션 조합을 가진 아이템 찾기
+    const existingItemIndex = cart.findIndex(item => {
+      // 상품 ID가 다르면 다른 상품
+      if (item.productId !== product.productId) return false;
+      
+      // 옵션 개수가 다르면 다른 조합
+      if (item.selectedOptions.length !== cartItem.selectedOptions.length) return false;
+      
+      // 각 옵션을 정렬하여 비교 (옵션 순서가 달라도 같은 조합으로 처리)
+      const sortedExistingOptions = [...item.selectedOptions]
+        .sort((a, b) => a.optionName.localeCompare(b.optionName));
+      const sortedNewOptions = [...cartItem.selectedOptions]
+        .sort((a, b) => a.optionName.localeCompare(b.optionName));
+      
+      // 모든 옵션의 이름이 같은지 확인
+      return sortedExistingOptions.every((opt, index) => 
+        opt.optionName === sortedNewOptions[index].optionName
+      );
+    });
 
     if (existingItemIndex >= 0) {
+      // 동일한 옵션 조합을 가진 상품이 있으면 수량만 증가
       const existingItem = cart[existingItemIndex];
-      
-      // 각 옵션별로 수량 업데이트 또는 추가
       cartItem.selectedOptions.forEach(newOpt => {
-        const existingOptIndex = existingItem.selectedOptions
-          .findIndex(opt => opt.optionName === newOpt.optionName);
-        
-        if (existingOptIndex >= 0) {
-          // 기존 옵션 수량 증가
-          existingItem.selectedOptions[existingOptIndex].quantity += newOpt.quantity;
-        } else {
-          // 새 옵션 추가
-          existingItem.selectedOptions.push(newOpt);
+        const existingOpt = existingItem.selectedOptions
+          .find(opt => opt.optionName === newOpt.optionName);
+        if (existingOpt) {
+          existingOpt.quantity += newOpt.quantity;
         }
       });
-      
-      // 총 금액 업데이트
       existingItem.totalPrice = calculateTotalPrice();
     } else {
-      // 새 상품 추가
+      // 새로운 옵션 조합이면 새 아이템으로 추가
       cart.push(cartItem);
     }
 
@@ -342,64 +347,61 @@ export default function ProductDetailPage() {
                       onClick={() => handleQuantityChange(option.optionName, 'DECREMENT')}
                       className="quantity-button"
                       disabled={!optionQuantities[option.optionName]}
-                      aria-label="수량 감소"
-                    >
-                      -
-                    </button>
-                    <span className="quantity-display">
-                      {optionQuantities[option.optionName] || 0}
-                    </span>
-                    <button
-                      onClick={() => handleQuantityChange(option.optionName, 'INCREMENT')}
-                      className="quantity-button"
-                      aria-label="수량 증가"
-                    >
-                      +
-                    </button>
+                      aria-label="수량 감소">-
+                      </button>
+                      <span className="quantity-display">
+                        {optionQuantities[option.optionName] || 0}
+                      </span>
+                      <button
+                        onClick={() => handleQuantityChange(option.optionName, 'INCREMENT')}
+                        className="quantity-button"
+                        aria-label="수량 증가"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            )}
+  
+            {/* 선택된 옵션 표시 섹션 - 선택된 옵션이 있을 때만 표시 */}
+            {getSelectedOptions().length > 0 && (
+              <div className="selected-options-section">
+                <h3 className="selected-options-title">선택된 옵션</h3>
+                {getSelectedOptions().map((option) => (
+                  <div key={option.optionName} className="selected-option-item">
+                    <span className="selected-option-name">
+                      {option.optionName}
+                      {option.optionPrice > 0 && 
+                        ` (+${option.optionPrice.toLocaleString()}원)`}
+                    </span>
+                    <span className="selected-option-quantity">
+                      {optionQuantities[option.optionName]}개
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+  
+            {/* 총 금액 및 장바구니 버튼 섹션 */}
+            <div className="total-section">
+              <h3 className="total-title">총 금액</h3>
+              <p className="total-price">
+                {calculateTotalPrice().toLocaleString()}원
+              </p>
             </div>
-          )}
-
-          {/* 선택된 옵션 표시 섹션 - 선택된 옵션이 있을 때만 표시 */}
-          {getSelectedOptions().length > 0 && (
-            <div className="selected-options-section">
-              <h3 className="selected-options-title">선택된 옵션</h3>
-              {getSelectedOptions().map((option) => (
-                <div key={option.optionName} className="selected-option-item">
-                  <span className="selected-option-name">
-                    {option.optionName}
-                    {option.optionPrice > 0 && 
-                      ` (+${option.optionPrice.toLocaleString()}원)`}
-                  </span>
-                  <span className="selected-option-quantity">
-                    {optionQuantities[option.optionName]}개
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* 총 금액 및 장바구니 버튼 섹션 */}
-          <div className="total-section">
-            <h3 className="total-title">총 금액</h3>
-            <p className="total-price">
-              {calculateTotalPrice().toLocaleString()}원
-            </p>
+  
+            {/* 장바구니 추가 버튼 */}
+            <button
+              onClick={addToCart}
+              className="add-cart-button"
+              aria-label="장바구니에 상품 추가"
+            >
+              장바구니에 담기
+            </button>
           </div>
-
-          {/* 장바구니 추가 버튼 - 옵션 선택 여부에 따라 활성화/비활성화 */}
-          <button
-            onClick={addToCart}
-            className="add-cart-button"
-            disabled={getSelectedOptions().length === 0}
-            aria-label="장바구니에 상품 추가"
-          >
-            장바구니에 담기
-          </button>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
