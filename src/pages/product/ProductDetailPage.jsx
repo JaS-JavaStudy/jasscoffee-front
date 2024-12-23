@@ -225,6 +225,7 @@ export default function ProductDetailPage() {
       productName: product.productName,
       price: product.price,
       imageUrl: product.imageUrl,
+      quantity : 1,
       selectedOptions: selectedOptions.length > 0 ? selectedOptions.map(opt => ({
         ...opt,
         quantity: optionQuantities[opt.optionName]
@@ -248,21 +249,26 @@ export default function ProductDetailPage() {
       
       // 모든 옵션의 이름이 같은지 확인
       return sortedExistingOptions.every((opt, index) => 
-        opt.optionName === sortedNewOptions[index].optionName
+        opt.optionName === sortedNewOptions[index].optionName && 
+        opt.quantity === sortedNewOptions[index].quantity
       );
     });
+    console.log(existingItemIndex + "번 상품 중복");
+    
 
     if (existingItemIndex >= 0) {
       // 동일한 옵션 조합을 가진 상품이 있으면 수량만 증가
       const existingItem = cart[existingItemIndex];
-      cartItem.selectedOptions.forEach(newOpt => {
-        const existingOpt = existingItem.selectedOptions
-          .find(opt => opt.optionName === newOpt.optionName);
-        if (existingOpt) {
-          existingOpt.quantity += newOpt.quantity;
-        }
-      });
-      existingItem.totalPrice = calculateTotalPrice();
+      existingItem.quantity += cartItem.quantity;
+      
+      // cartItem.selectedOptions.forEach(newOpt => {
+      //   const existingOpt = existingItem.selectedOptions
+      //     .find(opt => opt.optionName === newOpt.optionName);
+      //   if (existingOpt) {
+      //     existingOpt.quantity += newOpt.quantity;
+      //   }
+      // });
+      existingItem.totalPrice += cartItem.totalPrice
     } else {
       // 새로운 옵션 조합이면 새 아이템으로 추가
       cart.push(cartItem);

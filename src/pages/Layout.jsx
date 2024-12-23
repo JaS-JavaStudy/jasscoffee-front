@@ -127,17 +127,17 @@ const Layout = () => {
 
                             {/* 장바구니 버튼 */}
                             <li className="nav-item ms-3">
-                                <button
+                                {user ? <button
                                     className="cart-button"
                                     onClick={openCartModal}
                                     aria-label="장바구니 열기"
                                 >
                                     장바구니 보기
-                                </button>
-                            {/* 로그아웃 버튼 */}    
-                            {user ? <button className='cart-button'
-                                onClick={logoutHandler}>Logout</button>
-                            : ""}
+                                </button> : ""}
+                                {/* 로그아웃 버튼 */}
+                                {user ? <button className='cart-button'
+                                    onClick={logoutHandler}>Logout</button>
+                                    : ""}
 
                             </li>
                         </ul>
