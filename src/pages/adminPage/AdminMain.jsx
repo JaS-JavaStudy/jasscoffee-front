@@ -5,6 +5,8 @@ import axios from 'axios';
 
 export default function AdminMain() {
   const [orders, setOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState([]); // 전체 주문 목록을 저장할 상태
+  const [showAll, setShowAll] = useState(false); // 전체 목록을 볼지, 오늘의 주문만 볼지 상태
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,10 +21,27 @@ export default function AdminMain() {
           access: access, // 인증 헤더 설정
         },
       });
-      setOrders(response.data);
+      
+      setAllOrders(response.data); // 전체 주문 목록 저장
+      filterTodayOrders(response.data); // 오늘 주문만 필터링
     } catch (error) {
       console.error('주문 목록 조회 실패:', error);
     }
+  };
+
+  const filterTodayOrders = (orders) => {
+    // 오늘 날짜 기준으로 필터링
+    const today = new Date();
+    const filteredOrders = orders.filter(order => {
+      const orderedAt = new Date(order.orderedAt);
+      return (
+        orderedAt.getDate() === today.getDate() &&
+        orderedAt.getMonth() === today.getMonth() &&
+        orderedAt.getFullYear() === today.getFullYear()
+      );
+    });
+    
+    setOrders(filteredOrders); // 오늘의 주문만 상태에 저장
   };
 
   const handleDelete = async (orderId) => {
@@ -41,6 +60,15 @@ export default function AdminMain() {
     }
   };
 
+  const toggleOrderView = () => {
+    setShowAll(!showAll);
+    if (!showAll) {
+      setOrders(allOrders); // 전체 주문 목록으로 설정
+    } else {
+      filterTodayOrders(allOrders); // 오늘의 주문만 필터링
+    }
+  };
+
   return (
     <div>
       <div className="d-flex justify-content-between mb-4">
@@ -50,6 +78,12 @@ export default function AdminMain() {
           onClick={() => navigate('/admin/menu')}
         >
           메뉴 관리
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={toggleOrderView}
+        >
+          {showAll ? '오늘의 주문만 보기' : '전체 주문 보기'}
         </button>
       </div>
 
