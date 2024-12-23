@@ -18,7 +18,6 @@
  * - imageLoading: 이미지 로딩 상태
  * - optionQuantities: 각 옵션별 선택 수량 ({optionName: quantity})
  */
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';

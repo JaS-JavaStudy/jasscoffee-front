@@ -37,7 +37,7 @@ export default function AdminMain() {
         <h2>주문 관리</h2>
         <button 
           className="btn btn-primary"
-          onClick={() => navigate('/menu')}
+          onClick={() => navigate('/admin/menu')}
         >
           메뉴 관리
         </button>

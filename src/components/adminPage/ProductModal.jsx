@@ -1,4 +1,3 @@
-// components/ProductModal.jsx
 import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
@@ -12,7 +11,7 @@ export default function ProductModal({
   const [formData, setFormData] = useState({
     productName: '',
     price: '',
-    category: 'COFFEE'
+    category: 'COFFEE'  // 기본값 설정
   });
 
   useEffect(() => {
@@ -21,15 +20,13 @@ export default function ProductModal({
         setFormData({
           productName: '',
           price: '',
-          category: ''
-          // 다른 필드들도 초기값으로 설정
+          category: 'COFFEE'  // 기본값 유지
         });
       } else if (mode === 'edit' && product) {
         setFormData({
-          productName: product.productName,
-          price: product.price,
-          category: product.category
-          // 다른 필드들도 product에서 가져온 값으로 설정
+          productName: product.productName || '',
+          price: product.price || '',
+          category: product.category || 'COFFEE'
         });
       }
     }
@@ -39,7 +36,7 @@ export default function ProductModal({
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'price' ? Number(value) : value
     }));
   };
 
@@ -61,11 +58,9 @@ export default function ProductModal({
             <Form.Label>메뉴명</Form.Label>
             <Form.Control
               type="text"
+              name="productName"
               value={formData.productName}
-              onChange={(e) => setFormData({
-                ...formData,
-                productName: e.target.value
-              })}
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -73,22 +68,18 @@ export default function ProductModal({
             <Form.Label>가격</Form.Label>
             <Form.Control
               type="number"
+              name="price"
               value={formData.price}
-              onChange={(e) => setFormData({
-                ...formData,
-                price: Number(e.target.value)
-              })}
+              onChange={handleChange}
               required
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>카테고리</Form.Label>
             <Form.Select
+              name="category"
               value={formData.category}
-              onChange={(e) => setFormData({
-                ...formData,
-                category: e.target.value
-              })}
+              onChange={handleChange}
             >
               <option value="COFFEE">COFFEE</option>
               <option value="TEA">TEA</option>

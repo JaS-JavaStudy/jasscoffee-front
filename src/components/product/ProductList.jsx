@@ -10,11 +10,12 @@
  * 4. 이름순/가격순 정렬
  * 5. 반응형 그리드 레이아웃
  */
-import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import ProductRegistrationModal from './ProductRegistrationModal';
+import { getUser } from '../../apis/userapis/getuser';import ProductRegistrationModal from './ProductRegistrationModal';
 import './ProductList.css';
 
 function ProductList() {
@@ -73,6 +74,21 @@ function ProductList() {
 
   // 초기 데이터 로딩
   useEffect(() => {
+
+
+
+    const checkUser = async () => {
+      const isUser = await getUser()
+
+      if (isUser == null) {
+        alert("Login을 하셔야해요.")
+        navigate('/')
+      }
+    }
+    
+
+
+    
     const fetchProducts = async () => {
       const access = localStorage.getItem('access');
       try {
@@ -88,7 +104,7 @@ function ProductList() {
         setLoading(false);
       }
     };
-
+    checkUser()
     fetchProducts();
   }, []);
 
