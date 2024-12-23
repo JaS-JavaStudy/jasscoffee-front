@@ -1,0 +1,141 @@
+/* General Page Layout */
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+.card {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Form Elements */
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+/* Focused State */
+input:focus,
+select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.success-text {
+    color: #218838;
+    font-size: 12px;
+    margin-top: 5px;
+}
+/* Error Message */
+.error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Error States */
+input.error,
+select.error {
+    border: 1px solid red;
+    background-color: #ffefef;
+}
+
+input.error:focus,
+select.error:focus {
+    border-color: red;
+    background-color: #ffefef;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+input.error::placeholder,
+select.error::placeholder {
+    color: red;
+}
+
+/* Custom Input Container for Buttons */
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    flex-grow: 1;
+    padding-right: 60px;  /* 버튼 공간 확보를 위해 padding 추가 */
+}
+
+.input-container button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #007BFF;
+}
+
+.input-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific Button for Submit */
+button[type="submit"] {
+    background-color: #28a745;
+    border: 1px solid #28a745;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Error State for Input Fields */
+.error {
+    border-color: red;
+}
+
+
+/* Form Field Margins */
+input,
+select,
+button {
+    margin-bottom: 15px;
+}
