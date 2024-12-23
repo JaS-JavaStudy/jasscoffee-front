@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Outlet, NavLink } from 'react-router-dom';
-import { refresh } from '../apis/userapis/refresh';
+// import { refresh } from '../apis/userapis/refresh';
 import { getUser } from '../apis/userapis/getuser';
 import { logout } from '../apis/userapis/logout';
 
@@ -37,10 +37,10 @@ const Layout = () => {
     }
 
     // 토큰 재발급
-    const refreshHandler = (event) => {
-        event.preventDefault();
-        refresh();
-    };
+    // const refreshHandler = (event) => {
+    //     event.preventDefault();
+    //     refresh();
+    // };
 
     // 장바구니 모달
     const [isCartModalOpen, setCartModalOpen] = useState(false);
@@ -80,14 +80,14 @@ const Layout = () => {
                     >
                         <ul className="navbar-nav align-items-center">
                             {/* 토큰 재발급 버튼 */}
-                            <li className="nav-item mx-3">
+                            {/* <li className="nav-item mx-3">
                                 <button
                                     onClick={refreshHandler}
                                     className="btn btn-link nav-link p-0 fw-bold"
                                 >
                                     토큰 재발급
                                 </button>
-                            </li>
+                            </li> */}
 
                             {/* 홈: NavLink로 바꾸고, active 클래스 지정 */}
                             <li className="nav-item mx-3">

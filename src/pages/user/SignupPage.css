@@ -1,173 +1,141 @@
-/* 전역 변수 정의 */
-:root {
-    --page-bg: #FEFAE0;         /* 페이지 배경색 */
-    --navbar-bg: #C0C78C;       /* 네비게이션 바 배경색 */
-    --primary-color: #A6B37D;   /* 주요 강조색 */
-    --secondary-color: #B99470; /* 보조 강조색 */
-    --text-light: #FFFFFF;      /* 밝은 텍스트 색상 */
-    --text-dark: #333333;       /* 어두운 텍스트 색상 */
-    --spacing-unit: 1rem;       /* 기본 여백 단위 */
-    --transition-speed: 0.3s;   /* 기본 전환 속도 */
-}
-
-/* 페이지 컨테이너 스타일링 */
+/* General Page Layout */
 .page-container {
-    min-height: 100vh;
-    width: 100vw;
-    background-color: var(--page-bg);
-    padding-bottom: var(--spacing-unit);
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    height: 100vh;
+    background-color: #f4f4f9;
 }
 
-/* 카드 스타일링 */
 .card {
-    background-color: var(--text-light);
-    padding: var(--spacing-unit);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    margin: var(--spacing-unit);
-    transition: transform var(--transition-speed) ease-in-out;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-}
-
-h1, h3 {
-    color: #B99470;
-}
-.card h3 {
-    font-size: 1.5rem;
-    color: var(--text-dark);
-}
-
-/* 버튼 스타일링 */
-.card button {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.25);
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Form Elements */
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+/* Focused State */
+input:focus,
+select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    font-weight: 500;
-    transition: all var(--transition-speed) ease-in-out;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
-    margin-top: var(--spacing-unit);
+    transition: background-color 0.3s;
 }
 
-.card button:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
+button:hover {
+    background-color: #45a049;
 }
 
-/* 폼 스타일링 */
-.card form {
+.success-text {
+    color: #218838;
+    font-size: 12px;
+    margin-top: 5px;
+}
+/* Error Message */
+.error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Error States */
+input.error,
+select.error {
+    border: 1px solid red;
+    background-color: #ffefef;
+}
+
+input.error:focus,
+select.error:focus {
+    border-color: red;
+    background-color: #ffefef;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+input.error::placeholder,
+select.error::placeholder {
+    color: red;
+}
+
+/* Custom Input Container for Buttons */
+.input-container {
     display: flex;
-    flex-direction: column;
-    gap: var(--spacing-unit);
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.card input {
-    padding: var(--spacing-unit);
-    border: 1px solid #ccc;
+.input-container input {
+    flex-grow: 1;
+    padding-right: 60px;  /* 버튼 공간 확보를 위해 padding 추가 */
+}
+
+.input-container button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
     border-radius: 4px;
-    font-size: 1rem;
+    border: 1px solid #007BFF;
 }
 
-.card input:focus {
-    outline: none;
-    border-color: var(--primary-color);
+.input-container button:hover {
+    background-color: #0056b3;
 }
 
-.card a {
-    margin-top: var(--spacing-unit);
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 1rem;
+/* Specific Button for Submit */
+button[type="submit"] {
+    background-color: #28a745;
+    border: 1px solid #28a745;
 }
 
-.card a:hover {
-    text-decoration: underline;
+button[type="submit"]:hover {
+    background-color: #218838;
 }
 
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-    .card {
-        width: 90%;
-    }
-
-    h3 {
-        font-size: 1rem;
-    }
-
-    button {
-        padding: var(--spacing-unit) var(--spacing-unit);
-        font-size: 0.9rem;
-    }
-
-    input {
-        font-size: 0.9rem;
-    }
-
-    a {
-        font-size: 0.9rem;
-    }
+/* Error State for Input Fields */
+.error {
+    border-color: red;
 }
 
-/* 다크 모드 지원 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --page-bg: #1a1a1a;
-        --text-dark: #ffffff;
-        --primary-color: #8d9f7b;
-        --secondary-color: #b69f7d;
-    }
 
-    .page-container {
-        color: var(--text-dark);
-    }
-
-    .card {
-        background-color: #333;
-    }
-
-    .card h3,
-    .card a {
-        color: var(--text-light);
-    }
-
-    .card input {
-        background-color: #555;
-        color: #fff;
-        border-color: #777;
-    }
-
-    .card input:focus {
-        border-color: var(--primary-color);
-    }
-
-    .card button {
-        background-color: var(--primary-color);
-    }
-
-    .card button:hover {
-        background-color: var(--secondary-color);
-    }
-}
-
-.card select {
-    padding: var(--spacing-unit);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.card select:focus {
-    outline: none;
-    border-color: var(--primary-color);
+/* Form Field Margins */
+input,
+select,
+button {
+    margin-bottom: 15px;
 }

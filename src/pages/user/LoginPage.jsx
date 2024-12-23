@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getUser } from '../../apis/userapis/getuser'
 import axios from 'axios'
 import "./LoginPage.css" // CSS 파일 임포트
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LoginPage() {
 

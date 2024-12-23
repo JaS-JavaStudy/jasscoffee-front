@@ -29,7 +29,7 @@
     padding: calc(var(--spacing-unit) * 1.25) 0;
     margin-bottom: calc(var(--spacing-unit) * 2);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: background var(--transition-speed) ease-in-out;
+    /* transition: background var(--transition-speed) ease-in-out; */
   }
   
   /* 브랜드 & nav-link 공통 스타일 */
