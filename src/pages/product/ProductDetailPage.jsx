@@ -17,7 +17,7 @@
  * - error: 에러 상태
  * - checkedState: 선택된 옵션 상태
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProductDetailPage.css';
 import axios from 'axios';

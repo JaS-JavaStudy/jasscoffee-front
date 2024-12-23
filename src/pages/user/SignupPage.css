@@ -1,0 +1,120 @@
+/* Signup Container */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--page-bg, #f4f4f9);
+    padding: 20px;
+}
+
+/* Signup Card */
+.signup-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+/* Input Field */
+.signup-container input,
+.signup-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+}
+
+.signup-container input:focus,
+.signup-container select:focus {
+    border-color: var(--primary-color, #4CAF50);
+    outline: none;
+}
+
+/* Error State */
+.signup-container input.error {
+    border: 1px solid red;
+    background-color: #ffefef;
+}
+
+.signup-container input.error:focus {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Input Container with Button */
+.input-container.with-button {
+    position: relative;
+}
+
+.input-container.with-button input {
+    padding-right: 80px; /* 버튼 공간 확보 */
+}
+
+/* Check Button */
+.check-button.inside {
+    position: absolute;
+    top: 39%;
+    right: 5px;
+    transform: translateY(-50%);
+    background-color: var(--primary-color, #007BFF);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.check-button.inside:hover {
+    background-color: var(--secondary-color, #0056b3);
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color, #4CAF50);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: var(--secondary-color, #45a049);
+}
+
+/* Error and Success Text */
+.error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.success-text {
+    color: green;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+h1{
+    text-align: center;
+    color : #B99470;
+}
+h2{
+    color: #B99470
+}
+h3{
+    color:#B99470
+}
