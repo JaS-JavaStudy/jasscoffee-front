@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // 새로 만든 CSS 파일
 import './LayoutNavbar.css';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Outlet, NavLink } from 'react-router-dom';
 // import { refresh } from '../apis/userapis/refresh';
@@ -46,6 +46,14 @@ const Layout = () => {
     const [isCartModalOpen, setCartModalOpen] = useState(false);
     const openCartModal = () => setCartModalOpen(true);
     const closeCartModal = () => setCartModalOpen(false);
+    
+    // 결제 페이지 이동시 모달 꺼지도록
+    const location = useLocation()
+    useEffect(() => {
+        if(location.pathname === '/payment') {
+            setCartModalOpen(false)
+        }
+    }, [location])
 
     return (
         <div className="page-container">
