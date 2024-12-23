@@ -93,6 +93,11 @@ function CartList({closeCartModal}) {
     );
   }
 
+  // 주문 페이지 이동
+  const goPayment = () =>{
+    navigate('/payment')
+  }
+
   return (
     <div className="cart-container">
       {/* 장바구니 헤더 */}
@@ -190,7 +195,7 @@ function CartList({closeCartModal}) {
           계속 쇼핑하기
         </button>
         <button
-          onClick={() => alert('주문 기능은 준비중입니다.')}
+          onClick={goPayment}
           className="order-button"
         >
           주문하기

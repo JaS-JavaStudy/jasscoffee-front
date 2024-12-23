@@ -4,6 +4,8 @@ import Layout from "../pages/Layout";
 
 const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
 const ProductDetailPage = lazy(() => import("../pages/product/ProductDetailPage"));
+// payment
+const PaymentPage = lazy(() => import("../pages/payment/PaymentPage"));
 
 const Loading = <div>Loading....</div>;
 
@@ -90,6 +92,15 @@ const root = createBrowserRouter([
           path: "admin/menu",
           element: <Suspense fallback={Loading}><MenuManagement /></Suspense>,
       },
+      // 결제 페이지
+      {
+        path: "payment",
+        element: (
+          <Suspense fallback={Loading}>
+            <PaymentPage />
+          </Suspense>
+        )
+      }
     ],
   },
 ]);

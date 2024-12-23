@@ -1,0 +1,31 @@
+/* src/components/payment/PaymentInfo.css */
+
+/**
+ * 전역 변수 정의
+ * - 일관된 색상 관리를 위한 CSS 변수 설정
+ * - 프로젝트 전반에 걸쳐 재사용 가능한 색상 값들
+ */
+:root {
+  --primary-light: #C0C78C;  /* 밝은 주색상 - 하이라이트에 사용 */
+  --primary: #A6B37D;        /* 주색상 - 주요 요소에 사용 */
+  --background: #FEFAE0;     /* 배경색상 - 부드러운 베이지 */
+  --text: #B99470;          /* 텍스트 색상 - 따뜻한 브라운 */
+  --shadow: rgba(0, 0, 0, 0.1); /* 그림자 색상 */
+  --transition-speed: 0.3s;  /* 기본 전환 속도 */
+}
+
+/* 주문 상품 정보 card */
+.product-card{
+  min-height: 50vh;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 15px;
+}
+.product-options {
+  color: gray;
+}
+
+/* 테마 폰트 컬러 */
+.text-jasscoffee {
+  color: var(--text);
+}
