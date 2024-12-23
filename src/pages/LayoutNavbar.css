@@ -1,0 +1,139 @@
+/* NavbarCustom.css */
+
+/**
+ * 전역 변수 및 그라데이션 색상 설정
+ */
+ :root {
+    --page-bg: #FEFAE0;          /* 페이지 배경색 */
+    --navbar-bg-start: #c0c78c;  /* 네비게이션 바 그라데이션 시작색 */
+    --navbar-bg-end: #b6bd86;    /* 네비게이션 바 그라데이션 끝색 */
+    --primary-color: #A6B37D;    /* 주요 버튼(장바구니 등) 색상 */
+    --secondary-color: #B99470;  /* 버튼 호버 시 보조 색 */
+    --text-light: #FFFFFF;       /* 밝은 텍스트 색상 */
+    --spacing-unit: 1rem;        /* 기본 여백 단위 */
+    --transition-speed: 0.3s;    /* 기본 전환 속도 */
+  }
+  
+  /* 페이지 전체 레이아웃 컨테이너 */
+  .page-container {
+    min-height: 100vh;
+    width: 100vw;
+    background-color: var(--page-bg);
+    padding-bottom: var(--spacing-unit);
+  }
+  
+  /* 네비게이션 바 (커스텀 + 부트스트랩) */
+  .custom-navbar {
+    /* 그라데이션 배경 */
+    background: linear-gradient(90deg, var(--navbar-bg-start) 0%, var(--navbar-bg-end) 100%);
+    width: 100%; /* 네비게이션 바가 화면 전체 너비를 차지 */
+    padding: calc(var(--spacing-unit) * 1.25) 0;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex; /* 내용을 정렬하기 위한 Flexbox */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 좌우 끝으로 내용 배치 */
+}
+  
+  /* 브랜드 & nav-link 공통 스타일 */
+  .custom-navbar .navbar-brand,
+  .custom-navbar .nav-link {
+    color: var(--text-light) !important;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    transition:
+      color var(--transition-speed) ease,
+      text-shadow var(--transition-speed) ease,
+      transform var(--transition-speed) ease;
+  }
+  
+  /* 호버 시 확대 & 글로우 효과 (브랜드와 메뉴 링크 모두 적용) */
+  .custom-navbar .navbar-brand:hover,
+  .custom-navbar .nav-link:hover {
+    color: #f0f0f0 !important;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.4);
+    transform: scale(1.02);
+  }
+  
+  /* 활성 링크(.active-link): 현재 페이지인 메뉴 */
+  .active-link {
+    /* 텍스트 색상 변경 (secondary-color) */
+    color: var(--secondary-color) !important;
+    text-shadow: 0 0 3px rgba(185, 148, 112, 0.6);
+    transform: scale(1.02);
+    /* 배경 강조를 원하면 주석 해제:
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    */
+  }
+  
+  /* 활성 링크 호버 */
+  .active-link:hover {
+    transform: scale(1.03);
+    text-shadow: 0 0 5px rgba(185, 148, 112, 0.5);
+  }
+  
+  /* 모바일(햄버거 버튼) 아이콘을 흰색으로 */
+  .navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
+  /* 토글 버튼 테두리 없애기 */
+  .navbar-toggler {
+    border: none !important;
+  }
+  
+  /* 장바구니 버튼 */
+  .cart-button {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: calc(var(--spacing-unit) * 0.65) calc(var(--spacing-unit) * 1.2);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: all var(--transition-speed) ease-in-out;
+    margin: calc(var(--spacing-unit) * 0.5);
+  }
+  
+  .cart-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    transform: translateY(-1px);
+  }
+  
+  .cart-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(185, 148, 112, 0.3);
+  }
+  
+  /* 반응형 (최대 768px 이하) */
+  @media (max-width: 768px) {
+    .custom-navbar {
+      padding: var(--spacing-unit) 0;
+    }
+  
+    .navbar-brand {
+      font-size: 1.3rem;
+    }
+  
+    .cart-button {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* 다크 모드 지원 */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #1a1a1a;
+      --navbar-bg-start: #3a3a3a; /* 그라데이션 시작 (어두운 톤) */
+      --navbar-bg-end: #2c2c2c;   /* 그라데이션 끝 (어두운 톤) */
+      --text-light: #ffffff;
+    }
+  
+    .page-container {
+      color: var(--text-light);
+    }
+  }
+  

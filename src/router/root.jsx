@@ -76,4 +76,4 @@ const root = createBrowserRouter([
   }
 ])
 
-export default root
+export default root;

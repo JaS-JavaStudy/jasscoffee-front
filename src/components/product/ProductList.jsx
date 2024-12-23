@@ -12,11 +12,12 @@
  * 4. 이름순/가격순 정렬
  * 5. 반응형 그리드 레이아웃
  */
-import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductList.css'
 import axios from 'axios';
-
+import { getUser } from '../../apis/userapis/getuser';
 function ProductList() {
   // 라우터 네비게이션 훅
   const navigate = useNavigate();
@@ -31,6 +32,21 @@ function ProductList() {
 
   // 초기 데이터 로딩
   useEffect(() => {
+
+
+
+    const checkUser = async () => {
+      const isUser = await getUser()
+
+      if (isUser == null) {
+        alert("Login을 하셔야해요.")
+        navigate('/')
+      }
+    }
+    
+
+
+    
     const fetchProducts = async () => {
       const access = localStorage.getItem('access'); // 로컬 스토리지에서 access 토큰 가져오기
       try {
@@ -46,7 +62,7 @@ function ProductList() {
         setLoading(false);
       }
     };
-
+    checkUser()
     fetchProducts();
   }, []);
 
