@@ -8,7 +8,7 @@ const ProductDetailPage = lazy(() => import("../pages/product/ProductDetailPage"
 const Loading = <div>Loading....</div>;
 
 // Lazy-loaded Pages
-const MainPage = lazy(() => import("../pages/user/MainPage"));
+const LoginPage = lazy(() => import("../pages/user/LoginPage"));
 const SignupPage = lazy(() => import("../pages/user/SignupPage"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
 
@@ -25,7 +25,7 @@ const root = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={Loading}>
-            <MainPage />
+            <LoginPage />
           </Suspense>
         ),
       },

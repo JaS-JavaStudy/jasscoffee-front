@@ -14,22 +14,18 @@ import { Outlet, NavLink } from 'react-router-dom';
 import { refresh } from '../apis/userapis/refresh';
 import { getUser } from '../apis/userapis/getuser';
 import { logout } from '../apis/userapis/logout';
-import { isStaff } from '../apis/userapis/isStaff';
 
 // 홈 및 토큰 재발급 Layout
 const Layout = () => {
 
     const [user, setUser] = useState()
-    const [staff, setStaff] = useState()
+
 
     const navigate = useNavigate()
 
     useEffect(() => {
         getUser().then(res => {
             setUser(res)
-        isStaff().then(res => {
-            setStaff(res)
-        })
         })
 
 
@@ -142,8 +138,6 @@ const Layout = () => {
                             {user ? <button className='cart-button'
                                 onClick={logoutHandler}>Logout</button>
                             : ""}
-                            {/* 관리자 버튼 */}    
-                            {staff ? "관리자" : "유저"}
 
                             </li>
                         </ul>

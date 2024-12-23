@@ -10,62 +10,103 @@ function SignupPage() {
     const [mmid, setMmid] = useState('');
     const [fund, setFund] = useState('');
     const [bank, setBank] = useState('');  // 은행 상태 추가
+    const [error, setError] = useState(''); // 에러 상태 추가
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        // 회원가입 유효성 검사
+        if (!validateForm()) {
+            return
+        }
+
         // 회원가입 함수 호출
         signUp(username, password, name, mmid, fund, bank, navigate);
     };
+    // 회원가입 유효성 검사
+    const validateForm = () => {
+        // 아이디 유효성 검사
+        if (username.trim() === '') {
+            setError('아이디를 입력해주세요.');
+            return false;
+        }
 
+        // 비밀번호 유효성 검사 (8자 이상)
+        if (password.length < 8) {
+            setError('비밀번호는 8자 이상이어야 합니다.');
+            return false;
+        }
+
+        // 이름 유효성 검사
+        if (name.trim() === '') {
+            setError('이름을 입력해주세요.');
+            return false;
+        }
+
+        // MMID 유효성 검사
+        if (mmid.trim() === '') {
+            setError('MMID를 입력해주세요.');
+            return false;
+        }
+
+        // 계좌 번호 유효성 검사
+        if (fund.trim() === '') {
+            setError('계좌 번호를 입력해주세요.');
+            return false;
+        }
+
+        // 은행 선택 유효성 검사
+        if (bank === '') {
+            setError('은행을 선택해주세요.');
+            return false;
+        }
+
+        // 모든 검사를 통과하면 에러 메시지 초기화
+        setError('');
+        return true;
+    };
     return (
         <div className="page-container">
             <div className="card">
-                <h1>회원가입</h1>
+                <h1>Sign Up</h1>
+                {error && <div className="error-message">{error}</div>} {/* 에러 메시지 출력 */}
                 <form onSubmit={handleSubmit}>
-                    <label>아이디 :</label>
                     <input
                         type="text"
-                        placeholder="아이디를 입력하세요"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                    <br />
-                    <label>패스워드 :</label>
-                    <input
-                        type="password"
-                        placeholder="비밀번호를 입력하세요"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <br />
-                    <label>이름 :</label>
-                    <input
-                        type="text"
-                        placeholder="이름을 입력하세요"
+                        placeholder="Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
-                    <br />
-                    <label>MMID :</label>
                     <input
                         type="text"
-                        placeholder="MMID를 입력하세요"
+                        placeholder="ID"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="MMID"
                         value={mmid}
                         onChange={(e) => setMmid(e.target.value)}
                         required
                     />
-                    <br />
-                    <label>은행 선택 :</label>
+                    <br/>
                     <select
                         value={bank}
                         onChange={(e) => setBank(e.target.value)}
                         required
                     >
-                        <option value="">은행을 선택하세요</option>
+                        <option value="">Bank</option>
                         <option value="카카오뱅크">카카오뱅크</option>
                         <option value="신한은행">신한은행</option>
                         <option value="KB국민은행">KB국민은행</option>
@@ -87,20 +128,16 @@ function SignupPage() {
                         <option value="제주은행">제주은행</option>
                         <option value="광주은행">광주은행</option>
                         <option value="우체국은행">우체국은행</option>
-
-                        {/* 필요에 따라 은행 목록 추가 가능 */}
                     </select>
-                    <br />
-                    <label>계좌 번호 :</label>
                     <input
                         type="text"
-                        placeholder="계좌 번호를 입력하세요"
+                        placeholder="Account"
                         value={fund}
                         onChange={(e) => setFund(e.target.value)}
                         required
                     />
                     <br />
-                    <button type="submit">회원가입</button>
+                    <button type="submit">Sign up</button>
                 </form>
             </div>
         </div>
