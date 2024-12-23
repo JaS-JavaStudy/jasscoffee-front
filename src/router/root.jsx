@@ -4,6 +4,7 @@ import Layout from "../pages/Layout";
 
 const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
 const ProductDetailPage = lazy(() => import("../pages/product/ProductDetailPage"));
+// payment
 const PaymentPage = lazy(() => import("../pages/payment/PaymentPage"));
 
 const Loading = <div>Loading....</div>;

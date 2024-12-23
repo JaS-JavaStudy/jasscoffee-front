@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import './PaymentInfo.css'
 
 const PaymentInfo = ({cart}) => {
-  console.log(cart)
   const [totalPrice, setTotalPrice ]= useState(0)
   // 총 금액 계산
   useEffect(() => {
@@ -13,7 +12,7 @@ const PaymentInfo = ({cart}) => {
     <>
       <h3 className='text-center text-jasscoffee mb-3'>주문 현황</h3>
       {/* cart 정보 render */}
-      <div className='card py-4 px-5 payment-info d-flex flex-column justify-content-between'>
+      <div className='product-card py-4 px-5 d-flex flex-column justify-content-between'>
         <div>
           {// 상품 정보 반복
             cart.map((product, productIdx) => (

@@ -14,18 +14,25 @@
   --transition-speed: 0.3s;  /* 기본 전환 속도 */
 }
 
-/* 주문 상품 정보 card */
-.product-card{
-  min-height: 50vh;
-  background-color: white;
-  border: 1px solid lightgrey;
-  border-radius: 15px;
-}
-.product-options {
-  color: gray;
-}
-
 /* 테마 폰트 컬러 */
 .text-jasscoffee {
   color: var(--text);
+}
+
+/* 테마 버튼 */
+.btn-jasscoffee {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.25);
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  transition: all var(--transition-speed) ease-in-out;
+  cursor: pointer;
+  margin-top: var(--spacing-unit);
+}
+
+.btn-jasscoffee:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
 }
