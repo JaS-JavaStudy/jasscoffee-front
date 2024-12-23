@@ -1,0 +1,164 @@
+/* 모달 기본 스타일 */
+.modal.fade .modal-dialog.modal-custom {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 100%;
+  max-width: 800px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+ }
+ 
+ .modal-custom .modal-content {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: none;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+ }
+ 
+ /* 모달 헤더 스타일 */
+ .modal-custom .modal-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  padding: 1rem 1.5rem;
+ }
+ 
+ /* 모달 바디 스타일 */
+ .modal-custom .modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: calc(80vh - 130px);
+ }
+ 
+ /* 상품 등록 폼 스타일 */
+ .product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+ }
+ 
+ /* 이미지 미리보기 스타일 */
+ .image-upload-container {
+  margin-bottom: 1rem;
+ }
+ 
+ .preview-container {
+  width: 150px;
+  height: 150px;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  overflow: hidden;
+ }
+ 
+ .preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+ }
+ 
+ /* 옵션 관련 스타일 */
+ .option-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+ }
+ 
+ .option-name {
+  flex: 2;
+ }
+ 
+ .option-price {
+  flex: 1;
+ }
+ 
+ .remove-option {
+  flex: 0 0 auto;
+  padding: 0.375rem 0.75rem;
+ }
+ 
+ /* 버튼 컨테이너 스타일 */
+ .button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+ }
+ 
+ /* 모달 배경 스타일 */
+ .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+ }
+ 
+ .modal-dialog {
+  background: transparent !important;
+ }
+ 
+ /* 애니메이션 */
+ .modal.show .modal-dialog {
+  transform: translate(-50%, -50%) !important;
+ }
+ 
+ /* 버튼 스타일 */
+ .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+ }
+ 
+ .btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+ }
+ 
+ .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+ }
+ 
+ .btn-secondary:hover {
+  background-color: #5c636a;
+  border-color: #565e64;
+ }
+ 
+ .btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+ }
+ 
+ .btn-outline-danger:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+ }
+ 
+ /* 폼 컨트롤 스타일 */
+ .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+ }
+ 
+ /* 파일 업로드 스타일 */
+ .file-input-wrapper {
+  margin-bottom: 0.5rem;
+ }
+ 
+ /* 추가 버튼 스타일 */
+ .btn-link {
+  color: #0d6efd;
+  text-decoration: none;
+ }
+ 
+ .btn-link:hover {
+  color: #0a58ca;
+  text-decoration: underline;
+ }

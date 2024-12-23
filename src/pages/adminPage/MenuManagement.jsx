@@ -1,7 +1,7 @@
 // pages/MenuManagement.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import ProductModal from '../components/ProductModal';
+import ProductModal from '../../components/adminPage/ProductModal';
 
 export default function MenuManagement() {
   const [products, setProducts] = useState([]);

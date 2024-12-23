@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import Layout from "../pages/Layout";
 
 const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
@@ -12,6 +12,22 @@ const Loading = <div>Loading....</div>;
 const LoginPage = lazy(() => import("../pages/user/LoginPage"));
 const SignupPage = lazy(() => import("../pages/user/SignupPage"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
+
+// 12.23 [남희]
+// Admin Pages
+const AdminMain = lazy(() => import("../pages/adminPage/AdminMain"));
+const MenuManagement = lazy(() => import("../pages/adminPage/MenuManagement"));
+
+// Root Layout 컴포넌트
+const RootLayout = () => {
+  return (
+    <div className="container-fluid">
+      <main className="p-4">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
 
 const root = createBrowserRouter([
   {
@@ -65,6 +81,15 @@ const root = createBrowserRouter([
             <MyPage />
           </Suspense>
         ),
+      },
+      // 관리자 페이지
+      {
+        path: "admin",
+        element: <Suspense fallback={Loading}><AdminMain /></Suspense>,
+      },
+      {
+          path: "admin/menu",
+          element: <Suspense fallback={Loading}><MenuManagement /></Suspense>,
       },
       // 결제 페이지
       {
