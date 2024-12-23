@@ -1,4 +1,5 @@
 // pages/AdminMain.jsx
+import './AdminMain.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -70,56 +71,61 @@ export default function AdminMain() {
   };
 
   return (
-    <div>
-      <div className="d-flex justify-content-between mb-4">
-        <h2>주문 관리</h2>
-        <button 
-          className="btn btn-primary"
-          onClick={() => navigate('/admin/menu')}
-        >
-          메뉴 관리
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={toggleOrderView}
-        >
-          {showAll ? '오늘의 주문만 보기' : '전체 주문 보기'}
-        </button>
+    <div className='page-wrapper'>
+      <div className='container'>
+        <div>
+          <h2>주문 관리</h2>
+          <div className="d-flex mb-4">
+            <div className='button-group'>
+              <button 
+                className="btn btn-secondary"
+                onClick={() => navigate('/admin/menu')}
+              >
+                메뉴 관리
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={toggleOrderView}
+              >
+                {showAll ? '오늘의 주문만 보기' : '전체 주문 보기'}
+              </button>
+            </div>
+          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>주문 ID</th>
+                <th>사용자</th>
+                <th>mmid</th>
+                <th>총 금액</th>
+                {/* <th>주문 상태</th> */}
+                <th>주문 시간</th>
+                <th>취소</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map(order => (
+                <tr key={order.orderID}>
+                  <td>{order.orderID}</td>
+                  <td>{order.name}</td>
+                  <td>{order.mmid}</td>
+                  <td>{order.totalPrice.toLocaleString()}원</td>
+                  {/* <td>{order.isCancel ? '취소됨' : '정상'}</td> */}
+                  <td>{new Date(order.orderedAt).toLocaleString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(order.orderID)}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <table className="table">
-        <thead>
-          <tr>
-            <th>주문 ID</th>
-            <th>사용자</th>
-            <th>mmid</th>
-            <th>총 금액</th>
-            {/* <th>주문 상태</th> */}
-            <th>주문 시간</th>
-            <th>취소</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(order => (
-            <tr key={order.orderID}>
-              <td>{order.orderID}</td>
-              <td>{order.name}</td>
-              <td>{order.mmid}</td>
-              <td>{order.totalPrice.toLocaleString()}원</td>
-              {/* <td>{order.isCancel ? '취소됨' : '정상'}</td> */}
-              <td>{new Date(order.orderedAt).toLocaleString()}</td>
-              <td>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(order.orderID)}
-                >
-                  삭제
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
