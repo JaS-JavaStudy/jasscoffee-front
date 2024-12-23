@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
   const [userData, setUserData] = useState({ account: "", name: "", mmid: "", fund: "" });
