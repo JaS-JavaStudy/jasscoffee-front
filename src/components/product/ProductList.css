@@ -1,9 +1,7 @@
-/* src/components/ProductList.css */
+/* src/components/product/ProductList.css */
 
 /**
  * 전역 변수 정의
- * - 일관된 색상 관리를 위한 CSS 변수 설정
- * - 프로젝트 전반에 걸쳐 재사용 가능한 색상 값들
  */
  :root {
   --primary-light: #C0C78C;  /* 밝은 주색상 - 하이라이트에 사용 */
@@ -14,47 +12,123 @@
   --transition-speed: 0.3s;  /* 기본 전환 속도 */
 }
 
-/**
- * 카드 스타일링
- * - 부드러운 그림자와 호버 효과로 상호작용성 강화
- */
-.product-card {
-  cursor: pointer;
-  transition: all var(--transition-speed) ease-in-out;
+.row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 1rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
+.col {
+  flex: 0 0 auto;
+  width: 25%; /* 4개씩 표시 */
+  padding: 0.5rem;
+}
+
+
+/**
+ * 상품 목록 콘텐츠 영역
+ */
+.product-list-content {
+  width: 100%;
+  min-height: calc(100vh - 100px); /* 네비게이션 바 높이를 제외한 높이 */
+}
+
+/**
+ * 검색 및 필터 영역 스타일링
+ */
+.search-input, 
+.category-select,
+.sort-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.search-input:focus, 
+.category-select:focus,
+.sort-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(166, 179, 125, 0.25);
+  outline: none;
+}
+
+/**
+ * 상품 카드 스타일링
+ */
+ .product-card {
+  cursor: pointer;
+  height: 100%;
+  transition: all var(--transition-speed) ease-in-out;
+  padding: 0.5rem;
+}
+
+
 .card {
+  height: 100%;
   border: none;
-  background-color: #fff;
+  background-color: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px var(--shadow);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
+
 
 .product-card:hover .card {
   transform: translateY(-5px);
   box-shadow: 0 4px 12px var(--shadow);
 }
 
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.card-img-placeholder {
-  height: 200px;
-  background-color: #f8f9fa;
-  width: 100%;
-}
-
 /**
- * 카드 이미지 플레이스홀더
- * - 이미지 로딩 전 표시될 임시 영역
+ * 이미지 컨테이너 및 이미지 스타일링
  */
+ .card-img-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 80%; /* 60%에서 80%로 증가 - 이미지가 더 커집니다 */
+  background-color: var(--background);
+  overflow: hidden;
+}
+
+.card-img-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-speed);
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.loading-placeholder,
 .card-img-placeholder {
-  height: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.loading-placeholder {
+  background-color: var(--primary-light);
+}
+
+.card-img-placeholder {
   background-color: var(--primary);
   opacity: 0.8;
   transition: opacity var(--transition-speed);
@@ -65,40 +139,25 @@
 }
 
 /**
- * 폼 요소 스타일링
- * - 포커스 상태에서 일관된 스타일 적용
+ * 카드 본문 스타일링
  */
-.search-input:focus, 
-.category-select:focus,
-.sort-select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 0.25rem rgba(166, 179, 125, 0.25);
-  outline: none;
+ .card-body {
+  padding: 0.75rem;  /* 패딩 축소 */
+  background-color: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/**
- * 카테고리 뱃지 스타일링
- * - 부드러운 배경색과 텍스트 색상으로 가독성 향상
- */
-.category-badge {
-  background-color: var(--background);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  display: inline-block;
-}
-
-/**
- * 카드 내부 텍스트 스타일링
- */
 .card-title {
   color: var(--text);
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-price {
@@ -108,16 +167,76 @@
   margin-bottom: 1rem;
 }
 
-/* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 768px) {
-  .card-img-placeholder {
-    height: 150px;
+.category-badge {
+  background-color: var(--background);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: auto;
+}
+
+/**
+ * 로딩 및 에러 상태
+ */
+.loading-spinner,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text);
+}
+@media (max-width: 1200px) {
+  .col {
+    width: 25%; /* 4개씩 표시 */
   }
-  
+}
+
+@media (max-width: 992px) {
+  .col {
+    width: 33.333333%; /* 3개씩 표시 */
+  }
+}
+
+@media (max-width: 768px) {
+  .col {
+    width: 50%; /* 2개씩 표시 */
+  }
+}
+
+@media (max-width: 576px) {
+  .col {
+    width: 100%; /* 1개씩 표시 */
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .product-list-content {
+    padding: 1rem 0;
+  }
+
+  .search-input, 
+  .category-select,
+  .sort-select {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
   .card-title {
     font-size: 1rem;
   }
-  
+
+  .card-price {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
   .category-badge {
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;

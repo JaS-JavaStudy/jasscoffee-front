@@ -1,5 +1,3 @@
-// src/components/ProductList.jsx
-
 /**
  * ProductList 컴포넌트
  * 
@@ -15,9 +13,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import './ProductList.css';
 import axios from 'axios';
 import ProductRegistrationModal from './ProductRegistrationModal';
+import './ProductList.css';
 
 function ProductList() {
   // 라우터 네비게이션 훅
@@ -31,21 +29,45 @@ function ProductList() {
   const [selectedCategory, setSelectedCategory] = useState('ALL'); // 선택된 카테고리
   const [sortBy, setSortBy] = useState('name'); // 정렬 기준
   const [showModal, setShowModal] = useState(false);
-  const [imageUrls, setImageUrls] = useState({}); // 이미지 URL 상태 추가
+  const [imageUrls, setImageUrls] = useState({}); // 이미지 URL 상태
+  const [imageLoadingStates, setImageLoadingStates] = useState({}); // 이미지 로딩 상태
+
+  // 이미지 로딩 상태 업데이트 함수
+  const updateImageLoadingState = (productId, isLoading) => {
+    setImageLoadingStates(prev => ({
+      ...prev,
+      [productId]: isLoading
+    }));
+  };
 
   // 이미지 불러오기 함수
-  const fetchImage = async (imageUrl, access) => {
+  const fetchImage = async (imageUrl, productId, access) => {
+    if (!imageUrl) return null;
+    
+    updateImageLoadingState(productId, true);
     try {
       const response = await axios.get(`http://localhost:8080${imageUrl}`, {
         headers: {
           'access': access,
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
         },
         responseType: 'blob'
       });
-      return URL.createObjectURL(response.data);
+      
+      // 이미지 타입 검증
+      const contentType = response.headers['content-type'];
+      if (!contentType || !contentType.startsWith('image/')) {
+        throw new Error('Invalid image content type');
+      }
+
+      const blob = new Blob([response.data], { type: contentType });
+      return URL.createObjectURL(blob);
     } catch (error) {
-      console.error('이미지 로딩 실패:', error);
+      console.error(`이미지 로딩 실패 (상품 ID: ${productId}):`, error);
       return null;
+    } finally {
+      updateImageLoadingState(productId, false);
     }
   };
 
@@ -60,7 +82,6 @@ function ProductList() {
           },
         });
         setProducts(response.data);
-        
         setLoading(false);
       } catch (error) {
         setError(error.message || '알 수 없는 오류 발생');
@@ -75,11 +96,14 @@ function ProductList() {
   useEffect(() => {
     const loadImages = async () => {
       const access = localStorage.getItem('access');
-      const urls = {};
+      const urls = { ...imageUrls };
       
       for (const product of products) {
-        if (product.imageUrl) {
-          urls[product.productId] = await fetchImage(product.imageUrl, access);
+        if (product.imageUrl && !urls[product.productId]) {
+          const url = await fetchImage(product.imageUrl, product.productId, access);
+          if (url) {
+            urls[product.productId] = url;
+          }
         }
       }
       
@@ -92,8 +116,11 @@ function ProductList() {
 
     // cleanup function
     return () => {
-      // 이전 Blob URL들 해제
-      Object.values(imageUrls).forEach(url => URL.revokeObjectURL(url));
+      Object.values(imageUrls).forEach(url => {
+        if (url) {
+          URL.revokeObjectURL(url);
+        }
+      });
     };
   }, [products]);
 
@@ -128,14 +155,14 @@ function ProductList() {
       }
     });
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생: {error}</div>;
+  if (loading) return <div className="loading-spinner">로딩 중...</div>;
+  if (error) return <div className="error-message">에러 발생: {error}</div>;
 
   return (
-    <div className="container py-4">
+    <div className="product-list-content py-4">
       {/* 검색 및 필터 컨트롤 영역 */}
-      <div className="row mb-4">
-        <div className="col-md-4 mb-3">
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-md-4">
           <input
             type="text"
             placeholder="메뉴 검색"
@@ -145,7 +172,7 @@ function ProductList() {
           />
         </div>
         
-        <div className="col-md-4 mb-3">
+        <div className="col-12 col-md-4">
           <select 
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -157,7 +184,7 @@ function ProductList() {
           </select>
         </div>
 
-        <div className="col-md-4 mb-3">
+        <div className="col-12 col-md-4">
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -171,13 +198,13 @@ function ProductList() {
       </div>
 
       {/* 상품 등록 버튼 */}
-      { (
-        <div className="mb-4">
+      <div className="row mb-4">
+        <div className="col">
           <Button variant="primary" onClick={() => setShowModal(true)}>
             상품 등록
           </Button>
         </div>
-      )}
+      </div>
 
       {/* 상품 등록 모달 */}
       <ProductRegistrationModal
@@ -187,23 +214,32 @@ function ProductList() {
       />
 
       {/* 상품 그리드 목록 */}
-      <div className="row g-4">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {filteredAndSortedProducts.map(product => (
-          <div key={product.productId} className="col-md-6 col-lg-4">
+          <div key={product.productId} className="col">
             <div 
               onClick={() => navigate(`/product/${product.productId}`)}
               className="product-card"
             >
               <div className="card h-100">
                 <div className="card-img-container">
-                  {imageUrls[product.productId] ? (
+                  {imageLoadingStates[product.productId] ? (
+                    <div className="loading-placeholder">이미지 로딩중...</div>
+                  ) : imageUrls[product.productId] ? (
                     <img
                       src={imageUrls[product.productId]}
                       className="card-img-top"
                       alt={product.productName}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.classList.add('img-error');
+                        e.target.parentElement.classList.add('img-error-container');
+                      }}
                     />
                   ) : (
-                    <div className="card-img-placeholder"></div>
+                    <div className="card-img-placeholder">
+                      <span>이미지 없음</span>
+                    </div>
                   )}
                 </div>
                 <div className="card-body">

@@ -7,20 +7,23 @@
  * 
  * 주요 기능:
  * 1. 상품 상세 정보 조회 및 표시
- * 2. 옵션 선택 기능
- * 3. 총 금액 계산
- * 4. 장바구니 추가 기능
+ * 2. 상품 이미지 로딩 및 표시
+ * 3. 옵션 선택 기능
+ * 4. 총 금액 계산
+ * 5. 장바구니 추가 기능
  * 
  * 상태 관리:
  * - product: 상품 상세 정보
  * - loading: 데이터 로딩 상태
  * - error: 에러 상태
  * - checkedState: 선택된 옵션 상태
+ * - imageUrl: 상품 이미지 URL
+ * - imageLoading: 이미지 로딩 상태
  */
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './ProductDetailPage.css';
 import axios from 'axios';
+import './ProductDetailPage.css';
 
 export default function ProductDetailPage() {
   // URL 파라미터 및 네비게이션
@@ -32,36 +35,86 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [checkedState, setCheckedState] = useState({});
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  /**
+   * 이미지 불러오기 함수
+   * @param {string} imageUrl - 이미지 URL
+   * @param {string} access - 접근 토큰
+   * @returns {Promise<string|null>} 이미지 Blob URL 또는 null
+   */
+  const fetchImage = async (imageUrl, access) => {
+    if (!imageUrl) return null;
+    
+    try {
+      const response = await axios.get(`http://localhost:8080${imageUrl}`, {
+        headers: {
+          'access': access,
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        },
+        responseType: 'blob'
+      });
+      
+      // 이미지 타입 검증
+      const contentType = response.headers['content-type'];
+      if (!contentType || !contentType.startsWith('image/')) {
+        throw new Error('Invalid image content type');
+      }
+
+      const blob = new Blob([response.data], { type: contentType });
+      return URL.createObjectURL(blob);
+    } catch (error) {
+      console.error('이미지 로딩 실패:', error);
+      return null;
+    }
+  };
 
   // 상품 상세 정보 조회
   useEffect(() => {
     const fetchProductDetail = async () => {
-      const access = localStorage.getItem('access'); // access 토큰 가져오기
+      const access = localStorage.getItem('access');
       try {
         const response = await axios.get(`http://localhost:8080/products/${productId}`, {
           headers: {
-            access: access, // 인증 헤더 설정
+            access: access,
           },
         });
-  
+
         const data = response.data;
         setProduct(data);
-  
+
+        // 이미지 로딩
+        if (data.imageUrl) {
+          const url = await fetchImage(data.imageUrl, access);
+          setImageUrl(url);
+        }
+        setImageLoading(false);
+
         // 옵션 선택 상태 초기화
         const initialCheckedState = {};
         data.options?.forEach(opt => {
           initialCheckedState[opt.optionName] = false;
         });
         setCheckedState(initialCheckedState);
-  
+
         setLoading(false);
       } catch (err) {
-        setError(err.response?.data?.message || err.message); // 에러 메시지 처리
+        setError(err.response?.data?.message || err.message);
         setLoading(false);
+        setImageLoading(false);
       }
     };
-  
+
     fetchProductDetail();
+
+    // cleanup function
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
   }, [productId]);
 
   /**
@@ -154,7 +207,25 @@ export default function ProductDetailPage() {
       <div className="product-detail-card">
         {/* 왼쪽: 상품 이미지 섹션 */}
         <div className="product-image-section">
-          <div className="product-image-placeholder"></div>
+          {imageLoading ? (
+            <div className="product-image-placeholder loading">
+              <span>이미지 로딩중...</span>
+            </div>
+          ) : imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={product.productName}
+              className="product-image"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+          ) : (
+            <div className="product-image-placeholder">
+              <span>이미지 없음</span>
+            </div>
+          )}
         </div>
 
         {/* 오른쪽: 상품 정보 섹션 */}

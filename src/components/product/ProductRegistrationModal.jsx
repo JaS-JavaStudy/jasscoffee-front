@@ -1,62 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
-
-const customStyles = {
-  modalHeader: {
-    borderBottom: '1px solid #dee2e6',
-    padding: '1.5rem',
-    backgroundColor: '#f8f9fa'
-  },
-  modalTitle: {
-    fontSize: '1.25rem',
-    fontWeight: '600',
-    color: '#212529'
-  },
-  modalBody: {
-    padding: '1.5rem'
-  },
-  formGroup: {
-    marginBottom: '1.5rem'
-  },
-  label: {
-    fontWeight: '500',
-    marginBottom: '0.5rem',
-    color: '#495057'
-  },
-  input: {
-    borderRadius: '0.375rem',
-    border: '1px solid #ced4da',
-    padding: '0.5rem 0.75rem',
-    transition: 'border-color 0.15s ease-in-out',
-  },
-  imagePreview: {
-    maxWidth: '100%',
-    height: 'auto',
-    borderRadius: '0.375rem',
-    marginTop: '0.75rem',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-  },
-  optionContainer: {
-    backgroundColor: '#f8f9fa',
-    padding: '1rem',
-    borderRadius: '0.375rem',
-    marginBottom: '1rem'
-  },
-  optionGroup: {
-    display: 'flex',
-    gap: '0.75rem',
-    marginBottom: '0.75rem',
-    alignItems: 'center'
-  },
-  footer: {
-    padding: '1rem 1.5rem',
-    borderTop: '1px solid #dee2e6',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: '0.75rem'
-  }
-};
+import './ProductRegistrationModal.css';
 
 function ProductRegistrationModal({ show, onHide, onProductAdded }) {
   const [productForm, setProductForm] = useState({
@@ -65,14 +10,14 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
     category: '',
     options: [{ optionName: '', optionPrice: '' }]
   });
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  const handleImageChange = (e) => {
+  const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file));
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
@@ -115,8 +60,8 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
     };
 
     formData.append('data', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
-    if (image) {
-      formData.append('image', image);
+    if (selectedFile) {
+      formData.append('image', selectedFile);
     }
 
     try {
@@ -141,117 +86,110 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
       category: '',
       options: [{ optionName: '', optionPrice: '' }]
     });
-    setImage(null);
-    setImagePreview(null);
+    setSelectedFile(null);
+    setPreview(null);
     onHide();
   };
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
-      <div style={customStyles.modalHeader}>
-        <h5 style={customStyles.modalTitle}>상품 등록</h5>
-      </div>
-      
-      <div style={customStyles.modalBody}>
-        <Form onSubmit={handleSubmit}>
-          <div style={customStyles.formGroup}>
-            <label style={customStyles.label}>상품명</label>
-            <input
-              className="form-control"
-              style={customStyles.input}
+    <Modal 
+      show={show} 
+      onHide={handleClose} 
+      dialogClassName="modal-custom"
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>상품 등록</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit} className="product-form">
+          <Form.Group className="mb-3">
+            <Form.Label>상품명</Form.Label>
+            <Form.Control
               type="text"
               value={productForm.productName}
               onChange={(e) => setProductForm({...productForm, productName: e.target.value})}
               required
             />
-          </div>
+          </Form.Group>
 
-          <div style={customStyles.formGroup}>
-            <label style={customStyles.label}>가격</label>
-            <input
-              className="form-control"
-              style={customStyles.input}
+          <Form.Group className="mb-3">
+            <Form.Label>가격</Form.Label>
+            <Form.Control
               type="number"
               value={productForm.price}
               onChange={(e) => setProductForm({...productForm, price: e.target.value})}
               required
             />
-          </div>
+          </Form.Group>
 
-          <div style={customStyles.formGroup}>
-            <label style={customStyles.label}>카테고리</label>
-            <input
-              className="form-control"
-              style={customStyles.input}
+          <Form.Group className="mb-3">
+            <Form.Label>카테고리</Form.Label>
+            <Form.Control
               type="text"
               value={productForm.category}
               onChange={(e) => setProductForm({...productForm, category: e.target.value})}
               required
             />
-          </div>
+          </Form.Group>
 
-          <div style={customStyles.formGroup}>
-            <label style={customStyles.label}>이미지</label>
-            <input
-              className="form-control"
-              style={customStyles.input}
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="미리보기"
-                style={customStyles.imagePreview}
+          <Form.Group className="image-upload-container">
+            <div className="file-input-wrapper">
+              <Form.Label className="mb-0">이미지</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
               />
+            </div>
+            {preview && (
+              <div className="preview-container">
+                <img
+                  src={preview}
+                  alt="미리보기"
+                  className="preview-image"
+                />
+              </div>
             )}
-          </div>
+          </Form.Group>
 
-          <div style={customStyles.formGroup}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <label style={customStyles.label}>옵션</label>
-              <Button 
-                variant="outline-primary" 
-                size="sm" 
-                onClick={handleAddOption}
-              >
+          <div className="mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <Form.Label className="mb-0">옵션</Form.Label>
+              <Button variant="link" onClick={handleAddOption} className="p-0">
                 + 옵션 추가
               </Button>
             </div>
-            
-            <div style={customStyles.optionContainer}>
-              {productForm.options.map((option, index) => (
-                <div key={index} style={customStyles.optionGroup}>
-                  <input
-                    className="form-control"
-                    style={{ ...customStyles.input, flex: 2 }}
-                    placeholder="옵션명"
-                    value={option.optionName}
-                    onChange={(e) => handleOptionChange(index, 'optionName', e.target.value)}
-                  />
-                  <input
-                    className="form-control"
-                    style={{ ...customStyles.input, flex: 1 }}
-                    type="number"
-                    placeholder="가격"
-                    value={option.optionPrice}
-                    onChange={(e) => handleOptionChange(index, 'optionPrice', e.target.value)}
-                  />
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => handleRemoveOption(index)}
-                  >
-                    삭제
-                  </Button>
-                </div>
-              ))}
-            </div>
+            {productForm.options.map((option, index) => (
+              <div key={index} className="option-row mb-2">
+                <Form.Control
+                  type="text"
+                  placeholder="옵션명"
+                  value={option.optionName}
+                  onChange={(e) => handleOptionChange(index, 'optionName', e.target.value)}
+                  className="option-name"
+                />
+                <Form.Control
+                  type="number"
+                  placeholder="가격"
+                  value={option.optionPrice}
+                  onChange={(e) => handleOptionChange(index, 'optionPrice', e.target.value)}
+                  className="option-price"
+                />
+                <Button
+                  variant="outline-danger"
+                  onClick={() => handleRemoveOption(index)}
+                  className="remove-option"
+                >
+                  삭제
+                </Button>
+              </div>
+            ))}
           </div>
 
-          <div style={customStyles.footer}>
-            <Button variant="secondary" onClick={handleClose}>
+          <div className="button-container">
+            <Button variant="secondary" onClick={handleClose} className="me-2">
               취소
             </Button>
             <Button variant="primary" type="submit">
@@ -259,7 +197,7 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
             </Button>
           </div>
         </Form>
-      </div>
+      </Modal.Body>
     </Modal>
   );
 }
