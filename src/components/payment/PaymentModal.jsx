@@ -73,6 +73,9 @@ const PaymentModal = ({userId, cart}) => {
       })
       alert('주문이 완료되었습니다.')
 
+      // 로컬스토리지에서 cart 삭제
+      localStorage.removeItem("cart");
+
       // useRef로 참조한 버튼 클릭
       if (closeButtonRef.current) {
         closeButtonRef.current.click() 
