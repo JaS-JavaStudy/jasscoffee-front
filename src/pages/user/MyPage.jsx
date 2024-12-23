@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
+import { getUser } from "../../apis/userapis/getuser";
+import { useNavigate } from 'react-router-dom';
+
 
 const MyPage = () => {
   const [userData, setUserData] = useState({ account: "", name: "", mmid: "", fund: "" });
@@ -14,9 +17,21 @@ const MyPage = () => {
     newPassword: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
+  
 
   // 유저 정보 가져오기
   useEffect(() => {
+    
+    const checkUser = async () => {
+      const isUser = await getUser()
+
+      if (isUser == null) {
+        alert("Login을 하셔야해요.")
+        navigate('/')
+      }
+    }
+
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("access");
@@ -39,9 +54,9 @@ const MyPage = () => {
         console.error("There was an error fetching the user data!", error);
       }
     };
-
+    checkUser()
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
    // 주문 내역 가져오기
    useEffect(() => {
@@ -67,6 +82,10 @@ const MyPage = () => {
 
     fetchOrders();
   }, []);
+
+  useEffect(()=> {
+    getUser()
+  })
 
   // 개인정보 수정 모드로 전환
   const handleEditClick = () => {
@@ -315,10 +334,10 @@ const MyPage = () => {
           </div>
 
           <div>
-            <button onClick={handleDeleteAccount} className="btn btn-danger me-2">
+            <button onClick={handleDeleteAccount} className="cart-button">
               회원 탈퇴
             </button>
-            <button onClick={handlePasswordChangeClick} className="btn btn-warning">
+            <button onClick={handlePasswordChangeClick} className="cart-button">
               비밀번호 변경
             </button>
           </div>

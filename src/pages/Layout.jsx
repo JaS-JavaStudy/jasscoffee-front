@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // 새로 만든 CSS 파일
 import './LayoutNavbar.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Outlet, NavLink } from 'react-router-dom';
