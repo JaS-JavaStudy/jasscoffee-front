@@ -69,6 +69,7 @@ function LoginPage() {
         if (valid) {
             // 로그인 함수 호출
             Login(id, password)
+            localStorage.removeItem('cart');
         }
     }
     /////////////////////////////////////////////////////////

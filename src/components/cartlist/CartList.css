@@ -4,15 +4,6 @@
  * 전역 변수 정의
  * - 장바구니 컴포넌트에서 사용되는 공통 색상 및 스타일 변수
  */
- :root {
-  --primary-light: #C0C78C;    /* 밝은 주색상 */
-  --primary: #A6B37D;          /* 주색상 */
-  --background: #FEFAE0;       /* 배경색 */
-  --text: #B99470;            /* 텍스트 색상 */
-  --danger: #dc3545;          /* 경고/삭제 색상 */
-  --border-color: #eee;       /* 경계선 색상 */
-  --shadow: rgba(0, 0, 0, 0.1); /* 그림자 색상 */
-}
 
 /**
  * 장바구니 컨테이너
@@ -112,7 +103,7 @@
 .item-title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: var(--text);
+  color:#B99470;  
   margin-bottom: 0.5rem;
 }
 
@@ -167,7 +158,7 @@
 }
 
 .quantity-button:hover {
-  background-color: var(--primary-light);
+  background-color: #C0C78C; 
 }
 
 .quantity-display {

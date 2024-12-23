@@ -36,7 +36,7 @@ function CartList({closeCartModal}) {
     const newCart = cartItems.map((item, i) => {
       if (i === index) {
         const basePrice = item.price + 
-          (item.selectedOptions?.reduce((sum, opt) => sum + (opt.optionPrice || 0), 0) || 0);
+          (item.selectedOptions?.reduce((sum, opt) => sum + (opt.optionPrice*opt.quantity || 0), 0) || 0);
         return {
           ...item,
           quantity: newQuantity,
@@ -130,7 +130,7 @@ function CartList({closeCartModal}) {
                           + {option.optionName}
                           {option.optionPrice > 0 && 
                             ` (${option.optionPrice.toLocaleString()}원)`
-                          }
+                          } + {option.quantity}
                         </div>
                       ))}
                     </div>
