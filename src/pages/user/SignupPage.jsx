@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';  // useRef를 사용하기 위해 추가
+import { useState, useRef } from 'react';  // useRef를 사용하기 위해 추가
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../apis/userapis/signup';
 import axios from 'axios';
@@ -154,11 +154,13 @@ function SignupPage() {
     };
 
     return (
-        <div className="page-container">
-            <div className="card">
+        <div className="signup-container">
+            <div className="signup-card">
+                <hr />
                 <h1>JASS-COFFEE</h1>
                 <hr />
                 <form onSubmit={handleSubmit}>
+                    {/* Name 입력 */}
                     <input
                         ref={nameRef}
                         className={error && name.trim() === '' ? 'error' : ''}
@@ -167,21 +169,29 @@ function SignupPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <div className="input-container">
+    
+                    {/* Username 입력 + Check 버튼 */}
+                    <div className="input-container with-button">
                         <input
                             ref={usernameRef}
                             className={usernameError ? 'error' : ''}
                             type="text"
-                            placeholder="Username"
+                            placeholder="ID"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                        <button type="button" onClick={checkAccount}>
+                        <button
+                            type="button"
+                            onClick={checkAccount}
+                            className="check-button inside"
+                        >
                             Check
                         </button>
                     </div>
                     {usernameError && <div className="error-text">{usernameError}</div>}
-                    {usernameSuccess && <div className='success-text'>{usernameSuccess}</div>}
+                    {usernameSuccess && <div className="success-text">{usernameSuccess}</div>}
+    
+                    {/* Password 입력 */}
                     <input
                         ref={passwordRef}
                         className={error && password.length < 8 ? 'error' : ''}
@@ -190,29 +200,42 @@ function SignupPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <div className="input-container">
-
+    
+                    {/* MMID 입력 + Check 버튼 */}
+                    <div className="input-container with-button">
                         <input
                             ref={mmidRef}
-                            className={mmidError || error && mmid.trim() === '' ? 'error' : ''}
+                            className={
+                                mmidError || (error && mmid.trim() === '') ? 'error' : ''
+                            }
                             type="text"
                             placeholder="MMID"
                             value={mmid}
                             onChange={(e) => setMmid(e.target.value)}
                         />
-                        <button type="button" onClick={checkMmid}>Check</button>
+                        <button
+                            type="button"
+                            onClick={checkMmid}
+                            className="check-button inside"
+                        >
+                            Check
+                        </button>
                     </div>
                     {mmidError && <div className="error-text">{mmidError}</div>}
                     {mmidSuccess && <div className="success-text">{mmidSuccess}</div>}
+    
                     <hr />
                     <h1>Refund Account</h1>
+                    <hr />
+    
+                    {/* Bank 선택 */}
                     <select
-                        ref={bankRef}  // ref를 연결
+                        ref={bankRef}
                         className={error && bank === '' ? 'error' : ''}
                         value={bank}
                         onChange={(e) => setBank(e.target.value)}
                     >
-                        <option value="">Bank</option>
+                        <option value="">Select Bank</option>
                         <option value="카카오뱅크">카카오뱅크</option>
                         <option value="신한은행">신한은행</option>
                         <option value="KB국민은행">KB국민은행</option>
@@ -234,21 +257,28 @@ function SignupPage() {
                         <option value="제주은행">제주은행</option>
                         <option value="광주은행">광주은행</option>
                     </select>
+    
+                    {/* Account 입력 */}
                     <input
                         ref={fundRef}
                         className={error && fund.trim() === '' ? 'error' : ''}
                         type="text"
-                        placeholder="Account"
+                        placeholder="Account Number"
                         value={fund}
                         onChange={(e) => setFund(e.target.value)}
                     />
                     {error && <div className="error-text">{error}</div>}
-
-                    <button type="submit">Sign up</button>
+    
+                    {/* 제출 버튼 */}
+                    <button type="submit" className="submit-button">
+                        Sign up
+                    </button>
                 </form>
             </div>
         </div>
     );
+    
+    
 }
 
 export default SignupPage;

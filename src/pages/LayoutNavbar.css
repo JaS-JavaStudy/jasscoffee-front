@@ -26,11 +26,14 @@
   .custom-navbar {
     /* 그라데이션 배경 */
     background: linear-gradient(90deg, var(--navbar-bg-start) 0%, var(--navbar-bg-end) 100%);
+    width: 100%; /* 네비게이션 바가 화면 전체 너비를 차지 */
     padding: calc(var(--spacing-unit) * 1.25) 0;
     margin-bottom: calc(var(--spacing-unit) * 2);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    /* transition: background var(--transition-speed) ease-in-out; */
-  }
+    display: flex; /* 내용을 정렬하기 위한 Flexbox */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 좌우 끝으로 내용 배치 */
+}
   
   /* 브랜드 & nav-link 공통 스타일 */
   .custom-navbar .navbar-brand,
@@ -91,6 +94,7 @@
     font-weight: 500;
     border: 2px solid transparent;
     transition: all var(--transition-speed) ease-in-out;
+    margin: calc(var(--spacing-unit) * 0.5);
   }
   
   .cart-button:hover {

@@ -2,21 +2,36 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { getUser } from "../../apis/userapis/getuser";
+import { useNavigate } from 'react-router-dom';
+
 
 const MyPage = () => {
   const [userData, setUserData] = useState({ account: "", name: "", mmid: "", fund: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [orders, setOrders] = useState([])
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
+  
 
   // 유저 정보 가져오기
   useEffect(() => {
+    
+    const checkUser = async () => {
+      const isUser = await getUser()
+
+      if (isUser == null) {
+        alert("Login을 하셔야해요.")
+        navigate('/')
+      }
+    }
+
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("access");
@@ -39,9 +54,38 @@ const MyPage = () => {
         console.error("There was an error fetching the user data!", error);
       }
     };
-
+    checkUser()
     fetchUserData();
+  }, [navigate]);
+
+   // 주문 내역 가져오기
+   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("access");
+        if (!token) {
+          console.error("Access token not found!");
+          return;
+        }
+
+        const response = await axios.get("http://localhost:8080/api/orderlist/my", {
+          headers: {
+            access: `${token}`,
+          },
+        });
+
+        setOrders(response.data); // 주문 데이터를 상태로 저장
+      } catch (error) {
+        console.error("There was an error fetching the order list!", error);
+      }
+    };
+
+    fetchOrders();
   }, []);
+
+  useEffect(()=> {
+    getUser()
+  })
 
   // 개인정보 수정 모드로 전환
   const handleEditClick = () => {
@@ -163,7 +207,6 @@ const MyPage = () => {
     <div className="container my-5">
       <h1 className="text-center mb-4">My Page</h1>
 
-      {/* 비밀번호 변경 모드가 아닐 때 */}
       {!isChangingPassword ? (
         <>
           <div className="card mb-4">
@@ -208,7 +251,8 @@ const MyPage = () => {
                       className="form-control"
                       value={editData.bank}
                       onChange={handleInputChange}
-                      required>
+                      required
+                    >
                       <option value="">은행을 선택하세요</option>
                       <option value="카카오뱅크">카카오뱅크</option>
                       <option value="신한은행">신한은행</option>
@@ -231,7 +275,6 @@ const MyPage = () => {
                       <option value="제주은행">제주은행</option>
                       <option value="광주은행">광주은행</option>
                       <option value="우체국은행">우체국은행</option>
-                      {/* 필요에 따라 은행 목록 추가 가능 */}
                     </select>
                   </div>
                   <div className="mb-3">
@@ -260,17 +303,46 @@ const MyPage = () => {
             </div>
           </div>
 
+          <div className="card mt-4">
+            <div className="card-body">
+              <h2 className="card-title">주문 내역</h2>
+              {orders.length === 0 ? (
+                <p>주문 내역이 없습니다.</p>
+              ) : (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>총 가격</th>
+                      <th>주문 상태</th>
+                      <th>주문 날짜</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orders.map((order, index) => (
+                      <tr key={order.orderID}>
+                        <td>{index + 1}</td>
+                        <td>{order.totalPrice} 원</td>
+                        <td>{order.isCancel ? "취소됨" : "완료"}</td>
+                        <td>{new Date(order.orderedAt).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+
           <div>
-            <button onClick={handleDeleteAccount} className="btn btn-danger me-2">
+            <button onClick={handleDeleteAccount} className="cart-button">
               회원 탈퇴
             </button>
-            <button onClick={handlePasswordChangeClick} className="btn btn-warning">
+            <button onClick={handlePasswordChangeClick} className="cart-button">
               비밀번호 변경
             </button>
           </div>
         </>
       ) : (
-        // 비밀번호 변경 모드일 때
         <div className="card">
           <div className="card-body">
             <h2 className="card-title">비밀번호 변경</h2>
@@ -311,6 +383,7 @@ const MyPage = () => {
       )}
     </div>
   );
+
 };
 
 export default MyPage;

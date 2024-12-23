@@ -13,7 +13,7 @@
  * 5. 반응형 그리드 레이아웃
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductList.css'
 import axios from 'axios';
