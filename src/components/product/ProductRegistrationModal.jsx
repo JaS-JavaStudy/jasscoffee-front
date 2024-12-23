@@ -4,11 +4,35 @@ import axios from 'axios';
 import './ProductRegistrationModal.css';
 
 function ProductRegistrationModal({ show, onHide, onProductAdded }) {
+  const categories = [
+    '시즌한정',
+    '커피·티',
+    '논커피 라떼',
+    '프라페·스무디',
+    '밀크쉐이크',
+    '에이드·주스',
+    '티',
+    '디저트',
+    'MD상품'
+  ];
+
+  const defaultOptions = [
+    { key: 'isIce', label: '얼음', price: 0 },
+    { key: 'shot', label: '샷 추가', price: 500 },
+    { key: 'pearl', label: '타피오카 펄', price: 500 },
+    { key: 'milk', label: '우유', price: 500 },
+    { key: 'syrup', label: '시럽', price: 300 },
+    { key: 'vanilaSyrup', label: '바닐라 시럽', price: 300 },
+    { key: 'hazelnutSyrup', label: '헤이즐넛 시럽', price: 300 },
+    { key: 'isWhip', label: '휘핑크림', price: 500 }
+  ];
+
   const [productForm, setProductForm] = useState({
     productName: '',
     price: '',
     category: '',
-    options: [{ optionName: '', optionPrice: '' }]
+    defaultOptions: [],
+    customOptions: []
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -21,50 +45,70 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
     }
   };
 
-  const handleAddOption = () => {
-    setProductForm({
-      ...productForm,
-      options: [...productForm.options, { optionName: '', optionPrice: '' }]
+  const handleDefaultOptionChange = (option) => {
+    setProductForm(prev => {
+      const exists = prev.defaultOptions.some(opt => opt.key === option.key);
+      const updatedOptions = exists
+        ? prev.defaultOptions.filter(opt => opt.key !== option.key)
+        : [...prev.defaultOptions, option];
+      return { ...prev, defaultOptions: updatedOptions };
     });
   };
 
-  const handleRemoveOption = (index) => {
-    const newOptions = productForm.options.filter((_, i) => i !== index);
-    setProductForm({ ...productForm, options: newOptions });
+  const handleAddCustomOption = () => {
+    setProductForm(prev => ({
+      ...prev,
+      customOptions: [...prev.customOptions, { optionName: '', optionPrice: '' }]
+    }));
   };
 
-  const handleOptionChange = (index, field, value) => {
-    const newOptions = productForm.options.map((option, i) => {
-      if (i === index) {
-        return { ...option, [field]: value };
-      }
-      return option;
-    });
-    setProductForm({ ...productForm, options: newOptions });
+  const handleRemoveCustomOption = (index) => {
+    setProductForm(prev => ({
+      ...prev,
+      customOptions: prev.customOptions.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleCustomOptionChange = (index, field, value) => {
+    setProductForm(prev => ({
+      ...prev,
+      customOptions: prev.customOptions.map((option, i) => 
+        i === index ? { ...option, [field]: value } : option
+      )
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
-    const productData = {
-      productName: productForm.productName,
-      price: parseInt(productForm.price),
-      category: productForm.category,
-      options: productForm.options
-        .filter(opt => opt.optionName && opt.optionPrice)
-        .map(opt => ({
-          optionName: opt.optionName,
-          optionPrice: parseInt(opt.optionPrice)
-        }))
-    };
-
-    formData.append('data', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
-    if (selectedFile) {
-      formData.append('image', selectedFile);
-    }
-
     try {
+      // Combine default and custom options
+      const allOptions = [
+        ...productForm.defaultOptions.map(opt => ({
+          optionName: opt.label,
+          optionPrice: opt.price
+        })),
+        ...productForm.customOptions
+          .filter(opt => opt.optionName && opt.optionPrice)
+          .map(opt => ({
+            optionName: opt.optionName,
+            optionPrice: parseInt(opt.optionPrice)
+          }))
+      ];
+
+      const productData = {
+        productName: productForm.productName,
+        price: parseInt(productForm.price),
+        category: productForm.category,
+        options: allOptions
+      };
+
+      formData.append('data', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
+      if (selectedFile) {
+        formData.append('image', selectedFile);
+      }
+
       const access = localStorage.getItem('access');
       await axios.post('http://localhost:8080/products', formData, {
         headers: {
@@ -72,10 +116,12 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
           'Content-Type': 'multipart/form-data'
         }
       });
+
       onProductAdded();
       handleClose();
     } catch (error) {
-      alert('상품 등록 실패: ' + (error.message || '알 수 없는 오류'));
+      console.error('Error:', error);
+      alert('상품 등록 실패: ' + (error.response?.data?.message || error.message || '알 수 없는 오류'));
     }
   };
 
@@ -84,7 +130,8 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
       productName: '',
       price: '',
       category: '',
-      options: [{ optionName: '', optionPrice: '' }]
+      defaultOptions: [],
+      customOptions: []
     });
     setSelectedFile(null);
     setPreview(null);
@@ -126,12 +173,16 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
 
           <Form.Group className="mb-3">
             <Form.Label>카테고리</Form.Label>
-            <Form.Control
-              type="text"
+            <Form.Select
               value={productForm.category}
               onChange={(e) => setProductForm({...productForm, category: e.target.value})}
               required
-            />
+            >
+              <option value="">카테고리 선택</option>
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="image-upload-container">
@@ -154,32 +205,58 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
             )}
           </Form.Group>
 
+          <Form.Group className="mb-3">
+            <Form.Label>기본 옵션</Form.Label>
+            <div className="default-options-container">
+              {defaultOptions.map((option) => (
+                <div key={option.key} className="default-option-item">
+                  <Form.Check
+                    type="checkbox"
+                    id={`option-${option.key}`}
+                    label={
+                      <span>
+                        {option.label}
+                        {option.price > 0 && <span className="option-price"> (+{option.price}원)</span>}
+                      </span>
+                    }
+                    checked={productForm.defaultOptions.some(opt => opt.key === option.key)}
+                    onChange={() => handleDefaultOptionChange(option)}
+                  />
+                </div>
+              ))}
+            </div>
+          </Form.Group>
+
           <div className="mb-3">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <Form.Label className="mb-0">옵션</Form.Label>
-              <Button variant="link" onClick={handleAddOption} className="p-0">
+              <Form.Label className="mb-0">추가 옵션</Form.Label>
+              <Button 
+                variant="link" 
+                onClick={handleAddCustomOption} 
+                className="p-0"
+              >
                 + 옵션 추가
               </Button>
             </div>
-            {productForm.options.map((option, index) => (
-              <div key={index} className="option-row mb-2">
+            {productForm.customOptions.map((option, index) => (
+              <div key={index} className="option-row">
                 <Form.Control
                   type="text"
                   placeholder="옵션명"
                   value={option.optionName}
-                  onChange={(e) => handleOptionChange(index, 'optionName', e.target.value)}
+                  onChange={(e) => handleCustomOptionChange(index, 'optionName', e.target.value)}
                   className="option-name"
                 />
                 <Form.Control
                   type="number"
                   placeholder="가격"
                   value={option.optionPrice}
-                  onChange={(e) => handleOptionChange(index, 'optionPrice', e.target.value)}
+                  onChange={(e) => handleCustomOptionChange(index, 'optionPrice', e.target.value)}
                   className="option-price"
                 />
                 <Button
                   variant="outline-danger"
-                  onClick={() => handleRemoveOption(index)}
+                  onClick={() => handleRemoveCustomOption(index)}
                   className="remove-option"
                 >
                   삭제
