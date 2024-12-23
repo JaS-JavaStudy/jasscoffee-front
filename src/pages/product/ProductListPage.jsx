@@ -7,8 +7,6 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import ProductList from '../../components/product/ProductList';
-import Modal from '../../components/cartlist/Modal';
-import CartList from '../../components/cartlist/CartList';
 import './ProductListPage.css';
 import Modal from '../../components/cartlist/Modal'; // 남기추가
 import CartList from '../../components/cartlist/CartList'; // 남기추가
@@ -21,20 +19,6 @@ export default function ProductListPage() {
 
   return (
     <div className="page-container">
-      {/* 상단 네비게이션 바 */}
-      <nav className="navbar navbar-light custom-navbar">
-        <div className="container d-flex justify-content-between align-items-center">
-          <span className="navbar-brand">JASS COFFEE</span>
-          <button 
-            className="cart-button" 
-            onClick={openCartModal}
-            aria-label="장바구니 열기"
-          >
-            장바구니 보기
-          </button>
-        </div>
-      </nav>
-      
       {/* 메인 콘텐츠 영역 */}
       <main className="container">
         <ProductList />

@@ -17,6 +17,8 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { getUser } from '../../apis/userapis/getuser';import ProductRegistrationModal from './ProductRegistrationModal';
 import './ProductList.css';
+import { isStaff } from '../../apis/userapis/isStaff'; // isStaff API import
+
 
 function ProductList() {
   // 라우터 네비게이션 훅
@@ -32,6 +34,8 @@ function ProductList() {
   const [showModal, setShowModal] = useState(false);
   const [imageUrls, setImageUrls] = useState({}); // 이미지 URL 상태
   const [imageLoadingStates, setImageLoadingStates] = useState({}); // 이미지 로딩 상태
+  // 관리자 상태 추가 12.23 현호
+  const [isStaffStatus, setIsStaffStatus] = useState(false);
 
   // 이미지 로딩 상태 업데이트 함수
   const updateImageLoadingState = (productId, isLoading) => {
@@ -75,20 +79,18 @@ function ProductList() {
   // 초기 데이터 로딩
   useEffect(() => {
 
-
-
     const checkUser = async () => {
-      const isUser = await getUser()
-
+      const isUser = await getUser();
+      const staffCheck = await isStaff(); // isStaff API 호출
+    
       if (isUser == null) {
-        alert("Login을 하셔야해요.")
-        navigate('/')
+        alert("Login을 하셔야해요.");
+        navigate('/');
+      } else {
+        setIsStaffStatus(staffCheck);
       }
     }
-    
-
-
-    
+        
     const fetchProducts = async () => {
       const access = localStorage.getItem('access');
       try {
@@ -214,14 +216,15 @@ function ProductList() {
       </div>
 
       {/* 상품 등록 버튼 */}
-      <div className="row mb-4">
-        <div className="col">
-          <Button variant="primary" onClick={() => setShowModal(true)}>
-            상품 등록
-          </Button>
-        </div>
-      </div>
-
+        {isStaffStatus && (
+          <div className="row mb-4">
+            <div className="col">
+              <Button variant="primary" onClick={() => setShowModal(true)}>
+                상품 등록
+              </Button>
+            </div>
+          </div>
+        )}
       {/* 상품 등록 모달 */}
       <ProductRegistrationModal
         show={showModal}

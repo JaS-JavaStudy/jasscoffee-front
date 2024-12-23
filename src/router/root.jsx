@@ -34,7 +34,7 @@ const root = createBrowserRouter([
     path: "/",
     // 가장 바깥을 Layout으로 감싸고,
     // 그 안에 자식 라우트(children)로 각 페이지를 매핑합니다.
-    element: <RootLayout />,
+    element: <Layout />,
     children: [
       {
         // index 라우트 (= "/") 
