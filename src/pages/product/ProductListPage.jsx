@@ -11,6 +11,8 @@ import './ProductListPage.css';
 import Modal from '../../components/cartlist/Modal'; // 남기추가
 import CartList from '../../components/cartlist/CartList'; // 남기추가
 
+import ProductCarousel from './ProductCarousel';
+
 export default function ProductListPage() {
   const [isCartModalOpen, setCartModalOpen] = useState(false);
 
@@ -21,6 +23,7 @@ export default function ProductListPage() {
     <div className="page-container">
       {/* 메인 콘텐츠 영역 */}
       <main className="container">
+      <ProductCarousel />
         <ProductList />
       </main>
 
