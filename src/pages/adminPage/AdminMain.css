@@ -53,7 +53,7 @@
   } */
   
   .btn-secondary {
-    background-color: var(--accent-color-jass);
+    background-color: var(--primary-color-jass);
     border-color: var(--accent-color-jass);
     color: var(--text-light-jass);
     transition: all var(--transition-speed-jass) ease;

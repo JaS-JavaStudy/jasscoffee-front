@@ -38,7 +38,7 @@
   }
   
   .menu-table thead {
-    background-color: var(--accent-color-jass);
+    background-color: var(---primary-light-jass);
   }
   
   .menu-table th {
@@ -81,7 +81,7 @@
   }
   
   .btn-warning {
-    background-color: var(--accent-color-jass);
+    background-color: var(--primary-light-jass);
     border: none;
     color: var(--text-light-jass);
   }
