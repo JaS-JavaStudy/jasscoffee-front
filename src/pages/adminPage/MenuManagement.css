@@ -1,104 +1,93 @@
-/* MenuManagement.css */
-:root {
-    --page-bg: #FEFAE0;
-    --primary-color: #A6B37D;
-    --secondary-color: #B99470;
-    --accent-color: #C0C78C;
-    --text-dark: #333333;
-    --text-light: #FFFFFF;
-    --spacing-unit: 1rem;
-    --transition-speed: 0.3s;
-    --container-max-width: 1200px;
-  }
+
   
   .page-wrapper {
     min-height: 100vh;
-    background-color: var(--page-bg);
+    background-color: var(--page-bg-jass);
   }
   
   .container {
-    max-width: var(--container-max-width);
+    max-width: var(--container-max-width-jass);
     margin: 0 auto;
-    padding: 0 calc(var(--spacing-unit) * 1.5);
+    padding: 0 calc(var(--spacing-unit-jass) * 1.5);
   }
   
   .menu-management-container {
     min-height: 100vh;
-    background-color: var(--page-bg);
-    padding: calc(var(--spacing-unit) * 2);
+    background-color: var(--page-bg-jass);
+    padding: calc(var(--spacing-unit-jass) * 2);
   }
   
   .menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: calc(var(--spacing-unit) * 2);
+    margin-bottom: calc(var(--spacing-unit-jass) * 2);
   }
   
   .menu-header h2 {
-    color: var(--secondary-color);
+    color: var(--secondary-color-jass);
     font-weight: 700;
     margin: 0;
   }
   
   .menu-table {
-    background-color: var(--text-light);
+    background-color: var(--text-light-jass);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
   }
   
   .menu-table thead {
-    background-color: var(--accent-color);
+    background-color: var(--accent-color-jass);
   }
   
   .menu-table th {
-    color: var(--secondary-color);
+    color: var(--secondary-color-jass);
     font-weight: 600;
-    padding: calc(var(--spacing-unit) * 0.8);
+    padding: calc(var(--spacing-unit-jass) * 0.8);
     text-align: center;
     border: none;
   }
   
   .menu-table td {
-    color: var(--secondary-color);
-    padding: calc(var(--spacing-unit) * 0.8);
+    color: var(--secondary-color-jass);
+    padding: calc(var(--spacing-unit-jass) * 0.8);
     text-align: center;
     vertical-align: middle;
   }
   
   .menu-table tbody tr:hover {
     background-color: rgba(192, 199, 140, 0.1);
-    transition: background-color var(--transition-speed) ease;
+    transition: background-color var(--transition-speed-jass) ease;
   }
   
   .btn {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     font-weight: 500;
-    transition: all var(--transition-speed) ease;
+    transition: all var(--transition-speed-jass) ease;
   }
   
   .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color-jass);
     border: none;
-    color: var(--text-light);
+    color: var(--text-light-jass);
   }
   
   .btn-primary:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-jass);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(185, 148, 112, 0.2);
   }
   
   .btn-warning {
-    background-color: var(--accent-color);
+    background-color: var(--accent-color-jass);
     border: none;
-    color: var(--text-light);
+    color: var(--text-light-jass);
   }
   
   .btn-warning:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-jass);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(185, 148, 112, 0.2);
   }
@@ -106,7 +95,7 @@
   .btn-danger {
     background-color: #dc3545;
     border: none;
-    color: var(--text-light);
+    color: var(--text-light-jass);
   }
   
   .btn-danger:hover {
@@ -133,14 +122,14 @@
   
   @media (max-width: 992px) {
     .menu-management-container {
-      padding: var(--spacing-unit);
+      padding: var(--spacing-unit-jass);
     }
   }
   
   @media (max-width: 768px) {
     .menu-header {
       flex-direction: column;
-      gap: var(--spacing-unit);
+      gap: var(--spacing-unit-jass);
       text-align: center;
     }
   
@@ -155,7 +144,7 @@
   
   @media (max-width: 576px) {
     .menu-management-container {
-      padding: calc(var(--spacing-unit) * 0.5);
+      padding: calc(var(--spacing-unit-jass) * 0.5);
     }
     
     .btn-sm {

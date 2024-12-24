@@ -287,7 +287,7 @@ export default function ProductDetailPage() {
 
   // 메인 렌더링
   return (
-    <div className="container">
+    <div className="productdetailcontainer">
       {/* 뒤로가기 버튼 */}
       <button
         onClick={() => navigate('/product')}

@@ -1,42 +1,46 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+/* 기준root */
+:root {
+  --page-bg-jass: #FEFAE0;
+  --navbar-bg-start-jass: #c0c78c;
+  --navbar-bg-end-jass: #b6bd86;
+  --primary-color-jass: #A6B37D;
+  --secondary-color-jass: #B99470;
+  --text-light-jass: #FFFFFF;
+  --spacing-unit-jass: 1rem;
+  --transition-speed-jass: 0.3s;
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+  --text-dark-jass: #333333;
+  --navbar-bg-jass: #C0C78C;
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+  --primary-v2-jass: #4B6A4D;
+  --primary-light-v2-jass: #9ABC9F;
+  --background-v2-jass: #F8FAF6;
+  --text-v2-jass: #2C3E2E;
+  --surface-jass: #FFFFFF;
+  --shadow-v2-jass: rgba(75, 106, 77, 0.1);
+  --primary-dark-jass: #2C4A2E;
+  --text-secondary-jass: #5C6D5E;
+  --border-jass: #E2E8E3;
+  --error-jass: #DC3545;
+  --success-jass: #28A745;
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+  --container-max-width-jass: 1200px;
+  --primary-light-jass: #C0C78C;
+  --primary-jass: #A6B37D;
+  --background-jass: #FEFAE0;
+  --text-jass: #B99470;
+  --shadow-jass: rgba(0, 0, 0, 0.1);
 
-.card {
-  padding: 2em;
-}
+  --spacing-xs-jass: 0.25rem;
+  --spacing-sm-jass: 0.5rem;
+  --spacing-md-jass: 1rem;
+  --spacing-lg-jass: 1.5rem;
+  --spacing-xl-jass: 2rem;
 
-.read-the-docs {
-  color: #888;
+  --radius-sm-jass: 0.5rem;
+  --radius-md-jass: 1rem;
+  --radius-lg-jass: 1.5rem;
+
+  --transition-fast-jass: 150ms ease;
+  --transition-normal-jass: 300ms ease;
 }
