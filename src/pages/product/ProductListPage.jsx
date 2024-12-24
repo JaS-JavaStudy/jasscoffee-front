@@ -5,29 +5,20 @@
  * 네비게이션 바와 상품 목록을 포함합니다.
  */
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import ProductList from '../../components/product/ProductList';
-import './ProductListPage.css';
-import Modal from '../../components/cartlist/Modal'; // 남기추가
-import CartList from '../../components/cartlist/CartList'; // 남기추가
+import styles from './ProductListPage.module.css';
+
+import ProductCarousel from './ProductCarousel';
 
 export default function ProductListPage() {
-  const [isCartModalOpen, setCartModalOpen] = useState(false);
-
-  const openCartModal = () => setCartModalOpen(true); // 남기추가
-  const closeCartModal = () => setCartModalOpen(false); // 남기추가
-
   return (
-    <div className="page-container">
+    <div className={styles.ProductListContainer}>
       {/* 메인 콘텐츠 영역 */}
-      <main className="container">
+      <main className={styles.ProductContainer}>
+      <ProductCarousel />
         <ProductList />
       </main>
-
-      {/* 장바구니 모달 */}
-      <Modal isOpen={isCartModalOpen} onClose={closeCartModal}>
-        <CartList closeCartModal={closeCartModal}/>
-      </Modal>
     </div>
   );
 }

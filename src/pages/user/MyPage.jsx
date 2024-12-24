@@ -22,13 +22,14 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // MyPage에 진입 시 전역 스타일 추가
-    document.body.style.overflow = "hidden";
+    const shouldScroll = orders.length > 5; // 주문 내역이 5개 이상이면 스크롤 필요
+    document.body.style.overflow = shouldScroll ? "auto" : "hidden";
+  
     return () => {
       // MyPage에서 벗어날 때 스타일 복구
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [orders]);
   
 
   // 유저 정보 가져오기
@@ -186,6 +187,8 @@ const MyPage = () => {
     setIsChangingPassword(false);
   };
 
+  
+
   // 회원 탈퇴
   const handleDeleteAccount = async () => {
     try {
@@ -219,6 +222,8 @@ const MyPage = () => {
       console.error("회원 탈퇴 중 오류가 발생했습니다.", error);
       alert("회원 탈퇴에 실패했습니다.");
     }
+
+    
   };
   return (
   
@@ -334,34 +339,36 @@ const MyPage = () => {
               주문 내역 카드 섹션
              ------------------- */}
           <div className={`${styles.mypageCard} card mt-4`}>
-            <div className={`${styles.mypageCardBody} card-body`}>
-              <h2 className={`${styles.mypageCardTitle} card-title`}>주문 내역</h2>
-              {orders.length === 0 ? (
-                <p>주문 내역이 없습니다.</p>
-              ) : (
-                <table className={`${styles.mypageTable} table`}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>총 가격</th>
-                      <th>주문 상태</th>
-                      <th>주문 날짜</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order, index) => (
-                      <tr key={order.orderID}>
-                        <td>{index + 1}</td>
-                        <td>{order.totalPrice} 원</td>
-                        <td>{order.isCancel ? "취소됨" : "완료"}</td>
-                        <td>{new Date(order.orderedAt).toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
+  <div className={`${styles.mypageCardBody} card-body`}>
+    <h2 className={`${styles.mypageCardTitle} card-title`}>주문 내역</h2>
+    {orders.length === 0 ? (
+      <p>주문 내역이 없습니다.</p>
+    ) : (
+      <div className={styles.orderListContainer}>
+        <table className={`${styles.mypageTable} table`}>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>총 가격</th>
+              <th>주문 상태</th>
+              <th>주문 날짜</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) => (
+              <tr key={order.orderID}>
+                <td>{index + 1}</td>
+                <td>{order.totalPrice} 원</td>
+                <td>{order.isCancel ? "취소됨" : "완료"}</td>
+                <td>{new Date(order.orderedAt).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</div>
 
           {/* -------------------
               하단 버튼 섹션

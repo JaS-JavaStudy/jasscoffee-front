@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 수직 스크롤 허용 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+}
+.payButton {
+  background-color: #C0C78C;
+  color: #FFFFFF;
+  padding: 1rem calc(1rem * 1.25);
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  margin-top: 5rem;
+  display: block; /* 버튼을 블록 요소로 변경 */
+  margin: 0 auto; /* 수평 중앙 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  width:80%;
+}
+
+.payButton:hover {
+  background-color: #B99470;
+  transform: translateY(-2px);
+}
+
+.btnContainer{
+  margin-top:2rem;
+}
+body{
+  background-color: #FEFAE0;
+    font-family: 'Arial', sans-serif; /* 부드러운 기본 폰트 */
+    line-height: 1.6; 
+}

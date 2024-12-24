@@ -81,8 +81,8 @@ function CartList({closeCartModal}) {
   // 빈 장바구니 상태 처리
   if (cartItems.length === 0) {
     return (
-      <div className="empty-cart">
-        <p className="empty-message">장바구니가 비어있습니다.</p>
+      <div className={styles.emptyCart}>
+        <p className={styles.emptyMessage}>장바구니가 비어있습니다.</p>
         <button
           onClick={closeCartModal}
           className="continue-shopping-button"
@@ -95,6 +95,7 @@ function CartList({closeCartModal}) {
 
   // 주문 페이지 이동
   const goPayment = () =>{
+    closeCartModal();
     navigate('/payment')
   }
 
