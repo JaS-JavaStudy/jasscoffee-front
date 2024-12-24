@@ -4,78 +4,63 @@ import axios from 'axios';
 import './ProductRegistrationModal.css';
 
 function ProductEditModal({ show, onHide, onProductEdited, productId }) {
+  // 상품 카테고리 목록
   const categories = [
-    '시즌한정',
-    '커피·티',
-    '논커피 라떼',
-    '프라페·스무디',
-    '밀크쉐이크',
-    '에이드·주스',
-    '티',
-    '디저트',
-    'MD상품'
+    '시즌한정', '커피·티', '논커피 라떼', '프라페·스무디',
+    '밀크쉐이크', '에이드·주스', '티', '디저트', 'MD상품'
   ];
 
-  const defaultOptions = [
-    { key: 'isIce', label: 'isIce', price: 0, isToggle: true },
-    { key: 'isLarge', label: 'Large Size', price: 500, isToggle: true },
-    { key: 'extraShot', label: 'Extra Shot', price: 500 },
-    { key: 'vanillaSyrup', label: 'Vanilla Syrup', price: 300 },
-    { key: 'hazelnutSyrup', label: 'Hazelnut Syrup', price: 300 },
-    { key: 'caramelSyrup', label: 'Caramel Syrup', price: 300 },
-    { key: 'extraTeaBag', label: 'Extra Tea Bag', price: 500 },
-    { key: 'addWhippedCream', label: 'Add Whipped Cream', price: 500 },
-    { key: 'addPearl', label: 'Add Pearl', price: 500 }
+  // 상품 옵션의 기본값
+  const defaultCustomOptions = [
+    { optionName: 'isIce', optionPrice: '0', key: 'isIce', isToggle: true },
+    { optionName: 'Large Size', optionPrice: '500', key: 'isLarge', isToggle: true },
+    { optionName: 'Extra Shot', optionPrice: '500', key: 'extraShot' },
+    { optionName: 'Vanilla Syrup', optionPrice: '300', key: 'vanillaSyrup' },
+    { optionName: 'Hazelnut Syrup', optionPrice: '300', key: 'hazelnutSyrup' },
+    { optionName: 'Caramel Syrup', optionPrice: '300', key: 'caramelSyrup' },
+    { optionName: 'Extra Tea Bag', optionPrice: '500', key: 'extraTeaBag' },
+    { optionName: 'Add Whipped Cream', optionPrice: '500', key: 'addWhippedCream' },
+    { optionName: 'Add Pearl', optionPrice: '500', key: 'addPearl' }
   ];
 
+  // 상품 폼의 상태를 관리하는 state
   const [productForm, setProductForm] = useState({
-    productName: '',
-    price: '',
-    category: '',
-    defaultOptions: [],
-    customOptions: []
+    productName: '',  // 상품명
+    price: '',        // 가격
+    category: '',     // 카테고리
+    customOptions: defaultCustomOptions // 사용자 정의 옵션
   });
+  
+  // 이미지 파일 선택과 미리보기 상태를 관리하는 state
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
+  // 상품 데이터 및 이미지를 불러오는 useEffect 훅
   useEffect(() => {
     const fetchProductData = async () => {
-      if (productId && show) {
+      if (productId && show) {  // 제품 ID와 모달이 열린 상태일 때만 실행
         try {
-          const access = localStorage.getItem('access');
+          const access = localStorage.getItem('access');  // 사용자 access 토큰 가져오기
           const response = await axios.get(`http://localhost:8080/products/${productId}`, {
             headers: { access }
           });
           
-          const product = response.data;
+          const product = response.data;  // API에서 반환된 상품 데이터
           
-          // 기존 옵션들을 defaultOptions와 customOptions로 분류
-          const defaultOptionKeys = defaultOptions.map(opt => opt.key);
-          const existingDefaultOptions = [];
-          const customOptions = [];
-
-          product.options?.forEach(option => {
-            const defaultOption = defaultOptions.find(opt => opt.key === option.key);
-            if (defaultOption) {
-              existingDefaultOptions.push(defaultOption);
-            } else {
-              customOptions.push({
-                optionName: option.optionName,
-                optionPrice: option.optionPrice,
-                key: option.key
-              });
-            }
-          });
-          
+          // 상품 폼 상태 설정
           setProductForm({
             productName: product.productName,
             price: product.price,
             category: product.category,
-            defaultOptions: existingDefaultOptions,
-            customOptions: customOptions
+            customOptions: product.options.map(option => ({
+              optionName: option.optionName,
+              optionPrice: option.optionPrice.toString(),
+              key: option.key,
+              isToggle: option.isToggle
+            }))
           });
 
-          // 이미지 미리보기 설정
+          // 이미지가 있다면 미리보기 설정
           if (product.imageUrl) {
             const imageResponse = await axios.get(`http://localhost:8080${product.imageUrl}`, {
               headers: { access },
@@ -84,7 +69,7 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
             const blob = new Blob([imageResponse.data], { 
               type: imageResponse.headers['content-type'] 
             });
-            setPreview(URL.createObjectURL(blob));
+            setPreview(URL.createObjectURL(blob));  // 미리보기 URL 생성
           }
         } catch (error) {
           console.error('상품 데이터 로드 실패:', error);
@@ -95,31 +80,24 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
 
     fetchProductData();
 
+    // 컴포넌트 언마운트 시 미리보기 URL 해제
     return () => {
       if (preview) {
         URL.revokeObjectURL(preview);
       }
     };
-  }, [productId, show]);
+  }, [productId, show]);  // 상품 ID나 모달 상태가 바뀔 때마다 호출
 
+  // 파일 선택 핸들러
   const handleFileSelect = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0];  // 선택한 파일
     if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file));
+      setSelectedFile(file);  // 파일 상태 업데이트
+      setPreview(URL.createObjectURL(file));  // 미리보기 URL 생성
     }
   };
 
-  const handleDefaultOptionChange = (option) => {
-    setProductForm(prev => {
-      const exists = prev.defaultOptions.some(opt => opt.key === option.key);
-      const updatedOptions = exists
-        ? prev.defaultOptions.filter(opt => opt.key !== option.key)
-        : [...prev.defaultOptions, option];
-      return { ...prev, defaultOptions: updatedOptions };
-    });
-  };
-
+  // 새로운 옵션 추가 핸들러
   const handleAddCustomOption = () => {
     setProductForm(prev => ({
       ...prev,
@@ -127,6 +105,7 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
     }));
   };
 
+  // 옵션 삭제 핸들러
   const handleRemoveCustomOption = (index) => {
     setProductForm(prev => ({
       ...prev,
@@ -134,6 +113,7 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
     }));
   };
 
+  // 옵션 값 변경 핸들러
   const handleCustomOptionChange = (index, field, value) => {
     setProductForm(prev => ({
       ...prev,
@@ -141,7 +121,7 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
         if (i === index) {
           return {
             ...option,
-            [field]: value,
+            [field]: value,  // 해당 필드 업데이트
             key: field === 'optionName' ? value.replace(/\s+/g, '').toLowerCase() : option.key
           };
         }
@@ -150,54 +130,45 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
     }));
   };
 
+  // 모달 닫기 핸들러
   const handleClose = () => {
     setProductForm({
       productName: '',
       price: '',
       category: '',
-      defaultOptions: [],
-      customOptions: []
+      customOptions: defaultCustomOptions
     });
     setSelectedFile(null);
     setPreview(null);
-    onHide();
+    onHide();  // 부모 컴포넌트의 onHide 함수 호출
   };
 
+  // 상품 수정 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
     try {
-      // Combine default and custom options
-      const allOptions = [
-        ...productForm.defaultOptions.map(opt => ({
-          optionName: opt.label,
-          optionPrice: opt.price,
-          isToggle: opt.isToggle || false,
-          key: opt.key
-        })),
-        ...productForm.customOptions
-          .filter(opt => opt.optionName && opt.optionPrice)
-          .map(opt => ({
-            optionName: opt.optionName,
-            optionPrice: parseInt(opt.optionPrice),
-            key: opt.key
-          }))
-      ];
-
       const productData = {
         productName: productForm.productName,
         price: parseInt(productForm.price),
         category: productForm.category,
-        options: allOptions
+        options: productForm.customOptions.map(opt => ({
+          optionName: opt.optionName,
+          optionPrice: parseInt(opt.optionPrice),
+          isToggle: opt.isToggle || false,
+          key: opt.key
+        }))
       };
 
+      // FormData에 상품 데이터와 이미지를 첨부
       formData.append('data', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
       if (selectedFile) {
         formData.append('image', selectedFile);
       }
 
       const access = localStorage.getItem('access');
+      // 상품 수정 API 호출
       await axios.put(`http://localhost:8080/products/${productId}`, formData, {
         headers: {
           access,
@@ -205,8 +176,8 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
         }
       });
 
-      onProductEdited();
-      handleClose();
+      onProductEdited();  // 부모 컴포넌트에게 상품 수정 완료 알림
+      handleClose();  // 모달 닫기
     } catch (error) {
       console.error('Error:', error);
       alert('상품 수정 실패: ' + (error.response?.data?.message || error.message || '알 수 없는 오류'));
@@ -280,32 +251,9 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>기본 옵션</Form.Label>
-            <div className="default-options-container">
-              {defaultOptions.map((option) => (
-                <div key={option.key} className="default-option-item">
-                  <Form.Check
-                    type="checkbox"
-                    id={`option-${option.key}`}
-                    label={
-                      <span>
-                        {option.label}
-                        {option.price > 0 && <span className="option-price"> (+{option.price}원)</span>}
-                        {option.isToggle && <span className="toggle-indicator"> (토글)</span>}
-                      </span>
-                    }
-                    checked={productForm.defaultOptions.some(opt => opt.key === option.key)}
-                    onChange={() => handleDefaultOptionChange(option)}
-                  />
-                </div>
-              ))}
-            </div>
-          </Form.Group>
-
           <div className="mb-3">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <Form.Label className="mb-0">추가 옵션</Form.Label>
+              <Form.Label className="mb-0">옵션</Form.Label>
               <Button 
                 variant="link" 
                 onClick={handleAddCustomOption}
@@ -331,7 +279,7 @@ function ProductEditModal({ show, onHide, onProductEdited, productId }) {
                   className="option-price"
                 />
                 <Button
-                  variant="outline-danger"
+                  variant="outline-primary"
                   onClick={() => handleRemoveCustomOption(index)}
                   className="remove-option"
                 >
