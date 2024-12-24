@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import './ProductRegistrationModal.css';
 
-function ProductRegistrationModal({ show, onHide, onProductAdded }) {
+function ProductEditModal({ show, onHide, onProductEdited, productId }) {
   const categories = [
     '시즌한정',
     '커피·티',
@@ -32,11 +32,75 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
     productName: '',
     price: '',
     category: '',
-    defaultOptions:  defaultOptions,
+    defaultOptions: [],
     customOptions: []
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      if (productId && show) {
+        try {
+          const access = localStorage.getItem('access');
+          const response = await axios.get(`http://localhost:8080/products/${productId}`, {
+            headers: { access }
+          });
+          
+          const product = response.data;
+          
+          // 기존 옵션들을 defaultOptions와 customOptions로 분류
+          const defaultOptionKeys = defaultOptions.map(opt => opt.key);
+          const existingDefaultOptions = [];
+          const customOptions = [];
+
+          product.options?.forEach(option => {
+            const defaultOption = defaultOptions.find(opt => opt.key === option.key);
+            if (defaultOption) {
+              existingDefaultOptions.push(defaultOption);
+            } else {
+              customOptions.push({
+                optionName: option.optionName,
+                optionPrice: option.optionPrice,
+                key: option.key
+              });
+            }
+          });
+          
+          setProductForm({
+            productName: product.productName,
+            price: product.price,
+            category: product.category,
+            defaultOptions: existingDefaultOptions,
+            customOptions: customOptions
+          });
+
+          // 이미지 미리보기 설정
+          if (product.imageUrl) {
+            const imageResponse = await axios.get(`http://localhost:8080${product.imageUrl}`, {
+              headers: { access },
+              responseType: 'blob'
+            });
+            const blob = new Blob([imageResponse.data], { 
+              type: imageResponse.headers['content-type'] 
+            });
+            setPreview(URL.createObjectURL(blob));
+          }
+        } catch (error) {
+          console.error('상품 데이터 로드 실패:', error);
+          alert('상품 정보를 불러오는데 실패했습니다.');
+        }
+      }
+    };
+
+    fetchProductData();
+
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [productId, show]);
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
@@ -134,18 +198,18 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
       }
 
       const access = localStorage.getItem('access');
-      await axios.post('http://localhost:8080/products', formData, {
+      await axios.put(`http://localhost:8080/products/${productId}`, formData, {
         headers: {
           access,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      onProductAdded();
+      onProductEdited();
       handleClose();
     } catch (error) {
       console.error('Error:', error);
-      alert('상품 등록 실패: ' + (error.response?.data?.message || error.message || '알 수 없는 오류'));
+      alert('상품 수정 실패: ' + (error.response?.data?.message || error.message || '알 수 없는 오류'));
     }
   };
 
@@ -158,7 +222,7 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>상품 등록</Modal.Title>
+        <Modal.Title>상품 수정</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit} className="product-form">
@@ -282,7 +346,7 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
               취소
             </Button>
             <Button variant="primary" type="submit">
-              등록
+              수정
             </Button>
           </div>
         </Form>
@@ -291,4 +355,4 @@ function ProductRegistrationModal({ show, onHide, onProductAdded }) {
   );
 }
 
-export default ProductRegistrationModal;
+export default ProductEditModal;
