@@ -1,12 +1,5 @@
-
-
-/* 테마 폰트 컬러 */
-.text-jasscoffee {
-  color: var(--text-jass);
-}
-
 /* 테마 버튼 */
-.btn-jasscoffee {
+.paymentBtnJass {
   background-color: var(--primary-color-jass);
   color: var(--text-light-jass);
   padding: var(--spacing-unit-jass) calc(var(--spacing-unit-jass) * 1.25);
@@ -18,7 +11,8 @@
   margin-top: var(--spacing-unit-jass);
 }
 
-.btn-jasscoffee:hover {
+.paymentBtnJass:hover {
   background-color: var(--secondary-color-jass);
   transform: translateY(-2px);
 }
+

@@ -1,0 +1,23 @@
+/* 주문 상품 정보 */
+.paymentInfo{
+  min-height: 50vh;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 15px;
+}
+.paymentInfoOptions {
+  color: gray;
+}
+
+.paymentInfoImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 15px;
+  border: 1px solid gray;
+  background-color: lightgray;
+}
+
+/* 테마 폰트 컬러 */
+.paymentTextJass {
+  color: var(--text-jass);
+}

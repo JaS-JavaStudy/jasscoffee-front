@@ -1,11 +1,12 @@
-import React, { useRef } from 'react'
-import './PaymentModal.css'
+import React, { useRef, useState } from 'react'
+import styles from './PaymentModal.module.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const PaymentModal = ({userId, cart}) => {
   const navigate = useNavigate()
 
+  const [adminAccount, setadminAccount] = useState('1234567890')
   const closeButtonRef = useRef(null)
 
   const totalPrice = cart.reduce((acc, cur) => { return acc += cur.totalPrice}, 0) // 총 결제 금액
@@ -108,24 +109,37 @@ const PaymentModal = ({userId, cart}) => {
       console.error('주문 상세 저장에 실패하였습니다.', error)
     }
   }
+  // 계좌 복사 기능
+  const copyAdminAccount = () => {
+    navigator.clipboard.writeText(adminAccount)
+        .then(() => {
+          alert('계좌가 복사되었습니다!')
+        })
+        .catch((err) => {
+          console.error('계좌 복사 실패:', err)
+        })
+  }
   return (
     <div className="modal fade" id="payment-modal" tabIndex="-1" aria-labelledby="modalLabel" aria-hidden="true">
       <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-3 text-jasscoffee" id="modalLabel">입금 정보</h1>
+            <h1 className={`modal-title fs-3 ${styles.paymentTextJass}`} id="modalLabel">입금 정보</h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ref={closeButtonRef}></button>
           </div>
           <div className="modal-body">
             <p className='fs-5 text-secondary'>아래 계좌로 입금 후 결제 완료 버튼을 눌러주세요.</p>
             <div className='d-flex flex-column'>
               <span className='fs-4'>받는 사람 : 관리자</span>
-              <span className='fs-4'>계좌 번호 : 1234-567890-12 (Jass은행)</span>
+              <span className='fs-4'>
+                계좌 번호 : {adminAccount} (Jass은행) 
+                <button className='btn fs-6' onClick={copyAdminAccount}><i class="bi bi-clipboard"></i> 계좌복사</button>
+              </span>
               <span className='fs-4'>결제 금액 : {totalPrice}원</span>
             </div>
           </div>
           <div className="modal-footer">
-            <button type="button" onClick={createOrder} className="btn-jasscoffee">결제 완료</button>
+            <button type="button" onClick={createOrder} className={`${styles.paymentBtnJass}`}>결제 완료</button>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PaymentInfo from '../../components/payment/PaymentInfo'
 import PaymentModal from '../../components/payment/PaymentModal'
-import './PaymentPage.css'
+import styles from './PaymentPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { getUser } from "../../apis/userapis/getuser";
@@ -54,7 +54,7 @@ const PaymentPage = () => {
           cart={cart}
         />
         <div className='btn-area d-grid'>
-          <button className='btn-jasscoffee' data-bs-toggle="modal" data-bs-target="#payment-modal">
+          <button className={`${styles.paymentBtnJass}`} data-bs-toggle="modal" data-bs-target="#payment-modal">
             입금하기
           </button>
         </div>
