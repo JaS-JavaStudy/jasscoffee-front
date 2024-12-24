@@ -335,7 +335,31 @@ export default function ProductDetailPage() {
           {product.options?.length > 0 && (
             <div className="options-section">
               <h2 className="options-title">옵션 선택</h2>
-              {product.options.map((option) => (
+              {product.options
+                .sort((a, b) => {
+                  const order = [
+                    "isIce", 
+                    "Large Size", 
+                    "Extra Shot", 
+                    "Vanilla Syrup", 
+                    "Hazelnut Syrup", 
+                    "Caramel Syrup", 
+                    "Extra Tea Bag", 
+                    "Add Whipped Cream", 
+                    "Add Pearl"
+                  ];
+                  const indexA = order.indexOf(a.optionName);
+                  const indexB = order.indexOf(b.optionName);
+                  
+                  // 지정된 옵션 순서에 없는 경우 뒤로 정렬
+                  if (indexA === -1 && indexB === -1) return 0;
+                  if (indexA === -1) return 1;
+                  if (indexB === -1) return -1;
+
+                  // 지정된 순서에 따라 정렬
+                  return indexA - indexB;
+                })
+              .map((option) => (
                 <div 
                   key={option.optionName} 
                   className="option-item"
