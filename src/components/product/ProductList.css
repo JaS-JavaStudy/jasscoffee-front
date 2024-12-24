@@ -96,8 +96,8 @@
  
  .product-list__admin-btn {
   padding: 0.75rem 1.5rem;
-  background: #2563eb;
-  color: white;
+  background: #C0C78C;
+  color: rgb(22, 10, 10);
   border: none;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -132,7 +132,7 @@
  
  .product-card__image-container {
   position: relative;
-  padding-bottom: 75%;
+  padding-bottom: 100%;
   background: #f3f4f6;
  }
  
@@ -205,13 +205,13 @@
  }
  
  .product-card__edit-btn {
-  background: #f3f4f6;
+  background: #c0c78c;
   color: #374151;
   border: 1px solid #e5e7eb;
  }
  
  .product-card__delete-btn {
-  background: #fee2e2;
+  background: #fcb5b5;
   color: #dc2626;
   border: 1px solid #fecaca;
  }
