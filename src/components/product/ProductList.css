@@ -1,16 +1,4 @@
-/* src/components/product/ProductList.css */
 
-/**
- * 전역 변수 정의
- */
- :root {
-  --primary-light: #C0C78C;  /* 밝은 주색상 - 하이라이트에 사용 */
-  --primary: #A6B37D;        /* 주색상 - 주요 요소에 사용 */
-  --background: #FEFAE0;     /* 배경색상 - 부드러운 베이지 */
-  --text: #B99470;          /* 텍스트 색상 - 따뜻한 브라운 */
-  --shadow: rgba(0, 0, 0, 0.1); /* 그림자 색상 */
-  --transition-speed: 0.3s;  /* 기본 전환 속도 */
-}
 
 .row {
   --bs-gutter-x: 1rem;
@@ -50,7 +38,7 @@
 .search-input:focus, 
 .category-select:focus,
 .sort-select:focus {
-  border-color: var(--primary);
+  border-color: var(--primary-jass);
   box-shadow: 0 0 0 0.25rem rgba(166, 179, 125, 0.25);
   outline: none;
 }
@@ -61,7 +49,7 @@
  .product-card {
   cursor: pointer;
   height: 100%;
-  transition: all var(--transition-speed) ease-in-out;
+  transition: all var(--transition-speed-jass) ease-in-out;
   padding: 0.5rem;
 }
 
@@ -72,8 +60,8 @@
   background-color: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  box-shadow: 0 2px 8px var(--shadow-jass);
+  transition: transform var(--transition-speed-jass), box-shadow var(--transition-speed-jass);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -82,7 +70,7 @@
 
 .product-card:hover .card {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px var(--shadow);
+  box-shadow: 0 4px 12px var(--shadow-jass);
 }
 
 /**
@@ -92,7 +80,7 @@
   position: relative;
   width: 100%;
   padding-bottom: 80%; /* 60%에서 80%로 증가 - 이미지가 더 커집니다 */
-  background-color: var(--background);
+  background-color: var(--background-jass);
   overflow: hidden;
 }
 
@@ -103,7 +91,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-speed);
+  transition: transform var(--transition-speed-jass);
 }
 
 .card:hover .card-img-top {
@@ -125,13 +113,13 @@
 }
 
 .loading-placeholder {
-  background-color: var(--primary-light);
+  background-color: var(--primary-light-jass);
 }
 
 .card-img-placeholder {
-  background-color: var(--primary);
+  background-color: var(--primary-jass);
   opacity: 0.8;
-  transition: opacity var(--transition-speed);
+  transition: opacity var(--transition-speed-jass);
 }
 
 .card:hover .card-img-placeholder {
@@ -150,7 +138,7 @@
 }
 
 .card-title {
-  color: var(--text);
+  color: var(--text-jass);
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -168,8 +156,8 @@
 }
 
 .category-badge {
-  background-color: var(--background);
-  color: var(--text);
+  background-color: var(--background-jass);
+  color: var(--text-jass);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -185,7 +173,7 @@
 .error-message {
   text-align: center;
   padding: 2rem;
-  color: var(--text);
+  color: var(--text-jass);
 }
 @media (max-width: 1200px) {
   .col {

@@ -1,29 +1,11 @@
-/* src/pages/LoginPage.css */
 
-/**
- * 전역 변수 정의
- * - 프로젝트의 일관된 디자인을 위한 CSS 변수
- */
- :root {
-    --page-bg: #FEFAE0;         /* 페이지 배경색 */
-    --navbar-bg: #C0C78C;       /* 네비게이션 바 배경색 */
-    --primary-color: #A6B37D;   /* 주요 강조색 */
-    --secondary-color: #B99470; /* 보조 강조색 */
-    --text-light: #FFFFFF;      /* 밝은 텍스트 색상 */
-    --text-dark: #333333;       /* 어두운 텍스트 색상 */
-    --spacing-unit: 1rem;       /* 기본 여백 단위 */
-    --transition-speed: 0.3s;   /* 기본 전환 속도 */
-  }
-  
-  /**
-   * 페이지 컨테이너 스타일링
-   * - 최소 높이 보장으로 짧은 콘텐츠에도 일관된 레이아웃 유지
-   */
-  .page-container {
+
+
+.page-container {
     min-height: 100vh;
     width: 100vw;
-    background-color: var(--page-bg);
-    padding-bottom: var(--spacing-unit);
+    background-color: var(--page-bg-jass);
+    padding-bottom: var(--spacing-unit-jass);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,15 +19,15 @@
    * - 카드 레이아웃으로 메인 콘텐츠를 묶어줌
    */
   .card {
-    background-color: var(--text-light);
-    padding: var(--spacing-unit);
+    background-color: var(--text-light-jass);
+    padding: var(--spacing-unit-jass);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
     text-align: center;
-    margin: var(--spacing-unit) ;
-    transition: transform var(--transition-speed) ease-in-out;
+    margin: var(--spacing-unit-jass) ;
+    transition: transform var(--transition-speed-jass) ease-in-out;
   }
   
   .card:hover {
@@ -58,34 +40,34 @@
   }
   .card h3 {
     font-size: 1.5rem;
-    color: var(--text-dark);
+    color: var(--text-dark-jass);
   }
   
   .card button {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.25);
+    background-color: var(--primary-color-jass);
+    color: var(--text-light-jass);
+    padding: var(--spacing-unit-jass) calc(var(--spacing-unit-jass) * 1.25);
     border-radius: 8px;
     border: none;
     font-weight: 500;
-    transition: all var(--transition-speed) ease-in-out;
+    transition: all var(--transition-speed-jass) ease-in-out;
     cursor: pointer;
-    margin-top: var(--spacing-unit);
+    margin-top: var(--spacing-unit-jass);
   }
   
   .card button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-jass);
     transform: translateY(-2px);
   }
   
   .card form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-unit);
+    gap: var(--spacing-unit-jass);
   }
   
   .card input {
-    padding: var(--spacing-unit);
+    padding: var(--spacing-unit-jass);
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
@@ -93,12 +75,12 @@
   
   .card input:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--primary-color-jass);
   }
   
   .card a {
-    margin-top: var(--spacing-unit);
-    color: var(--primary-color);
+    margin-top: var(--spacing-unit-jass);
+    color: var(--primary-color-jass);
     text-decoration: none;
     font-size: 1rem;
   }
@@ -118,7 +100,7 @@
     }
   
     button {
-      padding: var(--spacing-unit) var(--spacing-unit);
+      padding: var(--spacing-unit-jass) var(--spacing-unit-jass);
       font-size: 0.9rem;
     }
   
@@ -134,14 +116,14 @@
   /* 다크 모드 지원 */
   @media (prefers-color-scheme: dark) {
     :root {
-      --page-bg: #1a1a1a;
-      --text-dark: #ffffff;
-      --primary-color: #8d9f7b;
-      --secondary-color: #b69f7d;
+      --page-bg-jass: #1a1a1a;
+      --text-dark-jass: #ffffff;
+      --primary-color-jass: #8d9f7b;
+      --secondary-color-jass: #b69f7d;
     }
   
     .page-container {
-      color: var(--text-dark);
+      color: var(--text-dark-jass);
     }
   
     .card {
@@ -150,7 +132,7 @@
   
     .card h3,
     .card a {
-      color: var(--text-light);
+      color: var(--text-light-jass);
     }
   
     .card input {
@@ -160,15 +142,15 @@
     }
   
     .card input:focus {
-      border-color: var(--primary-color);
+      border-color: var(--primary-color-jass);
     }
   
     .card button {
-      background-color: var(--primary-color);
+      background-color: var(--primary-color-jass);
     }
   
     .card button:hover {
-      background-color: var(--secondary-color);
+      background-color: var(--secondary-color-jass);
     }
   }
   

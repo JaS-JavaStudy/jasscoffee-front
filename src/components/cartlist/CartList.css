@@ -25,7 +25,7 @@
 }
 
 .empty-message {
-  color: var(--text);
+  color: var(--text-jass);
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
@@ -38,19 +38,19 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  background-color: var(--primary);
+  background-color: var(--primary-jass);
   border-radius: 8px;
 }
 
 .cart-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--text);
+  color: var(--text-jass);
   margin: 1rem;
 }
 
 .clear-button {
-  color: var(--text);
+  color: var(--text-jass);
   font-weight: bold;
   background-color: rgba(0, 0, 0);
   border: none;
@@ -83,7 +83,7 @@
   border-radius: 12px;
   padding: 1.2rem;
   
-  box-shadow: 0 2px 8px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow-jass);
 }
 
 
@@ -134,7 +134,7 @@
   align-items: center;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-jass);
 }
 
 .quantity-controls {
@@ -144,8 +144,8 @@
 }
 
 .quantity-button {
-  background-color: var(--background);
-  color: var(--text);
+  background-color: var(--background-jass);
+  color: var(--text-jass);
   width: 32px;
   height: 32px;
   border: none;
@@ -169,14 +169,14 @@
 
 .item-total {
   font-weight: bold;
-  color: var(--text);
+  color: var(--text-jass);
 }
 
 /**
  * 삭제 버튼
  */
 .remove-button {
-  color: var(--danger);
+  color: var(--error-jass);
   background: none;
   border: none;
   padding: 0.5rem;
@@ -192,7 +192,7 @@
  * 총 금액 섹션
  */
 .total-section {
-  background-color: var(--background);
+  background-color: var(--background-jass);
   padding: 1.5rem;
   border-radius: 12px;
   margin-top: 2rem;
@@ -206,13 +206,13 @@
 
 .total-label {
   font-size: 1.1rem;
-  color: var(--text);
+  color: var(--text-jass);
 }
 
 .total-amount {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--text);
+  color: var(--text-jass);
 }
 
 /**
@@ -235,25 +235,25 @@
 }
 
 .continue-shopping-button {
-  background-color: var(--primary);
+  background-color: var(--primary-jass);
   color: white;
   border: none;
 }
 
 .continue-shopping-button:hover {
-  background-color: var(--text);
+  background-color: var(--text-jass);
   transform: translateY(-2px);
 }
 
 .order-button {
-  background-color: var(--primary);
+  background-color: var(--primary-jass);
   color: white;
   border: none;
   flex-grow: 1;
 }
 
 .order-button:hover {
-  background-color: var(--text);
+  background-color: var(--text-jass);
   transform: translateY(-2px);
 }
 

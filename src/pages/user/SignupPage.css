@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--page-bg, #f4f4f9);
+    background-color: var(--page-bg-jass, #f4f4f9);
     padding: 20px;
 }
 
@@ -33,7 +33,7 @@
 
 .signup-container input:focus,
 .signup-container select:focus {
-    border-color: var(--primary-color, #4CAF50);
+    border-color: var(--primary-color-jass, #4CAF50);
     outline: none;
 }
 
@@ -62,7 +62,7 @@
     top: 39%;
     right: 5px;
     transform: translateY(-50%);
-    background-color: var(--primary-color, #007BFF);
+    background-color: var(--primary-color-jass, #007BFF);
     color: white;
     border: none;
     border-radius: 4px;
@@ -73,14 +73,14 @@
 }
 
 .check-button.inside:hover {
-    background-color: var(--secondary-color, #0056b3);
+    background-color: var(--secondary-color-jass, #0056b3);
 }
 
 /* Submit Button */
 .submit-button {
     width: 100%;
     padding: 10px;
-    background-color: var(--primary-color, #4CAF50);
+    background-color: var(--primary-color-jass, #4CAF50);
     color: white;
     border: none;
     border-radius: 4px;
@@ -90,7 +90,7 @@
 }
 
 .submit-button:hover {
-    background-color: var(--secondary-color, #45a049);
+    background-color: var(--secondary-color-jass, #45a049);
 }
 
 /* Error and Success Text */
