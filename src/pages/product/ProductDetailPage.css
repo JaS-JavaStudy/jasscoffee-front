@@ -1,7 +1,6 @@
-
 /* Container */
 .productdetailcontainer {
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   padding: var(--spacing-xl-jass);
 }
@@ -48,8 +47,8 @@
 
 /* Product Detail Card */
 .product-detail-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-xl-jass);
   margin-top: var(--spacing-xl-jass);
   padding: var(--spacing-xl-jass);
@@ -64,6 +63,9 @@
   border-radius: var(--radius-md-jass);
   overflow: hidden;
   background-color: var(--background-jass);
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .product-image-wrapper {
@@ -107,7 +109,6 @@
   flex-direction: column;
   gap: var(--spacing-xl-jass);
 }
-
 .product-title {
   margin: 0 0 var(--spacing-sm-jass);
   color: var(--text-jass);
