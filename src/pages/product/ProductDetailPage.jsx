@@ -348,23 +348,41 @@ export default function ProductDetailPage() {
                         : '무료'}
                     </span>
                   </div>
-                  <div className="quantity-controls">
-                    <button
-                      onClick={() => handleQuantityChange(option.optionName, 'DECREMENT')}
-                      className="quantity-button"
-                      disabled={!optionQuantities[option.optionName]}
-                      aria-label="수량 감소">-
-                      </button>
-                      <span className="quantity-display">
-                        {optionQuantities[option.optionName] || 0}
-                      </span>
-                      <button
-                        onClick={() => handleQuantityChange(option.optionName, 'INCREMENT')}
-                        className="quantity-button"
-                        aria-label="수량 증가"
-                      >
-                        +
-                      </button>
+                    <div className="quantity-controls">
+                      {/* "isIce"나 "Large Size"의 경우 체크박스를 보여줌 */}
+                      {option.optionName === "isIce" || option.optionName === "Large Size" ? (
+                        <div className="checkbox-controls">
+                          <input
+                            type="checkbox"
+                            id="isice-checkbox"
+                            onChange={(e) => handleQuantityChange(option.optionName, e.target.checked ? 'INCREMENT' : 'DECREMENT')}
+                            checked={!!optionQuantities[option.optionName]} // 체크 상태는 수량이 0이 아닌 경우로 판단
+                            aria-label={`옵션 ${option.optionName} 체크`}
+                          />
+                        </div>
+                      ) : (
+                        /* 기본 수량 증가/감소 버튼 */
+                        <>
+                          <button
+                            onClick={() => handleQuantityChange(option.optionName, 'DECREMENT')}
+                            className="quantity-button"
+                            disabled={!optionQuantities[option.optionName]}
+                            aria-label="수량 감소"
+                          >
+                            -
+                          </button>
+                          <span className="quantity-display">
+                            {optionQuantities[option.optionName] || 0}
+                          </span>
+                          <button
+                            onClick={() => handleQuantityChange(option.optionName, 'INCREMENT')}
+                            className="quantity-button"
+                            aria-label="수량 증가"
+                          >
+                            +
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}
