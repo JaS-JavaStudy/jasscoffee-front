@@ -1,0 +1,115 @@
+/* MyPage.module.css */
+
+/* MyPage 전용 컨테이너 */
+
+
+/* MyPage 전용 컨테이너 */
+.mypageContainer {
+  margin-top: 1rem;
+  margin-bottom: 8rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 컨테이너에서 스크롤 방지 */
+  box-sizing: border-box;
+}
+  
+  /* 로딩 화면 */
+  .loadingScreen {
+    font-size: 2rem;
+    color: #b99470;
+    text-align: center;
+  }
+  
+  /* 헤더 */
+  .mypageHeader {
+    margin-bottom: 1.5rem;
+    font-size: 5rem;
+    font-weight: bold;
+    color: #B99470;
+    margin-top:0.5rem;
+  }
+  
+  /* 카드 스타일 */
+  .mypageCard {
+    width: 80%;
+    max-width: 800px; /* 최대 크기 제한 */
+    /* margin-bottom: 1rem; */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+  
+  .mypageCardBody {
+    padding: 1rem;
+  }
+  
+  .mypageCardTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #B99470;
+  }
+  
+  /* 버튼 스타일 */
+  .mypageButton {
+    background-color: #A6B37D;
+    color: #FFFFFF;
+    padding: 0.65rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .mypageButton:hover {
+    background-color: #B99470;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+  
+  .mypageButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(185, 148, 112, 0.3);
+  }
+  
+  /* 테이블 스타일 */
+  .mypageTable {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: collapse;
+  }
+  
+  .mypageTable th,
+  .mypageTable td {
+    text-align: left;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+  }
+  
+  .mypageTable th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+  }
+  
+  .mypageTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 768px) {
+  .mypageCardBody {
+    padding: 1rem;
+  }
+  
+  .mypageButton {
+    font-size: 0.9rem;
+  }
+  }
+  
+  body{
+    background-color: #FEFAE0;
+  }

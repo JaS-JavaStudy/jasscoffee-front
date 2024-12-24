@@ -10,9 +10,9 @@
  * 3. 개별/전체 상품 삭제
  * 4. 총 결제 금액 계산
  */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CartList.css';
+import styles from '../cartlist/CartList.module.css';
 
 function CartList({closeCartModal}) {
   // 상태 및 네비게이션 관리
@@ -99,111 +99,83 @@ function CartList({closeCartModal}) {
   }
 
   return (
-    <div className="cart-container">
-      {/* 장바구니 헤더 */}
-      <div className="cart-header">
-        <h2 className="cart-title">장바구니</h2>
-        <button
-          onClick={clearCart}
-          className="clear-button"
-          aria-label="장바구니 비우기"
-        >
+    <div className={styles.cartContainer}>
+      <div className={styles.cartHeader}>
+        <h2 className={styles.cartTitle}>장바구니</h2>
+        <button onClick={clearCart} className={styles.clearButton} aria-label="장바구니 비우기">
           전체 삭제
         </button>
       </div>
 
-      {/* 장바구니 아이템 목록 */}
-      <div className="cart-items">
-          {cartItems.map((item, index) => (
-            <div key={`${item.productId}-${index}`} className="cart-item">
-              {/* 상품 정보 헤더 */}
-              <div className="item-header">
-                <div className="item-info">
-                  <h3 className="item-title">{item.productName}</h3>
-                  <p className="item-price">{item.price?.toLocaleString()}원</p>
-                  
-                  {/* 선택된 옵션 목록 */}
-                  {item.selectedOptions && item.selectedOptions.length > 0 && (
-                    <div className="item-options">
-                      {item.selectedOptions.map((option, optIndex) => (
-                        <div key={optIndex} className="option-item">
-                          + {option.optionName}
-                          {option.optionPrice > 0 && 
-                            ` (${option.optionPrice.toLocaleString()}원)`
-                          } + {option.quantity}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
+      <div className={styles.cartItems}>
+        {cartItems.map((item, index) => (
+          <div key={`${item.productId}-${index}`} className={styles.cartItem}>
+            <div className={styles.itemHeader}>
+              <div className={styles.itemInfo}>
+                <h3 className={styles.itemTitle}>{item.productName}</h3>
+                <p className={styles.itemPrice}>{item.price?.toLocaleString()}원</p>
+                {item.selectedOptions && item.selectedOptions.length > 0 && (
+                  <div className={styles.itemOptions}>
+                    {item.selectedOptions.map((option, optIndex) => (
+                      <div key={optIndex} className={styles.optionItem}>
+                        + {option.optionName}
+                        {option.optionPrice > 0 && ` (${option.optionPrice.toLocaleString()}원)`} + {option.quantity}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => removeItem(index)}
+                className={styles.removeButton}
+                aria-label={`${item.productName} 삭제`}
+              >
+                ❌
+              </button>
+            </div>
+            <div className={styles.itemFooter}>
+              <div className={styles.quantityControls}>
                 <button
-                  onClick={() => removeItem(index)}
-                  className="remove-button"
-                  aria-label={`${item.productName} 삭제`}
+                  onClick={() => updateQuantity(index, (item.quantity || 1) - 1)}
+                  className={styles.quantityButton}
+                  aria-label="수량 감소"
                 >
-                  ❌
+                  -
+                </button>
+                <span className={styles.quantityDisplay} aria-label="현재 수량">
+                  {item.quantity || 1}
+                </span>
+                <button
+                  onClick={() => updateQuantity(index, (item.quantity || 1) + 1)}
+                  className={styles.quantityButton}
+                  aria-label="수량 증가"
+                >
+                  +
                 </button>
               </div>
-
-              {/* 수량 조절 및 금액 */}
-              <div className="item-footer">
-                <div className="quantity-controls">
-                  <button
-                    onClick={() => updateQuantity(index, (item.quantity || 1) - 1)}
-                    className="quantity-button"
-                    aria-label="수량 감소"
-                  >
-                    -
-                  </button>
-                  <span className="quantity-display" aria-label="현재 수량">
-                    {item.quantity || 1}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(index, (item.quantity || 1) + 1)}
-                    className="quantity-button"
-                    aria-label="수량 증가"
-                  >
-                    +
-                  </button>
-                </div>
-                <div className="item-total">
-                  {(item.totalPrice || 0).toLocaleString()}원
-                </div>
-              </div>
+              <div className={styles.itemTotal}>{(item.totalPrice || 0).toLocaleString()}원</div>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
 
-      {/* 총 금액 섹션 */}
-      <div className="total-section">
-        <div className="total-row">
-          <span className="total-label">총 결제금액</span>
-          <span className="total-amount">
-            {getTotalAmount().toLocaleString()}원
-          </span>
+      <div className={styles.totalSection}>
+        <div className={styles.totalRow}>
+          <span className={styles.totalLabel}>총 결제금액</span>
+          <span className={styles.totalAmount}>{getTotalAmount().toLocaleString()}원</span>
         </div>
       </div>
 
-      {/* 하단 버튼 */}
-      <div className="cart-actions">
-        <button
-          onClick={closeCartModal}
-          className="continue-shopping-button"
-          // className="order-button"
-        >
+      <div className={styles.cartActions}>
+        <button onClick={closeCartModal} className={styles.continueShoppingButton}>
           계속 쇼핑하기
         </button>
-        <button
-          onClick={goPayment}
-          className="order-button"
-        >
+        <button onClick={goPayment} className={styles.orderButton}>
           주문하기
         </button>
       </div>
-
     </div>
   );
-}
+};
 
 export default CartList;

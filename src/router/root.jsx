@@ -35,6 +35,14 @@ const root = createBrowserRouter([
         ),
       },
       {
+        path: 'login',
+        element: (
+          <Suspense fallback={Loading}>
+            <LoginPage />
+          </Suspense>
+        ),
+      },
+      {
         path: 'signup',
         element: (
           <Suspense fallback={Loading}>

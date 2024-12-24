@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './Modal.css';
+import styles from './modal.module.css'; // CSS Module import
 
-export default function Modal({ isOpen, onClose, children }) {
+function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-button" onClick={onClose}>
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.modalCloseButton} onClick={onClose}>
           ×
         </button>
         {children}
@@ -17,3 +17,5 @@ export default function Modal({ isOpen, onClose, children }) {
     document.body
   );
 }
+
+export default Modal;

@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';  // useRef를 사용하기 위해 추�
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../apis/userapis/signup';
 import axios from 'axios';
-import './Signuppage.css';
+import styles from'./SignupPage.module.css';
 
 function SignupPage() {
     const [username, setUsername] = useState('');
@@ -154,84 +154,82 @@ function SignupPage() {
     };
 
     return (
-        <div className="signup-container">
-            <div className="signup-card">
+        <div className={`container my-5 ${styles.signupContainer}`}>
+            <div className={styles.signupCard}>
                 <hr />
-                <h1>JASS-COFFEE</h1>
+                <h1 className={styles.h1}>JASS-COFFEE</h1>
                 <hr />
+                <br />
                 <form onSubmit={handleSubmit}>
                     {/* Name 입력 */}
                     <input
                         ref={nameRef}
-                        className={error && name.trim() === '' ? 'error' : ''}
+                        className={`${error && name.trim() === '' ? styles.error : ''}`}
                         type="text"
                         placeholder="Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
-    
+
                     {/* Username 입력 + Check 버튼 */}
-                    <div className="input-container with-button">
+                    <div className={`${styles.inputContainer} ${styles.withButton}`}>
                         <input
                             ref={usernameRef}
-                            className={usernameError ? 'error' : ''}
+                            className={`${usernameError ? styles.error : ''}`}
                             type="text"
                             placeholder="ID"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                        <button
+                    </div>
+                    {usernameError && <div className={styles.errorText}>{usernameError}</div>}
+                    {usernameSuccess && <div className={styles.successText}>{usernameSuccess}</div>}
+                    <button
                             type="button"
                             onClick={checkAccount}
-                            className="check-button inside"
+                            className={`${styles.checkButtonInside}`}
                         >
                             Check
-                        </button>
-                    </div>
-                    {usernameError && <div className="error-text">{usernameError}</div>}
-                    {usernameSuccess && <div className="success-text">{usernameSuccess}</div>}
-    
+                    </button>
                     {/* Password 입력 */}
                     <input
                         ref={passwordRef}
-                        className={error && password.length < 8 ? 'error' : ''}
+                        className={`${error && password.length < 8 ? styles.error : ''}`}
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-    
+
                     {/* MMID 입력 + Check 버튼 */}
-                    <div className="input-container with-button">
+                    <div className={`${styles.inputContainer} ${styles.withButton}`}>
                         <input
                             ref={mmidRef}
-                            className={
-                                mmidError || (error && mmid.trim() === '') ? 'error' : ''
-                            }
+                            className={`${mmidError || (error && mmid.trim() === '') ? styles.error : ''}`}
                             type="text"
                             placeholder="MMID"
                             value={mmid}
                             onChange={(e) => setMmid(e.target.value)}
                         />
-                        <button
+                    </div>
+                    {mmidError && <div className={styles.errorText}>{mmidError}</div>}
+                    {mmidSuccess && <div className={styles.successText}>{mmidSuccess}</div>}
+                    <button
                             type="button"
                             onClick={checkMmid}
-                            className="check-button inside"
+                            className={styles.checkButtonInside}
                         >
                             Check
-                        </button>
-                    </div>
-                    {mmidError && <div className="error-text">{mmidError}</div>}
-                    {mmidSuccess && <div className="success-text">{mmidSuccess}</div>}
-    
+                    </button>
                     <hr />
-                    <h1>Refund Account</h1>
+                    <h1 className={styles.h1}>Refund Account</h1>
                     <hr />
-    
+                    <br />
+
                     {/* Bank 선택 */}
                     <select
                         ref={bankRef}
-                        className={error && bank === '' ? 'error' : ''}
+                        className={`${error && bank === '' ? styles.error : ''}`}
                         value={bank}
                         onChange={(e) => setBank(e.target.value)}
                     >
@@ -257,28 +255,27 @@ function SignupPage() {
                         <option value="제주은행">제주은행</option>
                         <option value="광주은행">광주은행</option>
                     </select>
-    
+
                     {/* Account 입력 */}
                     <input
                         ref={fundRef}
-                        className={error && fund.trim() === '' ? 'error' : ''}
+                        className={`${error && fund.trim() === '' ? styles.error : ''}`}
                         type="text"
                         placeholder="Account Number"
                         value={fund}
                         onChange={(e) => setFund(e.target.value)}
                     />
-                    {error && <div className="error-text">{error}</div>}
-    
+                    {error && <div className={styles.errorText}>{error}</div>}
+
                     {/* 제출 버튼 */}
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className={styles.submitButton}>
                         Sign up
                     </button>
                 </form>
             </div>
         </div>
     );
-    
-    
 }
+    
 
 export default SignupPage;

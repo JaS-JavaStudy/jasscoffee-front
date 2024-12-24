@@ -4,6 +4,8 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import { getUser } from "../../apis/userapis/getuser";
 import { useNavigate } from 'react-router-dom';
+import styles from "./MyPage.module.css";
+import '../../App.css'
 
 
 const MyPage = () => {
@@ -18,6 +20,15 @@ const MyPage = () => {
     confirmPassword: "",
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // MyPage에 진입 시 전역 스타일 추가
+    document.body.style.overflow = "hidden";
+    return () => {
+      // MyPage에서 벗어날 때 스타일 복구
+      document.body.style.overflow = "";
+    };
+  }, []);
   
 
   // 유저 정보 가져오기
@@ -178,40 +189,50 @@ const MyPage = () => {
   // 회원 탈퇴
   const handleDeleteAccount = async () => {
     try {
+      // 경고 메시지 표시
+      const isConfirmed = window.confirm("정말로 탈퇴하시겠습니까?");
+      if (!isConfirmed) {
+        // 사용자가 취소를 누른 경우
+        alert("회원 탈퇴가 취소되었습니다.");
+        return;
+      }
+  
       const token = localStorage.getItem("access");
       if (!token) {
         alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
         return;
       }
-
-      // DELETE 요청 시, axios에서는 data를 전달하려면 아래와 같이 해야 합니다.
-      // (또는 URL 파라미터 등으로 전달)
+  
+      // DELETE 요청
       await axios.delete("http://localhost:8080/users/delete", {
         headers: {
           access: `${token}`,
         },
         data: { account: userData.account },
       });
-
+  
       alert("회원 탈퇴가 완료되었습니다.");
-      // 이후 필요하다면 토큰 삭제, 메인 페이지로 이동 등의 로직 추가
+      // 토큰 삭제 및 메인 페이지로 이동
       localStorage.removeItem("access");
-      // window.location.href = "/";
+      navigate("/");
     } catch (error) {
       console.error("회원 탈퇴 중 오류가 발생했습니다.", error);
       alert("회원 탈퇴에 실패했습니다.");
     }
   };
-
   return (
-    <div className="container my-5">
-      <h1 className="text-center mb-4">My Page</h1>
+  
+    <div className={`container my-5 ${styles.mypageContainer}`}>
+      <h1 className={`text-center mb-4 ${styles.mypageHeader}`}>My Page</h1>
 
       {!isChangingPassword ? (
         <>
-          <div className="card mb-4">
-            <div className="card-body">
-              <h2 className="card-title">개인정보</h2>
+          {/* -------------------
+              개인정보 카드 섹션
+             ------------------- */}
+          <div className={`${styles.mypageCard} card mb-4`}>
+            <div className={`${styles.mypageCardBody} card-body`}>
+              <h2 className={`${styles.mypageCardTitle} card-title`}>개인정보</h2>
               {isEditing ? (
                 <div>
                   <div className="mb-3">
@@ -287,8 +308,12 @@ const MyPage = () => {
                       className="form-control"
                     />
                   </div>
-                  <button onClick={handleSave} className="">저장</button>
-                  <button onClick={handleCancel} className="">취소</button>
+                  <button onClick={handleSave} className={styles.mypageButton}>
+                    저장
+                  </button>
+                  <button onClick={handleCancel} className={styles.mypageButton}>
+                    취소
+                  </button>
                 </div>
               ) : (
                 <div>
@@ -297,19 +322,24 @@ const MyPage = () => {
                   <p><strong>mmId:</strong> {userData.mmid}</p>
                   <p><strong>환불은행:</strong> {userData.bank}</p>
                   <p><strong>환불계좌:</strong> {userData.fund}</p>
-                  <button onClick={handleEditClick} className="">개인정보 수정</button>
+                  <button onClick={handleEditClick} className={styles.mypageButton}>
+                    개인정보 수정
+                  </button>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="card mt-4">
-            <div className="card-body">
-              <h2 className="card-title">주문 내역</h2>
+          {/* -------------------
+              주문 내역 카드 섹션
+             ------------------- */}
+          <div className={`${styles.mypageCard} card mt-4`}>
+            <div className={`${styles.mypageCardBody} card-body`}>
+              <h2 className={`${styles.mypageCardTitle} card-title`}>주문 내역</h2>
               {orders.length === 0 ? (
                 <p>주문 내역이 없습니다.</p>
               ) : (
-                <table className="table">
+                <table className={`${styles.mypageTable} table`}>
                   <thead>
                     <tr>
                       <th>#</th>
@@ -333,19 +363,25 @@ const MyPage = () => {
             </div>
           </div>
 
+          {/* -------------------
+              하단 버튼 섹션
+             ------------------- */}
           <div>
-            <button onClick={handleDeleteAccount} className="">
+            <button onClick={handleDeleteAccount} className={styles.mypageButton}>
               회원 탈퇴
             </button>
-            <button onClick={handlePasswordChangeClick} className="">
+            <button onClick={handlePasswordChangeClick} className={styles.mypageButton}>
               비밀번호 변경
             </button>
           </div>
         </>
       ) : (
-        <div className="card">
-          <div className="card-body">
-            <h2 className="card-title">비밀번호 변경</h2>
+        /* -------------------
+           비밀번호 변경 카드
+           ------------------- */
+        <div className={`${styles.mypageCard} card`}>
+          <div className={`${styles.mypageCardBody} card-body`}>
+            <h2 className={`${styles.mypageCardTitle} card-title`}>비밀번호 변경</h2>
             <div className="mb-3">
               <label className="form-label">현재 비밀번호</label>
               <input
@@ -376,12 +412,17 @@ const MyPage = () => {
                 className="form-control"
               />
             </div>
-            <button onClick={handlePasswordSave} className="">저장</button>
-            <button onClick={handlePasswordCancel} className="">취소</button>
+            <button onClick={handlePasswordSave} className={styles.mypageButton}>
+              저장
+            </button>
+            <button onClick={handlePasswordCancel} className={styles.mypageButton}>
+              취소
+            </button>
           </div>
         </div>
       )}
     </div>
+  
   );
 
 };

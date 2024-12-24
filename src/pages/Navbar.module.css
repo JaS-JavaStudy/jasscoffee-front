@@ -1,0 +1,89 @@
+/* Navbar.module.css */
+
+.navbarContainer {
+  background: linear-gradient(90deg, #A6B37D, #B99470); /* 부드러운 배경 그라디언트 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 60px; /* 네비게이션 높이 고정 */
+  padding: 0 20px; /* 좌우 패딩 */
+  z-index: 1000;
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between; /* 좌우 끝 정렬 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.navbarBrand {
+  color: #ffffff; /* 브랜드 이름 색상 */
+  font-weight: bold;
+  font-size: 1.5rem; /* 적당한 폰트 크기 */
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbarBrand:hover {
+  color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.navbarMenu {
+  display: flex;
+  gap: 20px; /* 메뉴 아이템 간 간격 */
+}
+
+.navbarLink {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem; /* 메뉴 글자 크기 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 5px 10px;
+  border-radius: 4px; /* 약간 둥근 모서리 */
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.navbarLink:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.navbarButton {
+  background-color: #ffffff;
+  color: #B99470;
+  font-weight: bold;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.navbarButton:hover {
+  background-color: #B99470;
+  color: #ffffff;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .navbarContainer {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 20px;
+  }
+
+  .navbarMenu {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .navbarLink {
+    font-size: 0.9rem;
+  }
+}
+
+/* body {
+  padding-top: 60px; /* 네비게이션 높이만큼 패딩 추가 
+} */

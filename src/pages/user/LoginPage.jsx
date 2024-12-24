@@ -1,117 +1,85 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { getUser } from '../../apis/userapis/getuser'
-import axios from 'axios'
-import "./LoginPage.css" // CSS 파일 임포트
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUser } from '../../apis/userapis/getuser';
+import axios from 'axios';
+import style from './LoginPage.module.css'; // 스타일 모듈 임포트
 
 function LoginPage() {
-
-    const navigate = useNavigate()
-
-    // 로그인 여부 확인
-    //////////////////////////////////////////////////////////
-    const [username, setUsername] = useState(null)
-
-    useEffect(() => {
-        getUser().then(res => {
-            setUsername(res)
-        })
-    }, [])
-    //////////////////////////////////////////////////////////
-
-
-    // 로그인 기능
-    //////////////////////////////////////////////////////////
+    const navigate = useNavigate();
+    const [username, setUsername] = useState(null);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState(''); // 로그인 실패 메시지
+    const [loginError, setLoginError] = useState('');
+
+    useEffect(() => {
+        getUser().then((res) => setUsername(res));
+    }, []);
 
     const Login = async (username, password) => {
-        await axios.post('http://localhost:8080/login',
-            { account: username, password }, { withCredentials: true })
-            .then(response => {
-                // 로그인 후 access 토큰 추가
-                localStorage.setItem('access', response.headers.access)
-                navigate('/product')
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/login',
+                { account: username, password },
+                { withCredentials: true }
+            );
+            localStorage.setItem('access', response.headers.access);
+            navigate('/product');
+        } catch {
+            setLoginError('아이디 또는 비밀번호가 잘못되었습니다.');
+        }
+    };
 
-            })
-            .catch(error => {
-                console.error("아이디 또는 비밀번호가 잘못되었습니다.", error)
-                // 에러 처리
-                setLoginError('아이디 또는 비밀번호가 잘못되었습니다.');
-            });
-    }
-    // 핸들러
     const loginHandler = (event) => {
-        event.preventDefault();  // 기본 폼 제출 방지
-
-        // 초기 오류 메시지 제거
+        event.preventDefault();
         setLoginError('');
 
-        let valid = true;
-
-        // 아이디 유효성 검사
-        if (!id) {
-            setLoginError('아이디를 입력해주세요.');
-            valid = false;
+        if (!id || !password) {
+            setLoginError(id ? '비밀번호를 입력해주세요.' : '아이디를 입력해주세요.');
+            return;
         }
 
-        // 비밀번호 유효성 검사
-        if (!password) {
-            setLoginError('비밀번호를 입력해주세요.');
+        Login(id, password);
+        localStorage.removeItem('cart');
+    };
 
-            if (!id) {
-                setLoginError('아이디와 비밀번호를 입력해주세요.')
-            }
-            valid = false;
-        }
-
-        if (valid) {
-            // 로그인 함수 호출
-            Login(id, password)
-            localStorage.removeItem('cart');
-        }
+    if (username) {
+        alert('이미 로그인되어 있어요');
+        navigate('/product');
+        return null;
     }
-    /////////////////////////////////////////////////////////
 
     return (
-        <div>
-            <div className="page-container">
-                <h1>JASS-COFFEE</h1>
-                <h3>당신의 COFFEE에 로그인하세요 !</h3>
-                {username ? (
-                    alert("이미 로그인되어 있어요"),
-                    navigate('/product')
-                ) : (
-                    <div className="card">
-                        <form onSubmit={loginHandler}>
-                            <input
-                                type='text'
-                                placeholder='ID'
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}>
-
-                            </input>
-                            <input
-                                type='password'
-                                placeholder='Password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}>
-                            </input>
-
-                            {loginError && <p className="error-message">{loginError}</p>}
-
-                            <button type='submit'>
-                                Log in
-                            </button>
-                        </form>
-                        <Link to={"signup"}>Sign up</Link>
-                    </div>
-                )}
-            </div>
+        <div className={`container my-5 ${style.pageContainer}`}>
+        <h1 className={style.h1}>JASS-COFFEE</h1>
+        <h3 className={style.h3}>당신의 COFFEE에 로그인하세요!</h3>
+        <div className={style.card}>
+            <form className={style.form} onSubmit={loginHandler}>
+                <label className={style.label}>ID</label>
+                <input
+                    className={style.input}
+                    type="text"
+                    placeholder="ID"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                />
+                <label className={style.label}>Password</label>
+                <input
+                    className={style.input}
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {loginError && <p className={style.errorMessage}>{loginError}</p>}
+                <button className={style.button} type="submit">
+                    Log in
+                </button>
+            </form>
+            <Link to="signup">Sign up</Link>
         </div>
-    );
+    </div>
+);
+
 }
 
 export default LoginPage;

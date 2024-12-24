@@ -1,117 +1,94 @@
-// 장바구니 모달 관련 import
+import { useEffect, useState } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import Modal from '../components/cartlist/Modal';
 import CartList from '../components/cartlist/CartList';
-
-// 부트스트랩 CSS
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-// 새로 만든 CSS 파일
-import './Navbar.css';
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, NavLink} from 'react-router-dom';
 import { getUser } from '../apis/userapis/getuser';
 import { logout } from '../apis/userapis/logout';
+import styles from './Navbar.module.css';
 
 const Navbar = () => {
-    const [user, setUser] = useState();
-    const [isCartModalOpen, setCartModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isCartModalOpen, setCartModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    useEffect(() => {
-        getUser().then(res => setUser(res));
-    }, []);
-
-    useEffect(() => {
-        if (location.pathname === '/payment') {
-            setCartModalOpen(false);
-        }
-    }, [location]);
-
-    const logoutHandler = (event) => {
-        event.preventDefault();
-        logout(navigate);
+  // Fetch user information when the component mounts or updates
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await getUser();
+      setUser(res);
     };
+    fetchUser();
+  }, [location.pathname]); // 사용자 상태를 경로 변경에 따라 업데이트
 
-    const openCartModal = () => setCartModalOpen(true);
-    const closeCartModal = () => setCartModalOpen(false);
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    await logout(navigate);
+    setUser(null); // Clear user state after logout
+  };
 
-    return (
-        <div className="page-container">
-            {/* 네비게이션 바 */}
-            <nav className="navbar navbar-expand-lg navbar-light custom-navbar">
-                <div className="container">
-                    <NavLink
-                        to="/product"
-                        className="navbar-brand text-uppercase fw-bolder"
-                        style={{ letterSpacing: '0.5px' }}
-                    >
-                        JASS COFFEE
-                    </NavLink>
+  const openCartModal = () => setCartModalOpen(true);
+  const closeCartModal = () => setCartModalOpen(false);
 
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+  return (
+    <header className={styles.navbarContainer}>
+      {/* Brand */}
+      <NavLink
+        to="/product"
+        className={styles.navbarBrand}
+        aria-label="JASS COFFEE 홈으로 이동"
+      >
+        JASS COFFEE
+      </NavLink>
 
-                    <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <ul className="navbar-nav align-items-center">
-                            <li className="nav-item mx-3">
-                                <NavLink
-                                    to="/product"
-                                    className={({ isActive }) =>
-                                        isActive ? 'nav-link fw-bold fs-6 active-link' : 'nav-link fw-bold fs-6'
-                                    }
-                                >
-                                    홈
-                                </NavLink>
-                            </li>
+      {/* Navigation Menu */}
+      <nav className={styles.navbarMenu}>
+        <NavLink
+          to="/product"
+          className={({ isActive }) =>
+            isActive ? `${styles.navbarLink} ${styles.active}` : styles.navbarLink
+          }
+        >
+          홈
+        </NavLink>
+        <NavLink
+          to="/mypage"
+          className={({ isActive }) =>
+            isActive ? `${styles.navbarLink} ${styles.active}` : styles.navbarLink
+          }
+        >
+          마이페이지
+        </NavLink>
+        {user ? (
+          <>
+            <button
+              className={styles.navbarButton}
+              onClick={openCartModal}
+              aria-label="장바구니 보기"
+            >
+              장바구니
+            </button>
+            <button
+              className={styles.navbarButton}
+              onClick={handleLogout}
+              aria-label="로그아웃"
+            >
+              로그아웃
+            </button>
+          </>
+        ) : (
+          <NavLink to="/login" className={styles.navbarButton}>
+            로그인
+          </NavLink>
+        )}
+      </nav>
 
-                            <li className="nav-item mx-3">
-                                <NavLink
-                                    to="/mypage"
-                                    className={({ isActive }) =>
-                                        isActive ? 'nav-link fw-bold fs-6 active-link' : 'nav-link fw-bold fs-6'
-                                    }
-                                >
-                                    마이페이지
-                                </NavLink>
-                            </li>
-
-                            <li className="nav-item ms-3">
-                                {user && (
-                                    <>
-                                        <button
-                                            className="cart-button"
-                                            onClick={openCartModal}
-                                            aria-label="장바구니 열기"
-                                        >
-                                            장바구니 보기
-                                        </button>
-                                        <button className="cart-button" onClick={logoutHandler}>
-                                            Logout
-                                        </button>
-                                    </>
-                                )}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <Modal isOpen={isCartModalOpen} onClose={closeCartModal}>
-                <CartList closeCartModal={closeCartModal} />
-            </Modal>
-        </div>
-    );
+      {/* Cart Modal */}
+      <Modal isOpen={isCartModalOpen} onClose={closeCartModal}>
+        <CartList closeCartModal={closeCartModal} />
+      </Modal>
+    </header>
+  );
 };
 
 export default Navbar;
