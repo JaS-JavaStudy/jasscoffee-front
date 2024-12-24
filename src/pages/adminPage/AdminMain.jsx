@@ -1,4 +1,3 @@
-// pages/AdminMain.jsx
 import './AdminMain.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +5,9 @@ import axios from 'axios';
 
 export default function AdminMain() {
   const [orders, setOrders] = useState([]);
-  const [allOrders, setAllOrders] = useState([]); // 전체 주문 목록을 저장할 상태
-  const [showAll, setShowAll] = useState(false); // 전체 목록을 볼지, 오늘의 주문만 볼지 상태
+  const [allOrders, setAllOrders] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const [searchWord, setSearchWord] = useState(''); // 검색어 상태 추가
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,23 +15,21 @@ export default function AdminMain() {
   }, []);
 
   const fetchOrders = async () => {
-    const access = localStorage.getItem('access'); // access 토큰 가져오기
+    const access = localStorage.getItem('access');
     try {
       const response = await axios.get('http://localhost:8080/api/orderlist', {
         headers: {
-          access: access, // 인증 헤더 설정
+          access: access,
         },
       });
-      
-      setAllOrders(response.data); // 전체 주문 목록 저장
-      filterTodayOrders(response.data); // 오늘 주문만 필터링
+      setAllOrders(response.data);
+      filterTodayOrders(response.data);
     } catch (error) {
       console.error('주문 목록 조회 실패:', error);
     }
   };
 
   const filterTodayOrders = (orders) => {
-    // 오늘 날짜 기준으로 필터링
     const today = new Date();
     const filteredOrders = orders.filter(order => {
       const orderedAt = new Date(order.orderedAt);
@@ -41,20 +39,19 @@ export default function AdminMain() {
         orderedAt.getFullYear() === today.getFullYear()
       );
     });
-    
-    setOrders(filteredOrders); // 오늘의 주문만 상태에 저장
+    setOrders(filteredOrders);
   };
 
   const handleDelete = async (orderId) => {
-    const access = localStorage.getItem('access'); // access 토큰 가져오기
+    const access = localStorage.getItem('access');
     if (window.confirm('주문을 삭제하시겠습니까?')) {
       try {
         await axios.delete(`http://localhost:8080/api/orderlist/${orderId}`, {
           headers: {
-            access: access, // 인증 헤더 설정
+            access: access,
           },
         });
-        fetchOrders(); // 목록 새로고침
+        fetchOrders();
       } catch (error) {
         console.error('주문 삭제 실패:', error);
       }
@@ -64,10 +61,23 @@ export default function AdminMain() {
   const toggleOrderView = () => {
     setShowAll(!showAll);
     if (!showAll) {
-      setOrders(allOrders); // 전체 주문 목록으로 설정
+      setOrders(allOrders);
     } else {
-      filterTodayOrders(allOrders); // 오늘의 주문만 필터링
+      filterTodayOrders(allOrders);
     }
+  };
+
+  const handleSearch = () => {
+    if (!searchWord.trim()) {
+      alert('검색어를 입력하세요.');
+      return;
+    }
+
+    const filteredOrders = allOrders.filter(order =>
+      order.name.includes(searchWord) || // 사용자 이름 검색
+      order.mmid.includes(searchWord) // mmid 검색
+    );
+    setOrders(filteredOrders); // 검색 결과를 상태에 반영
   };
 
   return (
@@ -76,6 +86,22 @@ export default function AdminMain() {
         <div>
           <h2>주문 관리</h2>
           <div className="d-flex mb-4">
+            {/* 검색 창과 버튼 추가 */}
+            <div className='search-group'>
+              <input
+                type="text"
+                className="form-control search-input"
+                placeholder="검색어를 입력하세요"
+                value={searchWord}
+                onChange={(e) => setSearchWord(e.target.value)}
+              />
+              <button 
+                className="btn btn-secondary"
+                onClick={handleSearch}
+              >
+                검색
+              </button>
+            </div>
             <div className='button-group'>
               <button 
                 className="btn btn-secondary"
@@ -98,7 +124,6 @@ export default function AdminMain() {
                 <th>사용자</th>
                 <th>mmid</th>
                 <th>총 금액</th>
-                {/* <th>주문 상태</th> */}
                 <th>주문 시간</th>
                 <th>취소</th>
               </tr>
@@ -110,7 +135,6 @@ export default function AdminMain() {
                   <td>{order.name}</td>
                   <td>{order.mmid}</td>
                   <td>{order.totalPrice.toLocaleString()}원</td>
-                  {/* <td>{order.isCancel ? '취소됨' : '정상'}</td> */}
                   <td>{new Date(order.orderedAt).toLocaleString()}</td>
                   <td>
                     <button
