@@ -30,50 +30,58 @@ function SignupPage() {
     const fundRef = useRef(null);
     const bankRef = useRef(null);
 
-    // 아이디 중복 검사
+    // 아이디 중복 검사 API
     const checkAccount = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/join/account', {
-                params: {
-                    account: username,
+        if (username) {
+            try {
+                const response = await axios.get('http://localhost:8080/join/account', {
+                    params: {
+                        account: username,
+                    }
+                });
+                setUsernameError('');
+                setUsernameSuccess(response.data)
+            } catch (error) {
+                setUsernameSuccess('')
+                if (error.response) {
+                    setUsernameError(error.response.data);  // 서버의 에러 메시지를 상태에 저장
+                    if (error.response.data) {
+                        usernameRef.current.focus()
+                    }
+                } else {
+                    setError('알 수 없는 오류가 발생했습니다. 싸피 회장 권남희한테 문의 부탁드립니다.');
                 }
-            });
-            setUsernameError('');
-            setUsernameSuccess(response.data)
-        } catch (error) {
-            setUsernameSuccess('')
-            if (error.response) {
-                setUsernameError(error.response.data);  // 서버의 에러 메시지를 상태에 저장
-                if (error.response.data) {
-                    usernameRef.current.focus()
-                }
-            } else {
-                setError('알 수 없는 오류가 발생했습니다. 싸피 회장 권남희한테 문의 부탁드립니다.');
             }
+        } else {
+            setUsernameError("아이디를 입력해주세요.")
         }
     };
-    // MMID 중복 검사
+    // MMID 중복 검사 API
     const checkMmid = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/join/mmid', {
-                params: {
-                    mmid: mmid,
-                }
-            });
+        if (mmid) {
+            try {
+                const response = await axios.get('http://localhost:8080/join/mmid', {
+                    params: {
+                        mmid: mmid,
+                    }
+                });
 
-            setMmidError('');
-            setMmidSuccess(response.data);
-        } catch (error) {
-            setMmidSuccess('')
-            if (error.response) {
-                setMmidError(error.response.data);  // 서버의 에러 메시지를 상태에 저장
+                setMmidError('');
+                setMmidSuccess(response.data);
+            } catch (error) {
+                setMmidSuccess('')
+                if (error.response) {
+                    setMmidError(error.response.data);  // 서버의 에러 메시지를 상태에 저장
 
-                if (error.response.data) {
-                    mmidRef.current.focus()
+                    if (error.response.data) {
+                        mmidRef.current.focus()
+                    }
+                } else {
+                    setError('알 수 없는 오류가 발생했습니다. 싸피 회장 권남희한테 문의 부탁드립니다.');
                 }
-            } else {
-                setError('알 수 없는 오류가 발생했습니다. 싸피 회장 권남희한테 문의 부탁드립니다.');
             }
+        } else {
+            setMmidError("MMID를 입력해주세요.")
         }
     };
 
@@ -88,49 +96,97 @@ function SignupPage() {
             usernameRef.current.focus();  // 아이디 필드에 포커스
             return false;
         }
-
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 이름 유효성 검사
         if (name.trim() === '') {
             setError('이름을 입력해주세요.');
             nameRef.current.focus();  // 이름 필드에 포커스
             return false;
         }
-
+        // 이름 길이 검사 (2글자 이상, 6글자 미만)
+        if (name.length < 2 || name.length > 5) {
+            setError('이름은 2글자 이상, 6글자 미만이어야 합니다.');
+            nameRef.current.focus();
+            return false;
+        }
+        // 한글만 입력 가능한 정규 표현식
+        const koreanRegex = /^[가-힣]*$/;
+        if (!koreanRegex.test(name)) {
+            setError('한글 이름을 정확히 입력 해주세요.');
+            nameRef.current.focus();
+            return false;
+        }
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 아이디 유효성 검사
         if (username.trim() === '') {
             setError('아이디를 입력해주세요.');
             usernameRef.current.focus();  // 아이디 필드에 포커스
             return false;
         }
-
+        // 아이디는 영어와 숫자로만 허용
+        const usernameRegex = /^[a-zA-Z0-9]+$/;
+        if (!usernameRegex.test(username)) {
+            setError('아이디는 영어와 숫자만 입력 가능합니다.');
+            usernameRef.current.focus();
+            return false;
+        }
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 비밀번호 유효성 검사 (8자 이상)
         if (password.length < 8) {
             setError('비밀번호는 8자 이상이어야 합니다.');
             passwordRef.current.focus();  // 비밀번호 필드에 포커스
             return false;
         }
-
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // MMID 유효성 검사
         if (mmid.trim() === '') {
             setError('MMID를 입력해주세요.');
             mmidRef.current.focus();  // MMID 필드에 포커스
             return false;
         }
-
+        // MMID는 영어와 숫자만 허용
+        const mmidRegex = /^[a-zA-Z0-9]+$/;
+        if (!mmidRegex.test(mmid)) {
+            setError('MMID는 영어와 숫자만 입력 가능합니다.');
+            mmidRef.current.focus();
+            return false;
+        }
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 은행 선택 유효성 검사
         if (bank === '') {
             setError('은행을 선택해주세요.');
             bankRef.current.focus();  // 은행 선택 필드에 포커스
             return false;
         }
-
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 계좌 번호 유효성 검사
         if (fund.trim() === '') {
             setError('계좌 번호를 입력해주세요.');
             fundRef.current.focus();  // 계좌 번호 필드에 포커스
             return false;
         }
+        // 계좌번호는 숫자만 허용
+        const accountRegex = /^[0-9]+$/;  // 숫자만 허용
+        if (!accountRegex.test(fund)) {
+            setError('계좌 번호는 숫자만 입력 가능합니다.');
+            fundRef.current.focus();
+            return false;
+        }
 
+        // 길이 제한 (예: 계좌번호가 10~14자리 사이여야 하는 경우)
+        if (fund.length < 10 || fund.length > 14) {
+            setError('계좌 번호는 10자리에서 14자리 사이여야 합니다.');
+            fundRef.current.focus();
+            return false;
+        }
+        ///////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         // 모든 검사를 통과하면 에러 메시지 초기화
         setError('');
         return true;
@@ -143,7 +199,7 @@ function SignupPage() {
         if (!validateForm()) {
             return;
         }
-        if (usernameSuccess == '' || mmidSuccess == '' ) {
+        if (usernameSuccess == '' || mmidSuccess == '') {
             setError("중복체크를 해주세요.")
             return;
         }
@@ -164,7 +220,7 @@ function SignupPage() {
                     {/* Name 입력 */}
                     <input
                         ref={nameRef}
-                        className={`${error && name.trim() === '' ? styles.error : ''}`}
+                        className={`${error && (error.includes("이름") || name.trim() === '') ? styles.error : ''}`}
                         type="text"
                         placeholder="Name"
                         value={name}
@@ -175,7 +231,7 @@ function SignupPage() {
                     <div className={`${styles.inputContainer} ${styles.withButton}`}>
                         <input
                             ref={usernameRef}
-                            className={`${usernameError ? styles.error : ''}`}
+                            className={error.includes("아이디") || usernameError ? 'error' : ''}
                             type="text"
                             placeholder="ID"
                             value={username}
@@ -194,7 +250,7 @@ function SignupPage() {
                     {/* Password 입력 */}
                     <input
                         ref={passwordRef}
-                        className={`${error && password.length < 8 ? styles.error : ''}`}
+                        className={error.includes("비밀번호") && error ? 'error' : ''}
                         type="password"
                         placeholder="Password"
                         value={password}
@@ -205,7 +261,7 @@ function SignupPage() {
                     <div className={`${styles.inputContainer} ${styles.withButton}`}>
                         <input
                             ref={mmidRef}
-                            className={`${mmidError || (error && mmid.trim() === '') ? styles.error : ''}`}
+                            className={ mmidError || (error && mmid.trim() === '') ? 'error' : ''}
                             type="text"
                             placeholder="MMID"
                             value={mmid}
@@ -229,7 +285,7 @@ function SignupPage() {
                     {/* Bank 선택 */}
                     <select
                         ref={bankRef}
-                        className={`${error && bank === '' ? styles.error : ''}`}
+                        className={error.includes("은행") || bank == '' ? 'error' : ''}
                         value={bank}
                         onChange={(e) => setBank(e.target.value)}
                     >
@@ -259,7 +315,7 @@ function SignupPage() {
                     {/* Account 입력 */}
                     <input
                         ref={fundRef}
-                        className={`${error && fund.trim() === '' ? styles.error : ''}`}
+                        className={error && fund.trim() === '' ? 'error' : ''}
                         type="text"
                         placeholder="Account Number"
                         value={fund}
