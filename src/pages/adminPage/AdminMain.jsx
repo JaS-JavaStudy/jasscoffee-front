@@ -1,5 +1,5 @@
 import styles from './AdminMain.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,11 +7,18 @@ export default function AdminMain() {
   const [orders, setOrders] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
   const [showAll, setShowAll] = useState(false);
-  const [searchWord, setSearchWord] = useState(''); // 검색어 상태 추가
+  const [searchWord, setSearchWord] = useState('');
   const navigate = useNavigate();
+  const tableContainerRef = useRef(null); // 테이블 컨테이너 참조 생성
 
   useEffect(() => {
     fetchOrders();
+    adjustTableScroll(); // 초기 테이블 크기 조정
+    window.addEventListener('resize', adjustTableScroll); // 창 크기 변경 시 조정
+
+    return () => {
+      window.removeEventListener('resize', adjustTableScroll);
+    };
   }, []);
 
   const fetchOrders = async () => {
@@ -65,6 +72,7 @@ export default function AdminMain() {
     } else {
       filterTodayOrders(allOrders);
     }
+    adjustTableScroll(); // 테이블 스크롤 다시 조정
   };
 
   const handleSearch = () => {
@@ -74,23 +82,37 @@ export default function AdminMain() {
     }
 
     const filteredOrders = allOrders.filter(order =>
-      order.name.includes(searchWord) || // 사용자 이름 검색
-      order.mmid.includes(searchWord) // mmid 검색
+      order.name.includes(searchWord) || order.mmid.includes(searchWord)
     );
-    setOrders(filteredOrders); // 검색 결과를 상태에 반영
+    setOrders(filteredOrders);
+    adjustTableScroll(); // 테이블 스크롤 다시 조정
+  };
+
+  // 테이블 높이 확인 및 스크롤 조정 함수
+  const adjustTableScroll = () => {
+    const tableContainer = tableContainerRef.current;
+    if (tableContainer) {
+      if (tableContainer.scrollHeight > window.innerHeight * 0.8) {
+        tableContainer.style.maxHeight = '80vh';
+        tableContainer.style.overflowY = 'auto';
+      } else {
+        tableContainer.style.maxHeight = 'none';
+        tableContainer.style.overflowY = 'hidden';
+      }
+    }
   };
 
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
-        <div>
-          <h2>주문 관리</h2>
+        <div className={styles.contentContainer}>
+          <h2 className={styles.h2}>주문 관리</h2>
           <div className={`${styles.flex} ${styles.mb4}`}>
             <div className={styles.searchGroup}>
               <input
                 type="text"
                 className={`${styles.formControl} ${styles.searchInput}`}
-                placeholder="검색어를 입력하세요"
+                placeholder="  검색어를 입력하세요"
                 value={searchWord}
                 onChange={(e) => setSearchWord(e.target.value)}
               />
@@ -116,6 +138,7 @@ export default function AdminMain() {
               </button>
             </div>
           </div>
+          <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -147,6 +170,7 @@ export default function AdminMain() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
