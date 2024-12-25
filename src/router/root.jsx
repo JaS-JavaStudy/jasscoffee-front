@@ -3,6 +3,7 @@
 import { Suspense, lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from '../pages/RootLayout';  // 최상위 레이아웃(아래에서 만듦)
+import ProtectedRoute from './ProtectedRoute';
 
 // Lazy-loaded Pages
 const ProductListPage = lazy(() => import('../pages/product/ProductListPage'));
@@ -19,7 +20,7 @@ const MyPage = lazy(() => import('../pages/user/MyPage'));
 // Admin Pages
 const AdminMain = lazy(() => import('../pages/adminPage/AdminMain'));
 const MenuManagement = lazy(() => import('../pages/adminPage/MenuManagement'));
-
+const Unauthorized = lazy(() => import('../pages/adminPage/Unauthorized'));
 const root = createBrowserRouter([
   {
     path: '/',
@@ -78,7 +79,7 @@ const root = createBrowserRouter([
         path: 'admin',
         element: (
           <Suspense fallback={Loading}>
-            <AdminMain />
+            <ProtectedRoute element={<AdminMain />} />
           </Suspense>
         ),
       },
@@ -86,7 +87,7 @@ const root = createBrowserRouter([
         path: 'admin/menu',
         element: (
           <Suspense fallback={Loading}>
-            <MenuManagement />
+            <ProtectedRoute element={<MenuManagement />} />
           </Suspense>
         ),
       },
@@ -97,6 +98,10 @@ const root = createBrowserRouter([
             <PaymentPage />
           </Suspense>
         ),
+      },
+      {
+        path: 'unauthorized', // Unauthorized 라우트 추가
+        element: <Unauthorized />,
       },
     ],
   },

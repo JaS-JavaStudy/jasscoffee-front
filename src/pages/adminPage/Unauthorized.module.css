@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f9f9f9; /* 페이지 배경색 */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff4d4f; /* 경고 색상 */
+    margin-bottom: 1rem;
+  }
+  
+  .message {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #A6B37D; /* 버튼 색상 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #B99470; /* 버튼 호버 색상 */
+  }
+  
+  .button:active {
+    background-color: #003f7f; /* 버튼 클릭 색상 */
+  }
+  
