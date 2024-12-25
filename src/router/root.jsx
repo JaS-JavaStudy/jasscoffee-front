@@ -21,6 +21,8 @@ const MyPage = lazy(() => import('../pages/user/MyPage'));
 const AdminMain = lazy(() => import('../pages/adminPage/AdminMain'));
 const MenuManagement = lazy(() => import('../pages/adminPage/MenuManagement'));
 const Unauthorized = lazy(() => import('../pages/adminPage/Unauthorized'));
+const NotFound = lazy(() => import('../pages/NotFoundPage'));
+
 const root = createBrowserRouter([
   {
     path: '/',
@@ -102,6 +104,11 @@ const root = createBrowserRouter([
       {
         path: 'unauthorized', // Unauthorized 라우트 추가
         element: <Unauthorized />,
+      },
+
+      {
+        path: '*', // Unauthorized 라우트 추가
+        element: <NotFound />,
       },
     ],
   },
