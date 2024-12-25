@@ -2,6 +2,7 @@ import styles from './AdminMain.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 export default function AdminMain() {
   const [orders, setOrders] = useState([]);

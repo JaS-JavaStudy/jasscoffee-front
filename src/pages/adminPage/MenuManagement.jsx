@@ -1,8 +1,9 @@
 // pages/MenuManagement.jsx
-import './MenuManagement.css';
+import styles from './MenuManagement.module.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductModal from '../../components/adminPage/ProductModal';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 export default function MenuManagement() {
   const [products, setProducts] = useState([]);
@@ -104,61 +105,65 @@ export default function MenuManagement() {
   
 
   return (
-    <div className='page-wrapper'>
-      <div className='container'>
-        <h2>메뉴 관리</h2>
-        <div className="d-flex mb-4">
-          <button 
-            className="btn btn-primary"
-            onClick={handleAdd}
-          >
-            메뉴 추가
-          </button>
+    <div className={styles.pageWrapper}>
+      <div className={styles.container}>
+        <div className={styles.contentContainer}>
+          <h2 className={styles.h2}>메뉴 관리</h2>
+          <div className={`${styles.flex} ${styles.mb4}`}>
+            <button 
+              className={styles.menuAddBtn}
+              onClick={handleAdd}
+            >
+              메뉴 추가
+            </button>
+          </div>
+
+          <div className={styles.tableContainer}>
+            <table className={styles.menuTable}>
+              <thead className={styles.tableHeader}>
+                <tr>
+                  <th>ID</th>
+                  <th>메뉴명</th>
+                  <th>가격</th>
+                  <th>카테고리</th>
+                  <th>작업</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map(product => (
+                  <tr key={product.productId} className={styles.tableRow}>
+                    <td>{product.productId}</td>
+                    <td>{product.productName}</td>
+                    <td>{product.price.toLocaleString()}원</td>
+                    <td>{product.category}</td>
+                    <td>
+                      <button
+                        className={`${styles.btn} ${styles.btnPrimary} ${styles.btnSm} ${styles.me-2}`}
+                        onClick={() => handleEdit(product.productId)}
+                      >
+                        수정
+                      </button>
+                      <button
+                        className={`${styles.btn} ${styles.btnDanger} ${styles.btnSm} ${styles.me-2}`}
+                        onClick={() => handleDelete(product.productId)}
+                      >
+                        삭제
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <ProductModal
+            show={showModal}
+            handleClose={() => setShowModal(false)}
+            product={selectedProduct}
+            handleSubmit={handleSubmit}
+            mode={modalMode}
+          />
         </div>
-
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>메뉴명</th>
-              <th>가격</th>
-              <th>카테고리</th>
-              <th>작업</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map(product => (
-              <tr key={product.productId}>
-                <td>{product.productId}</td>
-                <td>{product.productName}</td>
-                <td>{product.price.toLocaleString()}원</td>
-                <td>{product.category}</td>
-                <td>
-                  <button
-                    className="btn btn-warning btn-sm me-2"
-                    onClick={() => handleEdit(product.productId)}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(product.productId)}
-                  >
-                    삭제
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <ProductModal
-          show={showModal}
-          handleClose={() => setShowModal(false)}
-          product={selectedProduct}
-          handleSubmit={handleSubmit}
-          mode={modalMode}
-        />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* adminMain.module.css */
 * {
   margin: 0;
   padding: 0;
@@ -13,23 +14,21 @@ html, body {
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: #F8FAF6;
+  background-color: #FEFAE0;
 }
 
 .container {
-  width:100vw;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 calc(1rem * 1.5);
-  padding-top:1px;
-
+  padding: 0 1.5rem;
 }
+
 .contentContainer {
   text-align: center; 
   display: flex; 
-  justify-content: center; 
   align-items: center; 
   flex-direction: column; 
-  margin-top: 8rem; 
+  margin-top: 4em; 
   padding: 2rem; 
   background-color: #faf6e9; 
   border-radius: 8px; 
@@ -37,11 +36,15 @@ html, body {
   width: 100%; 
   margin-left: auto;
   margin-right: auto; 
-  height: 60vh;
+  height: 100vh;
 }
+
 .h2{
-  color:#B99470;
+  color: #B99470;
   font-size: 60px;
+  text-align: center;
+  font-weight: bolder;
+  margin-bottom: 30px;
 }
 
 .mb4 {
@@ -67,11 +70,11 @@ html, body {
 }
 
 .table thead {
-  background-color: var(--accent-color-jass);
+  background-color: #C0C78C;
 }
 
 .table th {
-  color: #B99470;
+  color: white;
   font-weight: 600;
   padding: calc(1rem * 0.8);
   border-bottom: none;
@@ -89,21 +92,20 @@ html, body {
 
 .btnSecondary {
   background-color: #A6B37D;
-  border-color: var(--accent-color-jass);
   color: #FFFFFF;
   transition: all 0.3s ease;
   height: 39px;
   line-height: 24px;
-  padding: 6px 12px; 
-  min-width: 5px; 
-  border-radius: 5px; 
+  padding: 6px 12px;
+  min-width: 5px;
+  border-radius: 5px;
   text-align: center;
-  margin-bottom: 3px;
+  border: none;
 }
+
 
 .btnSecondary:hover {
   background-color: #B99470;
-  border-color: #B99470;
   transform: translateY(-1px); /* 살짝 위로 움직이는 효과 */
 }
 
@@ -114,14 +116,14 @@ html, body {
   transition: all 0.3s ease;
   height:30px;
   min-width: 50px;
-  border: 1px solid #dc3545;
+  border: none;
   margin-bottom: 5px;
 }
 
 .btnDanger:hover {
   background-color: #f78691;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+  /* box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2); */
 }
 
 .flex {
