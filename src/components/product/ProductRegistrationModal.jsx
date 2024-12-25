@@ -20,7 +20,7 @@ const defaultCustomOptions = [
 function ProductRegistrationModal({ show, onHide, onProductAdded }) {
   // 카테고리 목록 (상품 카테고리 선택용)
   const categories = [
-    '시즌한정', '커피·티', '논커피 라떼', '프라페·스무디',
+    '시즌한정', '커피·더치', '논커피 라떼', '프라페·스무디',
     '밀크쉐이크', '에이드·주스', '티', '디저트', 'MD상품'
   ];
 
