@@ -16,7 +16,7 @@ html, body {
 }
  .page-wrapper {
     min-height: 100vh;
-    background-color: white;
+    background-color: #FEFAE0;
   }
   
   /**
@@ -24,7 +24,7 @@ html, body {
    */
 
    .ProductListContainer{
-    background-color: white;
+    background-color: #FEFAE0;
     height:100%;
     margin-top:0px;
     padding-top:1px;
@@ -35,7 +35,7 @@ html, body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 calc(1rem * 1.5);
-    background-color: white ;
+    background-color: #FEFAE0;
     margin-top: 8rem;
     
   }
