@@ -15,10 +15,10 @@ export default function ProductListPage() {
   return (
     <div className={styles.ProductListContainer}>
       {/* 메인 콘텐츠 영역 */}
-      <main className={styles.ProductContainer}>
+      <div className={styles.ProductContainer}>
       <ProductCarousel />
         <ProductList />
-      </main>
+      </div>
     </div>
   );
 }

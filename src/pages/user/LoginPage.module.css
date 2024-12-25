@@ -49,7 +49,7 @@ html, body {
 
   
 
-  .card button {
+  .button {
     background-color: #A6B37D;
     color: white;
     padding: 0.5rem calc(1rem * 1.25);
@@ -62,7 +62,7 @@ html, body {
     font-size: 1rem;
   }
 
-  .card button:hover {
+  .button:hover {
     background-color: #B99470;
     transform: translateY(-2px);
   }
@@ -73,7 +73,7 @@ html, body {
     gap: 1rem;
   }
 
-  .card input {
+  .input {
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;

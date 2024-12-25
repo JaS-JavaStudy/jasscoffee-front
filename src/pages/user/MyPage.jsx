@@ -240,7 +240,7 @@ const MyPage = () => {
               <h2 className={`${styles.mypageCardTitle} card-title`}>개인정보</h2>
               {isEditing ? (
                 <div>
-                  <div className="mb-3">
+                  <div className={styles.informationContainer}>
                     <label className="form-label">아이디</label>
                     <input
                       type="text"
@@ -321,7 +321,7 @@ const MyPage = () => {
                   </button>
                 </div>
               ) : (
-                <div>
+                <div className={styles.informationContainer}>
                   <p><strong>아이디:</strong> {userData.account}</p>
                   <p><strong>이름:</strong> {userData.name}</p>
                   <p><strong>mmId:</strong> {userData.mmid}</p>

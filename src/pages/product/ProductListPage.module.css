@@ -12,21 +12,31 @@ html, body {
   height: 100%;
   overflow-y: auto; /* 수직 스크롤 허용 */
   overflow-x: hidden; /* 수평 스크롤 방지 */
+  margin:0;
 }
  .page-wrapper {
     min-height: 100vh;
-    background-color: var(--page-bg-jass);
+    background-color: white;
   }
   
   /**
    * 메인 콘텐츠 영역
    */
+
+   .ProductListContainer{
+    background-color: white;
+    height:100%;
+    margin-top:0px;
+    padding-top:1px;
+   }
+   
   
   .ProductContainer {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 calc(1rem * 1.5);
-    background-color: white !important;
-    /* background-color:#FEFAE0 ; */
+    background-color: white ;
+    margin-top: 8rem;
+    
   }
 

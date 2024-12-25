@@ -28,6 +28,7 @@
   text-align: center;
 }
 
+
 /* 카드 스타일 */
 .mypageCard {
   width: 90%; /* 모바일에서도 여유 공간 확보 */
@@ -40,6 +41,12 @@
 .mypageCardBody {
   padding: 1.5rem;
 }
+
+.mypageCardTitle{
+  font-weight: bold;
+  color: #B99470
+}
+
 
 /* 버튼 스타일 */
 .mypageButton {
@@ -63,6 +70,10 @@
 .mypageButton:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(185, 148, 112, 0.3);
+}
+
+.informationContainer{
+  margin-top: 0.5rem;
 }
 
 /* 테이블 스타일 */
