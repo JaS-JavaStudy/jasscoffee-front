@@ -1,6 +1,7 @@
 // pages/MenuManagement.jsx
 import styles from './MenuManagement.module.css';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ProductModal from '../../components/adminPage/ProductModal';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
@@ -10,6 +11,7 @@ export default function MenuManagement() {
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalMode, setModalMode] = useState('add');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
@@ -110,6 +112,12 @@ export default function MenuManagement() {
         <div className={styles.contentContainer}>
           <h2 className={styles.h2}>메뉴 관리</h2>
           <div className={`${styles.flex} ${styles.mb4}`}>
+            <button 
+              className={styles.menuAddBtn}
+              onClick={() => navigate('/admin')}
+            >
+              주문 관리
+            </button>
             <button 
               className={styles.menuAddBtn}
               onClick={handleAdd}
