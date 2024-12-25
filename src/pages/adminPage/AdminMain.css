@@ -57,6 +57,11 @@
     border-color: var(--accent-color-jass);
     color: var(--text-light-jass);
     transition: all var(--transition-speed-jass) ease;
+    height: 38px;
+    line-height: 24px; /* 버튼 내부 텍스트 수직 정렬 */
+    padding: 6px 10px;
+    min-width: 60px;
+    margin: 0px;
   }
   
   .btn-secondary:hover {
@@ -79,11 +84,40 @@
     display: flex;
     justify-content: flex-end;
     gap: var(--spacing-unit-jass);
+    align-items: center;
   }
   
   .button-group {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
+    margin-left: 0.5rem;
+  }
+
+  .search-group {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 0;
+  }
+
+  /* 검색 버튼 전용 스타일 */
+.search-group .btn-secondary {
+  border-top-left-radius: 0; /* 검색 버튼 왼쪽 상단 모서리 둥글게 제거 */
+  border-bottom-left-radius: 0; /* 검색 버튼 왼쪽 하단 모서리 둥글게 제거 */
+  padding: 6px 10px; /* 검색 버튼 내부 여백 조정 */
+}
+
+  .search-input {
+    height: 38px;
+    border-right: none; /* 검색창 오른쪽 테두리 제거 */
+    border-top-right-radius: 0; /* 검색창 오른쪽 상단 모서리 둥글게 제거 */
+    border-bottom-right-radius: 0; /* 검색창 오른쪽 하단 모서리 둥글게 제거 */
+  }
+
+  .search-button {
+    width: 100px;
+    height: 38px;
   }
   
   h2 {
@@ -107,7 +141,7 @@
     
     .btn {
       width: 100%;
-      margin-bottom: calc(var(--spacing-unit-jass) * 0.5);
+      /* margin-bottom: calc(var(--spacing-unit-jass) * 0.5); */
     }
   }
   
