@@ -1,20 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 수직 스크롤 허용 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+}
+
 .pageWrapper {
   min-height: 100vh;
   background-color: #F8FAF6;
 }
 
 .container {
-  max-width: 1200px;
+  width:100vw;
   margin: 0 auto;
   padding: 0 calc(1rem * 1.5);
+  padding-top:1px;
+
+}
+.contentContainer {
+  text-align: center; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
+  margin-top: 8rem; 
+  padding: 2rem; 
+  background-color: #faf6e9; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  width: 100%; 
+  margin-left: auto;
+  margin-right: auto; 
+  height: 60vh;
+}
+.h2{
+  color:#B99470;
+  font-size: 60px;
+}
+
+.mb4 {
+  margin-left: auto;
+  margin-right: 18px;
+}
+
+.tableContainer {
+  max-height: 80vh; /* 화면 높이의 80%로 제한 */
+  overflow-y: auto; /* 수직 스크롤 추가 */
+  overflow-x: auto; /* 수평 스크롤 추가 */
+  padding: 1rem;
+  width:100%;
 }
 
 .table {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 1.5rem;
   text-align: center;
+  width: 100%;
 }
 
 .table thead {
@@ -43,25 +92,34 @@
   border-color: var(--accent-color-jass);
   color: #FFFFFF;
   transition: all 0.3s ease;
-  height: 38px;
+  height: 39px;
   line-height: 24px;
-  padding: 6px 10px;
-  min-width: 60px;
-  margin: 0px;
+  padding: 6px 12px; 
+  min-width: 5px; 
+  border-radius: 5px; 
+  text-align: center;
+  margin-bottom: 3px;
 }
 
 .btnSecondary:hover {
   background-color: #B99470;
   border-color: #B99470;
-  transform: translateY(-1px);
+  transform: translateY(-1px); /* 살짝 위로 움직이는 효과 */
 }
 
 .btnDanger {
+  border-radius: 5px;
+  color: #FFFFFF;
   background-color: #dc3545;
   transition: all 0.3s ease;
+  height:30px;
+  min-width: 50px;
+  border: 1px solid #dc3545;
+  margin-bottom: 5px;
 }
 
 .btnDanger:hover {
+  background-color: #f78691;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
 }
@@ -75,7 +133,7 @@
 
 .buttonGroup {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.5rem; /* 버튼 사이 간격 */
   align-items: center;
   margin-left: 0.5rem;
 }
@@ -83,21 +141,23 @@
 .searchGroup {
   display: flex;
   align-items: center;
-  margin: 0;
-  gap: 0;
+  gap: 0; /* 버튼과 입력 필드 사이 간격 제거 */
+  overflow: hidden;
+  border-radius: 5px; /* 모서리를 둥글게 */
 }
 
 .searchInput {
-  height: 38px;
-  border-right: none;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  height: 38px; /* 입력 필드 높이 */
+  border: 1px solid #A6B37D; /* 테두리 색상 */
+  border-right: none; /* 오른쪽 테두리 제거 */
+  border-radius: 5px 0 0 5px; /* 왼쪽만 둥글게 */
+  padding: 0 12px; /* 내부 패딩 */
+  outline: none; /* 포커스 시 아웃라인 제거 */
 }
 
 .searchGroup .btnSecondary {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding: 6px 10px;
+  border-radius: 0 5px 5px 0; /* 오른쪽만 둥글게 */
+  padding: 6px 12px; /* 버튼 내부 패딩 */
 }
 
 .heading {
@@ -128,3 +188,4 @@
       padding: 0 calc(1rem * 0.5);
   }
 }
+
