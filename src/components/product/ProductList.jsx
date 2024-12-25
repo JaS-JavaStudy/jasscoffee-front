@@ -16,7 +16,7 @@ function ProductList() {
  const [error, setError] = useState(null);
  const [searchTerm, setSearchTerm] = useState('');
  const [selectedCategory, setSelectedCategory] = useState('전체');
- const [sortBy, setSortBy] = useState('name');
+ const [sortBy, setSortBy] = useState('priceLow'); // 정렬 기본값
  const [showModal, setShowModal] = useState(false);
  const [editModalOpen, setEditModalOpen] = useState(false);
  const [selectedProductId, setSelectedProductId] = useState(null);
@@ -152,7 +152,7 @@ function ProductList() {
    }
  };
 
- const categories = ['전체', '커피·티', '논커피 라떼', '프라페·스무디', '밀크쉐이크', '에이드·주스', '티', '디저트', 'MD상품'];
+ const categories = ['전체', '커피·더치', '논커피 라떼', '프라페·스무디', '밀크쉐이크', '에이드·주스', '티', '디저트', 'MD상품'];
 
  // 필터링 및 정렬
  const filteredAndSortedProducts = products
