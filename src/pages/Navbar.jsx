@@ -4,6 +4,7 @@ import Modal from '../components/cartlist/Modal';
 import CartList from '../components/cartlist/CartList';
 import { getUser } from '../apis/userapis/getuser';
 import { logout } from '../apis/userapis/logout';
+import { isStaff } from '../apis/userapis/isStaff';
 import styles from './Navbar.module.css';
 
 const Navbar = () => {
@@ -11,12 +12,15 @@ const Navbar = () => {
   const [isCartModalOpen, setCartModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isStaffStatus, setIsStaffStatus] = useState(false);
 
   // Fetch user information when the component mounts or updates
   useEffect(() => {
     const fetchUser = async () => {
       const res = await getUser();
+      const staffCheck = await isStaff();  // 관리자 navbar
       setUser(res);
+      setIsStaffStatus(staffCheck);
     };
     fetchUser();
   }, [location.pathname]); // 사용자 상태를 경로 변경에 따라 업데이트
@@ -59,6 +63,20 @@ const Navbar = () => {
         >
           마이페이지
         </NavLink>
+
+        {/* 관리자 전용 링크 */}
+        {isStaffStatus && (
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              isActive ? `${styles.navbarLink} ${styles.active}` : styles.navbarLink
+            }
+          >
+            관리자
+          </NavLink>
+        )}
+
+      
         {user ? (
           <>
             <button
