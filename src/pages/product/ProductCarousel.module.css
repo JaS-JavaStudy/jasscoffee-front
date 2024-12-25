@@ -30,10 +30,11 @@ html, body {
    
    .carouselImage {
     width: 100%;
-    height: 470px;
-    object-fit: cover;
+    height: 100%; /* 부모 요소에 꽉 차도록 설정 */
+    object-fit: contain; /* 이미지가 잘리지 않도록 비율을 유지하며 축소/확대 */
     transition: transform 0.3s ease;
-   }
+    background-color: #f8f9fa; /* 여백에 배경색 추가 */
+}
    
    
    .carouselItem:hover .carouselImage {

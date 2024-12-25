@@ -85,7 +85,7 @@ function CartList({closeCartModal}) {
         <p className={styles.emptyMessage}>장바구니가 비어있습니다.</p>
         <button
           onClick={closeCartModal}
-          className="continue-shopping-button"
+          className={styles.continueShoppingButton}
         >
           메뉴로 돌아가기
         </button>
