@@ -1,0 +1,252 @@
+.cartContainer {
+    padding: 20px;
+    background-color:white;
+  }
+
+  .empty-cart {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .empty-message {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cartHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: #A6B37D;
+    border-radius: 8px;
+  }
+  
+  .cartTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 1rem;
+  }
+  
+  .clearButton {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin: 1rem;;
+  }
+  
+  .clearButton:hover {
+    opacity: 0.8;
+  }
+  
+  .cartItems {
+    gap : 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  
+  .cartItem {
+    flex: 0 1 calc(33.33% - 0.5rem);
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px;
+  }
+  
+  .itemHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .itemInfo {
+    flex-grow: 1;
+  }
+  
+  .itemTitle {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color:#B99470;  
+    margin-bottom: 0.5rem;
+  }
+  
+  .itemPrice {
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .itemOtions {
+    margin-top: 0.5rem;
+  }
+  
+  .optionItem {
+    font-size: 0.9rem;
+    color: #666;
+    padding: 0.25rem 0;
+  }
+  
+  
+  .itemFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .quantityControls {
+    display: flex;
+    align-items: center;
+    gap: 1rem
+  }
+  
+  .quantityButton {
+    background-color: #FEFAE0;
+    color: #B99470;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quantityButton:hover {
+    background-color: #C0C78C; 
+  }
+  
+  .quantityDisplay {
+    min-width: 2rem;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .itemTotal {
+    font-weight: bold;
+    color: #B99470;
+  }
+
+  .removeButton {
+    color: #dc3545;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .removeButton:hover {
+    opacity: 0.8;
+  }
+  
+  .totalSection {
+    background-color: #FEFAE0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+  
+  .totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .totalLabel {
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .total-amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #B99470;
+  }
+
+  .cartActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+  
+  .continueShoppingButton{
+    background-color: #A6B37D;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  
+  .continueShoppingButton:hover{
+    background-color: #B99470;
+    transform: translateY(-2px);
+  }
+
+  .orderButton {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    background-color: #A6B37D;
+    color: white;
+    border: none;
+    flex-grow: 1;
+  }
+
+  .orderButton:hover {
+    background-color: #B99470;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    .cartContainer {
+      padding: 1rem;
+    }
+  
+    .cartItem {
+      padding: 1rem;
+    }
+  
+    .itemTitle {
+      font-size: 1.1rem;
+    }
+  
+    .quantityButton {
+      width: 28px;
+      height: 28px;
+    }
+  
+    .totalAmount {
+      font-size: 1.25rem;
+    }
+  
+    .cartActions {
+      flex-direction: column;
+    }
+  
+    .continueShoppingButton,
+    .orderButton {
+      width: 100%;
+      padding: 0.75rem;
+      text-align: center;
+    }
+  }

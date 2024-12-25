@@ -1,0 +1,130 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #F8FAF6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 calc(1rem * 1.5);
+}
+
+.table {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.table thead {
+  background-color: var(--accent-color-jass);
+}
+
+.table th {
+  color: #B99470;
+  font-weight: 600;
+  padding: calc(1rem * 0.8);
+  border-bottom: none;
+}
+
+.table td {
+  color: #B99470;
+  padding: calc(1rem * 0.8);
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(192, 199, 140, 0.1);
+}
+
+.btnSecondary {
+  background-color: #A6B37D;
+  border-color: var(--accent-color-jass);
+  color: #FFFFFF;
+  transition: all 0.3s ease;
+  height: 38px;
+  line-height: 24px;
+  padding: 6px 10px;
+  min-width: 60px;
+  margin: 0px;
+}
+
+.btnSecondary:hover {
+  background-color: #B99470;
+  border-color: #B99470;
+  transform: translateY(-1px);
+}
+
+.btnDanger {
+  background-color: #dc3545;
+  transition: all 0.3s ease;
+}
+
+.btnDanger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  align-items: center;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.searchGroup {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: 0;
+}
+
+.searchInput {
+  height: 38px;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchGroup .btnSecondary {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 6px 10px;
+}
+
+.heading {
+  color: #B99470;
+  text-align: center;
+  font-weight: bolder;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 992px) {
+  .container {
+      padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex {
+      flex-direction: column;
+  }
+
+  .btn {
+      width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+      padding: 0 calc(1rem * 0.5);
+  }
+}

@@ -1,0 +1,78 @@
+/* 주문 상품 정보 */
+.paymentInfoContainer {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6rem;
+}
+
+.paymentInfo {
+  min-height: 50vh;
+  background-color: #ffffff; /* 흰색 배경 */
+  border: 1px solid #d3d3d3; /* 연한 회색 테두리 */
+  border-radius: 15px;
+  padding: 20px; /* 내부 여백 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px; /* 아이템 간격 */
+  width: 80%;
+}
+
+/* 상품 아이템 스타일 */
+.paymentInfoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* 아래 여백 */
+  gap: 20px; /* 이미지와 텍스트 간 간격 */
+}
+
+/* 상품 옵션 텍스트 */
+.paymentInfoOptions {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 5px; /* 상단 여백 */
+}
+
+/* 옵션 아이템 */
+.paymentOption {
+  margin-right: 10px; /* 옵션 간 간격 */
+}
+
+/* 상품 이미지 */
+.paymentInfoImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 15px;
+  border: 1px solid #c0c0c0;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 상품명 텍스트 */
+.paymentProductName {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333; /* 진한 회색 */
+}
+
+/* 주문 현황 텍스트 */
+.paymentTextJass {
+  color: #b99470;
+  font-weight: bold;
+  font-size: 1.5rem; /* 약간 더 큰 텍스트 */
+  margin-bottom: 20px;
+}
+
+/* 결제 총 금액 */
+.paymentTotal {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 20px;
+}

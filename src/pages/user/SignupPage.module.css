@@ -1,0 +1,141 @@
+/* Signup Container */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 수직 스크롤 허용 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+}
+
+.signupContainer {
+    margin: auto; /* 여백을 자동으로 조정 */
+    height: 100%; /* 부모 높이를 가득 채움 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Signup Card */
+  .signupCard {
+    width: 80%;
+    max-width: 800px;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-sizing: border-box;
+    overflow: hidden; /* 내부 스크롤 제거 */
+    margin-top:6rem;
+  }
+  
+  /* Input Field */
+  .signupContainer input,
+  .signupContainer select {
+    width: 100%; /* 여백 없이 전체 폭 사용 */
+    padding: 12px; /* 내부 여백 증가 */
+    margin-bottom: 20px; /* 아래 여백 증가 */
+    border: 1px solid #ccc; /* 연한 테두리 */
+    border-radius: 6px; /* 둥근 모서리 */
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .signupContainer input:focus,
+  .signupContainer select:focus {
+    border-color: #A6B37D;
+    box-shadow: 0 0 6px rgba(166, 179, 125, 0.5); /* 초점 강조 */
+    outline: none;
+  }
+  
+  /* Error State */
+  .signupContainer input.error {
+    border: 1px solid #f44336;
+    background-color: #fff5f5;
+  }
+  
+  .signupContainer input.error:focus {
+    box-shadow: 0 0 6px rgba(244, 67, 54, 0.5);
+  }
+  
+  /* Check Button */
+  .checkButtonInside {
+    background-color: #A6B37D;
+    color: white;
+    border: none;
+    border-radius: 6px; /* 둥근 정도 증가 */
+    cursor: pointer;
+    padding: 10px 15px; /* 버튼 크기 증가 */
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+  }
+  
+  .checkButtonInside:hover {
+    background-color: #B99470;
+    transform: scale(1.05); /* 약간 확대 효과 */
+  }
+  
+  /* Submit Button */
+  .submitButton {
+    width: 100%;
+    padding: 12px; /* 버튼 높이 증가 */
+    background-color: #A6B37D;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #B99470;
+    transform: scale(1.02); /* 미세한 확대 */
+  }
+  
+  /* Error and Success Text */
+  .errorText {
+    color: #f44336; /* 더 눈에 띄는 색상 */
+    font-size: 13px; /* 크기 약간 증가 */
+    margin-top: -8px;
+    margin-bottom: 15px;
+  }
+  
+  .successText {
+    color: #4CAF50; /* 초록색으로 변경 */
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 15px;
+  }
+  
+  /* Headings */
+  .h1 {
+    text-align: center;
+    color: #B99470; 
+    font-size: 28px; /* 크기 확대 */
+    margin-bottom:10px;
+    margin-top:10px;
+  }
+  
+  /* Placeholder Option */
+  .option {
+    color: gray;
+    font-style: italic; /* 이탤릭체로 부드러운 느낌 추가 */
+  }
+  
+  /* Body Background */
+  body {
+    background-color: #FEFAE0;
+    font-family: 'Arial', sans-serif; /* 부드러운 기본 폰트 */
+    line-height: 1.6; /* 가독성을 위한 줄 간격 */
+  }
+  
