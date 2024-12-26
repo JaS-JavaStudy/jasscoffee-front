@@ -1,7 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 수직 스크롤 허용 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+}
+
+
 /* MyPage 전용 컨테이너 */
 .mypageContainer {
-  margin-top: 1rem;
-  margin-bottom: 8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
   min-height: 100vh; /* 화면 전체 높이 */
   height: auto;
   display: flex;
@@ -21,7 +35,7 @@
 /* 헤더 */
 .mypageHeader {
   margin-bottom: 1.5rem;
-  font-size: 5rem;
+  font-size: 3rem;
   font-weight: bold;
   color: #B99470;
   margin-top: 0.5rem;
@@ -126,4 +140,17 @@ body {
 .orderListContainer {
   max-height: 60vh; /* 화면 높이의 60%까지만 보여줌 */
   overflow-y: auto; /* 스크롤 필요 시 활성화 */
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
