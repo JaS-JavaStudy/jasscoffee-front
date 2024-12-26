@@ -22,7 +22,7 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const shouldScroll = orders.length > 5; // 주문 내역이 5개 이상이면 스크롤 필요
+    const shouldScroll = orders.length >= 0; // 주문 내역이 5개 이상이면 스크롤 필요
     document.body.style.overflow = shouldScroll ? "auto" : "hidden";
   
     return () => {
@@ -227,7 +227,7 @@ const MyPage = () => {
   };
   return (
   
-    <div className={`container my-5 ${styles.mypageContainer}`}>
+    <div className={styles.mypageContainer}>
       <h1 className={`text-center mb-4 ${styles.mypageHeader}`}>My Page</h1>
 
       {!isChangingPassword ? (
