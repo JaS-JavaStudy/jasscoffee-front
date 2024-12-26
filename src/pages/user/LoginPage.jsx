@@ -49,7 +49,7 @@ function LoginPage() {
     }
 
     return (
-        <div className={`container my-5 ${style.pageContainer}`}>
+        <div className={style.pageContainer}>
         <h1 className={style.h1}>JASS-COFFEE</h1>
         <h3 className={style.h3}>당신의 COFFEE에 로그인하세요!</h3>
         <div className={style.card}>
