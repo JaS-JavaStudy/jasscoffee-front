@@ -1,0 +1,47 @@
+/* Footer.module.css */
+
+.footerContainer {
+  background: linear-gradient(90deg, #A6B37D, #B99470);
+  /* 부드러운 배경 그라디언트 */
+
+  /* background-color: #B99470; Navbar와 동일한 색상 사용 */
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.brandLink {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.brandLink:hover {
+  color: #f0f0f0;
+  text-decoration: underline;
+}
+
+.contact {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .footerContent {
+    flex-direction: column;
+    text-align: center;
+  }
+}
