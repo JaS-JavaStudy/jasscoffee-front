@@ -162,6 +162,15 @@ const MyPage = () => {
         alert("인증 정보가 없습니다. 다시 로그인 해주세요.");
         return;
       }
+      if (passwordData.newPassword !== passwordData.confirmPassword) {
+        alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        return;
+      }
+  
+      if (passwordData.newPassword.length < 8) { 
+        alert("비밀번호는 최소 8글자 이상이어야 합니다.");
+        return;
+      }
 
       // 서버가 요구하는 파라미터(form-data/json 등)는 서버 로직에 맞춰서 수정하세요.
       await axios.put("http://localhost:8080/password/update", {
@@ -178,7 +187,11 @@ const MyPage = () => {
       setIsChangingPassword(false);
     } catch (error) {
       console.error("비밀번호 변경 중 오류가 발생했습니다.", error);
-      alert("비밀번호 변경에 실패했습니다.");
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("비밀번호 변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 
